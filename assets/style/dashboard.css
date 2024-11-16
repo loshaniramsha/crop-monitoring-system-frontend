@@ -305,3 +305,12 @@ nav{
     gap: 1.5rem;
     align-items: center;
 }
+
+/*chart*/
+canvas{
+    background: #ffffff;
+    width: 100%;
+    margin-top: 2rem;
+    border-radius:var(--radius-3);
+    padding: var(--card-padding);
+}
