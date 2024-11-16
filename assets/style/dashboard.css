@@ -267,3 +267,41 @@ nav{
     display: flex;
     gap: 2rem;
 }
+
+/*Payment*/
+.fast_payment{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.fast_payment_badges{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+.fast_payment_badge{
+    background: whitesmoke;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 5px;
+    padding: 0.6rem var(--card-padding);
+    transition: var(--transition);
+    cursor: pointer;
+}
+.fast_payment_badge:hover{
+    background: lightseagreen;
+}
+.fast_payment_badge span{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+}
+.fast_payment_badge div{
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
