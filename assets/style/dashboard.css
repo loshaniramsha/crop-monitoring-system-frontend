@@ -52,6 +52,8 @@
     box-sizing: border-box;
 
 }
+/* Initially hide elements */
+
 html{
     font-size: 12px;
 }
@@ -777,4 +779,15 @@ canvas{
     .transaction_details h4 {
         font-size: 1rem;
     }
+}
+
+#user {
+    margin-top: 6rem;
+    background-color: #f2f4f6;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
+#user_table {
+    color: #333;
 }
