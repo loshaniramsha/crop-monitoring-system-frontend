@@ -230,12 +230,64 @@
         </ul>
     </section>
     <canvas id="chart"></canvas>
-    <section class="from" id="from">
-        <h1>Helloooo</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur distinctio eos ipsum necessitatibus non officia sapiente voluptatem. Cumque cupiditate dolorem doloribus esse excepturi, hic illo iusto, nisi ullam unde voluptatibus.</p>
-        <h1>Helloooo</h1>
-    </section>
 
+    <section class="user" id="user" style="padding: 20px;">
+        <h1 class="text-center mb-5">User Register</h1>
+        <form id="user_form">
+            <div class="form-group mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
+            </div>
+            <button class="btn btn-success" type="submit" id="addBtn">Add</button>
+            <button class="btn btn-warning" type="button" id="clearBtn">Clear</button>
+        </form>
+        <table class="table mt-4" id="user_table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="modal fade" id="editModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit_form">
+                            <div class="form-group mb-3">
+                                <label for="editName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="editName" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail" disabled>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="editPassword" required>
+                            </div>
+                            <button type="button" class="btn btn-success" id="updateBtn">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </main>
 
@@ -414,5 +466,6 @@
 
 <script src="../../assets/lib/jquery-3.7.1.min.js"></script>
 <script src="../../assets/script/script.js"></script>
+<script src="../../controller/User.js"></script>
 </body>
 </html>
