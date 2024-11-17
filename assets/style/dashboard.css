@@ -545,3 +545,107 @@ canvas{
     color: var(--color-success);
     margin: 0;
 }
+
+.sidebar_close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* For tablets and smaller devices */
+@media screen and (max-width: 1024px) {
+    body {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .nav_search {
+        display: none;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Hidden by default */
+        z-index: 3;
+        background: var(--color-white);
+        width: 22rem;
+        box-shadow: 2rem 0 2rem rgba(0, 0, 0, 0.15);
+        transition: left 0.5s ease; /* Smooth transition for visibility */
+    }
+
+    .sidebar.open {
+        left: 0; /* Visible when toggled */
+    }
+
+    .sidebar_close-btn {
+        display: inline-block;
+        position: absolute;
+        top: 2rem;
+        right: 1.5rem;
+        font-size: 2.2rem;
+        background: transparent;
+    }
+
+    .main_card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .right {
+        margin-top: 1rem;
+    }
+}
+
+/* For mobile devices */
+@media screen and (max-width: 600px) {
+    .nav {
+        height: 5rem;
+    }
+
+    .nav_profile-wrapper h5 {
+        display: none;
+    }
+
+    .main_card {
+        grid-template-columns: 1fr;
+    }
+
+    .fast_payment {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 3.5rem;
+    }
+}
+.nav_menu-btn {
+    display: none; /* Hidden by default */
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+    .nav_search {
+        display: none; /* Hide search bar */
+    }
+    .nav_menu-btn {
+        display: inline-block; /* Show menu button */
+    }
+    .sidebar {
+        left: -100%; /* Hidden initially */
+    }
+    .sidebar.open {
+        left: 0; /* Slide in when open */
+    }
+}
