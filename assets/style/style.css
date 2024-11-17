@@ -4,20 +4,23 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-body{
+/*body{
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     background: #444;
-}
+}*/
 .container{
+    margin-top: 70px;
+    margin-left: 200px;
+    display: flex;
     position: relative;
     width: 70vw;
     height: 80vh;
     background: #fff;
     border-radius: 30px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px 0 rgba(155, 94, 221, 0.3), 0 6px 20px 0 rgba(195, 32, 239, 0.3);
     overflow: hidden;
 }
 .container::before{
