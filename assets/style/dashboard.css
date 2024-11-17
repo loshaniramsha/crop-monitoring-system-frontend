@@ -416,3 +416,132 @@ canvas{
     color: var(--color-danger);
 }
 
+/*transaction*/
+
+.recent-transaction {
+    margin-top: 2rem;
+    max-width: 100%;
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.recent-transaction_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: var(--color-primary-light);
+}
+
+.recent-transaction_header h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+.recent-transaction_header a {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.recent-transaction_header a:hover {
+    color: var(--color-secondary);
+}
+
+.transaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem var(--card-padding);
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.transaction:last-child {
+    border-bottom: none;
+}
+
+.transaction:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.transaction_service {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transaction_service .icon {
+    padding: 0.5rem;
+    border-radius: var(--radius-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    width: 3.4rem;
+    height: 3.4rem;
+    background-color: var(--color-dark);
+    color: var(--color-white);
+}
+
+.transaction_card-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transaction_card-img {
+    display: flex;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: var(--radius-1);
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-danger-light);
+    overflow: hidden;
+}
+
+.transaction_card-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.transaction_details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.transaction_details h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-dark);
+    margin: 0;
+}
+
+.transaction_details p {
+    font-size: 0.85rem;
+    color: var(--color-dark);
+    margin: 0.3rem 0;
+}
+
+.transaction_details small {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+}
+
+.transaction h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-success);
+    margin: 0;
+}
