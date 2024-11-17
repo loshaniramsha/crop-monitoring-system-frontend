@@ -118,3 +118,19 @@ themeBtn.addEventListener("click",()=>{
     }
 })
 
+
+
+/*
+$('#from').hide();
+$("#crop-btn").on("click", function () {
+    $("#from").show();
+    $(".main_header").hide();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+})*/
+
+$('.main_header').hide();
+$('.main_card').hide();
+$('.fast_payment').hide();
+$('#chart').hide();
