@@ -314,3 +314,105 @@ canvas{
     border-radius:var(--radius-3);
     padding: var(--card-padding);
 }
+
+/*investment*/
+.right {
+    margin-top: 10rem;
+    margin-right: 2vw;
+}
+
+.investment {
+    background: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.investment_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--card-padding);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.investment_header h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+.investment_header a {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.investment_header a:hover {
+    color: var(--color-white);
+}
+
+.investment article {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--card-padding);
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.investment article:last-child {
+    border-bottom: none;
+}
+
+.investment article:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.investment img {
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+}
+
+.investment h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-dark);
+    margin: 0;
+    flex: 1;
+}
+
+.investment .date-time,
+.investment .bond,
+.investment .amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    color: var(--color-dark);
+}
+
+.investment .date-time small,
+.investment .bond small,
+.investment .amount small {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+}
+
+.investment .amount h5 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-success);
+    margin: 0;
+}
+
+.investment .amount small.danger {
+    color: var(--color-danger);
+}
+
