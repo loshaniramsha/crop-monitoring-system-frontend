@@ -32,6 +32,14 @@
 
     --transition: all .3s ease;
 }
+
+.dark-theme{
+    --color-white: #222222;
+    --color-light: #272424;
+    --color-dark: #e4e4e4;
+    --color-danger: #ffffff;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -58,6 +66,52 @@ body{
     transition: var(--transition);
     user-select: none;
 }
+/*666666*/
+/* Dark theme styles */
+body.dark-theme {
+    background: #333;
+    color: #fff;
+}
+
+body.dark-theme .nav-container {
+    background-color: #222; /* Dark background for navbar */
+    color: #fff;
+}
+body.dark-theme .nav {
+    background-color: #222; /* Dark background for profile */
+    color: #fff;
+}
+
+body.dark-theme .sidebar {
+    background-color: #222; /* Dark background for sidebar */
+    color: #fff;
+}
+
+body.dark-theme .sidebar a {
+    color: #bbb; /* Lighter text for links */
+}
+body.dark-theme .sidebar a h5{
+    font-weight: 500;
+    color: #ffffff;
+}
+
+body.dark-theme .sidebar a.active {
+    background: #444; /* Active state with darker background */
+    border-left: 0.5rem solid #fbc02d; /* Optional active link indicator */
+}
+
+/* Additional dark theme styling for specific elements */
+body.dark-theme .card {
+    background: #444; /* Dark card background */
+    color: #fff; /* White text */
+}
+
+body.dark-theme .transaction {
+    background-color: #444; /* Dark background for transactions */
+    color: #fff; /* White text */
+}
+
+/*777777*/
 .container{
     width: 96vw;
     margin-inline:auto;
@@ -144,7 +198,7 @@ nav{
     min-height: calc(100vh - 5rem);
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 1rem;
 }
 .sidebar a{
     display: flex;
@@ -209,7 +263,7 @@ nav{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 2rem 3rem -1rem rgba(147, 239, 37, 0.1);
+    box-shadow: 0 2rem 3rem -1rem rgb(85, 87, 221, 0.5);
     transition: var(--transition);
 }
 .card *{

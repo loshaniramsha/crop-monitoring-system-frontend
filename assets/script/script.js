@@ -103,3 +103,18 @@ document.addEventListener("DOMContentLoaded", () => {
         sidebar.classList.remove("open");
     });
 });
+
+/*moon button*/
+const themeBtn=document.querySelector(".nav_theme-btn");
+themeBtn.addEventListener("click",()=>{
+    document.body.classList.toggle("dark-theme");
+    if (document.body.classList.contains('dark-theme')){
+        themeBtn.innerHTML='<i class="uil uil-sun"></i>';
+        localStorage.setItem('current-theme','dark');
+    }
+    else {
+        themeBtn.innerHTML='<i class="uil uil-moon"></i>';
+        localStorage.setItem('current-theme','light');
+    }
+})
+
