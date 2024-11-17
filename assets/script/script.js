@@ -120,17 +120,29 @@ themeBtn.addEventListener("click",()=>{
 
 
 
-/*
-$('#from').hide();
-$("#crop-btn").on("click", function () {
-    $("#from").show();
-    $(".main_header").hide();
+$('#user').hide();
+$("#user-btn").on("click", function () {
+    $("#user").show();
+    $(".main_header").show();
     $(".main_card").hide();
     $(".fast_payment").hide();
     $("#chart").hide();
-})*/
+})
+$("#dashboard-btn").on("click", function () {
+    $(".main_header").show();
+    $(".main_card").show();
+    $(".fast_payment").show();
+    $("#chart").show();
+    $("#user").hide();
+    $("#crop").hide();
+    $("#equipment").hide();
+    $("#field").hide();
+    $("#log").hide();
+    $("#staff").hide();
+    $("vehicle-btn").hide();
+})
 
-$('.main_header').hide();
+/*$('.main_header').hide();
 $('.main_card').hide();
 $('.fast_payment').hide();
-$('#chart').hide();
+$('#chart').hide();*/
