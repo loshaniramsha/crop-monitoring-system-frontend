@@ -22,24 +22,25 @@ document.addEventListener('DOMContentLoaded', () => {
          datasets:[{
              label:'Rainfall',
              data:[12,19,11,15,10,3,12,19,3,5,2,3],
-             backgroundColor:'rgb(42,90,10)',
-             borderColor:'rgb(135,237,116)',
+             backgroundColor:'rgb(237,8,68)',
+             borderColor:'rgb(147,25,66)',
          },
              {
                  label:'Temperature',
                  data:[13,15,12,13,12,19,3,5,2,3,12,19],
-                 backgroundColor:'rgb(241,175,76)',
-                 borderColor:'rgb(239,228,129)',
+                 backgroundColor:'rgb(5,31,90)',
+                 borderColor:'rgb(20,87,209)',
              }]
      },
      options:{
          scales:{
              y:{
+                 beginAtZero:true
 
-                 display:false
+
              },
              x:{
-                 display:false
+                 beginAtZero:true
              }
             /* yAxes:[{
                  ticks:{
