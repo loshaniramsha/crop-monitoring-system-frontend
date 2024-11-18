@@ -288,6 +288,120 @@
             </div>
         </div>
     </section>
+    <!--Vehicle-->
+    <section id="vehicle-section" style="padding: 20px;">
+        <h1 class="text-center mb-5">Vehicle Registration</h1>
+        <form id="vehicle-form">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="vehicleCode">Vehicle Code</label>
+                    <input type="text" class="form-control" id="vehicleCode" placeholder="Enter Vehicle Code" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="licensePlateNumber">License Plate Number</label>
+                    <input type="text" class="form-control" id="licensePlateNumber" placeholder="Enter License Plate Number" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="vehicleType">Vehicle Type</label>
+                    <select class="form-control" id="vehicleType" required>
+                        <option value="">Select Vehicle Type</option>
+                        <option value="Car">Car</option>
+                        <option value="Truck">Truck</option>
+                        <option value="Motorbike">Motorbike</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="vehicleStates">States</label>
+                    <select class="form-control" id="vehicleStates" required>
+                        <option value="">Select States</option>
+                        <option value="AVAILABLE">AVAILABLE</option>
+                        <option value="NOT_AVAILABLE">NOT_AVAILABLE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="staffId">Staff ID</label>
+                    <select class="form-control" id="staffId" required>
+                        <option value="">Select Staff ID</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="vehiceRemark">Remark</label>
+                    <input type="text" class="form-control" id="vehiceRemark" placeholder="Enter Vehicle Code" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-3" id="addVehicleBtn">Add Vehicle</button>
+            <button type="button" class="btn btn-warning mt-3" id="clearFormBtn">Clear</button>
+        </form>
+        <table class="table mt-4" id="vehicle-table">
+            <thead>
+            <tr>
+                <th>Vehicle Code</th>
+                <th>License Plate</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Staff ID</th>
+                <th>Remark</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Modal for Editing Vehicle -->
+        <div class="modal fade" id="editVehicleModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Vehicle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editVehicleForm">
+                            <div class="form-group mb-3">
+                                <label for="editVehicleCode">Vehicle Code</label>
+                                <input type="text" class="form-control" id="editVehicleCode" disabled>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editLicensePlate">License Plate Number</label>
+                                <input type="text" class="form-control" id="editLicensePlate" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editVehicleType">Vehicle Type</label>
+                                <select class="form-control" id="editVehicleType" required>
+                                    <option value="">Select Vehicle Type</option>
+                                    <option value="Car">Car</option>
+                                    <option value="Truck">Truck</option>
+                                    <option value="Motorbike">Motorbike</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editState">State</label>
+                                <input type="text" class="form-control" id="editState" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editStaffId">Staff ID</label>
+                                <select class="form-control" id="editStaffId" required>
+                                    <option value="">Select Staff ID</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editRemark">Remark</label>
+                                <textarea class="form-control" id="editRemark" rows="3"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-success" id="saveEditVehicleBtn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
 
 </main>
 
@@ -467,5 +581,6 @@
 <script src="../../assets/lib/jquery-3.7.1.min.js"></script>
 <script src="../../assets/script/script.js"></script>
 <script src="../../controller/User.js"></script>
+<script src="../../controller/Vehicle.js"></script>
 </body>
 </html>
