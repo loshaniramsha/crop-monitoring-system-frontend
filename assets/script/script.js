@@ -127,6 +127,12 @@ $("#user-btn").on("click", function () {
     $(".main_card").hide();
     $(".fast_payment").hide();
     $("#chart").hide();
+    $("#crop").hide();
+    $("#equipment").hide();
+    $("#field").hide();
+    $("#log").hide();
+    $("#staff").hide();
+    $("#vehicle-section").hide();
 })
 $("#dashboard-btn").on("click", function () {
     $(".main_header").show();
@@ -141,8 +147,21 @@ $("#dashboard-btn").on("click", function () {
     $("#staff").hide();
     $("vehicle-btn").hide();
 })
+$("#vehicle-btn").on("click", function () {
+    $("#vehicle-section").show();
+    $("#user").hide();
+    $("#crop").hide();
+    $("#equipment").hide();
+    $("#field").hide();
+    $("#log").hide();
+    $("#staff").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+})
 
-/*$('.main_header').hide();
+/*$('.main_header').show();
 $('.main_card').hide();
 $('.fast_payment').hide();
 $('#chart').hide();*/
