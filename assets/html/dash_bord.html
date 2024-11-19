@@ -399,9 +399,198 @@
             </div>
         </div>
     </section>
+    <!--crops-->
+    <section id="crop-section">
+        <h1 class="text-center">Crop Management</h1>
+        <form id="crop-form">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="cropCode">Crop Code</label>
+                    <input type="text" id="cropCode" placeholder="Enter Crop Code" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="cropName">Crop Name</label>
+                    <input type="text" id="cropName" placeholder="Enter Crop Name" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="scientificName">Scientific Name</label>
+                    <input type="text" id="scientificName" placeholder="Enter Scientific Name">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="cropImage">Crop Image</label>
+                    <input type="file" id="cropImage" accept="image/*">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" placeholder="Enter Crop Category">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="cropSeason">Season</label>
+                    <input type="text" id="cropSeason" placeholder="Enter Crop Season">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fieldCode">Field Code</label>
+                    <select id="fieldCode" required>
+                        <option value="">Select Field Code</option>
+                        <option value="F001">F001</option>
+                        <option value="F002">F002</option>
+                        <option value="F003">F003</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="logId">Log ID</label>
+                    <select id="logId" required>
+                        <option value="">Select Log ID</option>
+                        <option value="L001">L001</option>
+                        <option value="L002">L002</option>
+                        <option value="L003">L003</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Add Crop</button>
+            <button type="button" class="btn btn-warning" id="clearFormBtn-crop">Clear</button>
+        </form>
 
+        <!-- Crop Table -->
+        <table id="crop-table" class="table mt-4">
+            <thead>
+            <tr>
+                <th>Crop Code</th>
+                <th>Name</th>
+                <th>Scientific Name</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Season</th>
+                <th>Field</th>
+                <th>Log</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    <!--Equipment-->
+    <section id="equipment-section" style="padding: 20px;">
+        <h1 class="text-center mb-5">Equipment Management</h1>
+        <form id="equipment-form">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="equipmentId">Equipment ID</label>
+                    <input type="text" class="form-control" id="equipmentId" placeholder="Enter Equipment ID" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="equipmentName">Equipment Name</label>
+                    <input type="text" class="form-control" id="equipmentName" placeholder="Enter Equipment Name" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="equipmentType">Equipment Type</label>
+                    <input type="text" class="form-control" id="equipmentType" placeholder="Enter Equipment Type" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="equipmentState">State</label>
+                    <select class="form-control" id="equipmentState" required>
+                        <option value="">Select State</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="INACTIVE">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fieldId">Field ID</label>
+                    <select class="form-control" id="fieldId" required>
+                        <option value="">Select Field</option>
+                        <!-- Options populated dynamically -->
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="staffId-equipment">Staff ID</label>
+                    <select class="form-control" id="staffId-equipment" required>
+                        <option value="">Select Staff</option>
+                        <!-- Options populated dynamically -->
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success w-100" id="addEquipmentBtn">Add Equipment</button>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-warning w-100" id="clearFormBtn-equipment">Clear</button>
+                </div>
+            </div>
+        </form>
 
+        <!-- Equipment Table -->
+        <table class="table table-striped mt-4" id="equipment-table">
+            <thead>
+            <tr>
+                <th>Equipment ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Field</th>
+                <th>Staff</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Rows populated dynamically -->
+            </tbody>
+        </table>
 
+        <!-- Modal for Editing Equipment -->
+        <div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Equipment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editEquipmentForm">
+                            <div class="form-group mb-3">
+                                <label for="editEquipmentId">Equipment ID</label>
+                                <input type="text" class="form-control" id="editEquipmentId" disabled>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editEquipmentName">Equipment Name</label>
+                                <input type="text" class="form-control" id="editEquipmentName" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editEquipmentType">Equipment Type</label>
+                                <input type="text" class="form-control" id="editEquipmentType" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editEquipmentState">State</label>
+                                <select class="form-control" id="editEquipmentState" required>
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editFieldId">Field ID</label>
+                                <select class="form-control" id="editFieldId" required></select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="editStaffId">Staff ID</label>
+                                <select class="form-control" id="editStaffId-equipment" required></select>
+                            </div>
+                            <button type="button" class="btn btn-success" id="saveEditBtn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </main>
 
@@ -582,5 +771,7 @@
 <script src="../../assets/script/script.js"></script>
 <script src="../../controller/User.js"></script>
 <script src="../../controller/Vehicle.js"></script>
+<script src="../../controller/Crop.js"></script>
+<script src="../../controller/Equipment.js"></script>
 </body>
 </html>
