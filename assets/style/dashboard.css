@@ -71,7 +71,7 @@ body{
 /*666666*/
 /* Dark theme styles */
 body.dark-theme {
-    background: #333;
+    background: #292727;
     color: #fff;
 }
 
@@ -92,9 +92,22 @@ body.dark-theme .sidebar {
 body.dark-theme .sidebar a {
     color: #bbb; /* Lighter text for links */
 }
+
 body.dark-theme .sidebar a h5{
     font-weight: 500;
     color: #ffffff;
+}
+/*body.dark-theme .sidebar a h5:hover{
+    color: #fbc02d;
+}*/
+
+body.dark-theme .sidebar a:hover {
+    background: #444; /* Darker background on hover */
+    color: white;
+}
+body.dark-theme #user{
+    background-color: #222;
+    color: #fff;
 }
 
 body.dark-theme .sidebar a.active {
@@ -112,6 +125,7 @@ body.dark-theme .transaction {
     background-color: #444; /* Dark background for transactions */
     color: #fff; /* White text */
 }
+
 
 /*777777*/
 .container{
@@ -218,6 +232,7 @@ nav{
 .sidebar a h5{
     font-weight: 500;
     color: darkslategray;
+    text-decoration: none;
 }
 
 .sidebar a.active {
@@ -780,9 +795,9 @@ canvas{
         font-size: 1rem;
     }
 }
-
+/*Form*/
 #user {
-    margin-top: 6rem;
+    margin-top: 2rem;
     background-color: #f2f4f6;
     border: 1px solid #ddd;
     padding: 20px;
@@ -791,3 +806,170 @@ canvas{
 #user_table {
     color: #333;
 }
+/*vehicle*/
+#vehicle-section {
+               background: #f8f9fa;
+               border: 1px solid #ddd;
+               border-radius: 8px;
+               padding: 10px;
+    margin-top: 20px;
+           }
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    margin-right: 10px;
+}
+
+#vehicle-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+#vehicle-table th,
+#vehicle-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#vehicle-table th {
+    background: #f1f1f1;
+    font-weight: bold;
+}
+
+.actions button {
+    margin: 0 5px;
+}
+
+/*crop*/
+#crop-section {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#crop-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+
+#crop-table th,
+#crop-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#crop-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: #333;
+}
+
+#crop-table td {
+    background-color: #fff;
+    color: #333;
+}
+
+.actions button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.actions .edit {
+    background-color: #007bff;
+    color: white;
+}
+
+.actions .delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.actions .edit:hover {
+    background-color: #0056b3;
+}
+
+.actions .delete:hover {
+    background-color: #c82333;
+}
+
