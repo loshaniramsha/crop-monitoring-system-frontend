@@ -1,6 +1,47 @@
 
-const staffIds = ["ST001", "ST002", "ST003"];
-let vehicles = [];
+initializeVehicles()
+
+
+function initializeVehicles() {
+    loadAllVehicles();
+    loadStaffIds();
+}
+
+function loadAllVehicles() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/vehicle",
+        type: "GET",
+        success: function (data) {
+            data.map((vehicle) => {
+                addVehicleToTable(vehicle);
+            })
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function loadStaffIds() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/staff",
+        type: "GET",
+        success: function (data) {
+            const vehicleSelect = document.getElementById('staffId');
+            $('#staffId').empty();
+            $('#staffId').append(`<option value="">Select</option>`);
+            data.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.staffId;
+                option.textContent = staff.staffId;
+                vehicleSelect.appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
 
 // Populate staff IDs
 $(document).ready(function () {
@@ -37,10 +78,10 @@ $(document).ready(function () {
 // Add vehicle to the table
 function addVehicleToTable(vehicle) {
     const row = `
-        <tr id="row-${vehicle.code}">
-            <td>${vehicle.code}</td>
-            <td>${vehicle.license}</td>
-            <td>${vehicle.type}</td>
+        <tr id="row-${vehicle.vehicleCode}">
+            <td>${vehicle.vehicleCode}</td>
+            <td>${vehicle.licensePlateNumber}</td>
+            <td>${vehicle.vehicleType}</td>
             <td>${vehicle.state}</td>
             <td>${vehicle.staffId}</td>
             <td>${vehicle.remark}</td>
@@ -53,14 +94,6 @@ function addVehicleToTable(vehicle) {
 }
 
 // Clear form
-function clearForm() {
-    $("#vehicleCode").val("");
-    $("#licensePlateNumber").val("");
-    $("#vehicleType").val("");
-    $("#vehicleStates").val("");
-    $("#staffId").val("");
-    $("#vehiceRemark").val("");
-}
 
 // Edit vehicle with modal
 function editVehicle(code) {
@@ -104,4 +137,13 @@ function updateVehicle(code) {
 function deleteVehicle(code) {
     vehicles = vehicles.filter((v) => v.code !== code);
     $(`#row-${code}`).remove();
+}
+
+function clearForm() {
+    $("#vehicleCode").val("");
+    $("#licensePlateNumber").val("");
+    $("#vehicleType").val("");
+    $("#vehicleStates").val("");
+    $("#staffId").val("");
+    $("#vehiceRemark").val("");
 }
