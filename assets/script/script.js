@@ -121,17 +121,25 @@ themeBtn.addEventListener("click",()=>{
 
 
 $('#user').hide();
+$('#crop-section').hide();
+$('#vehicle-section').hide();
+$('#equipment-section').hide();
+$('#field-section').hide();
+$('#staff-section').hide();
+$('#monitoring-log-section').hide();
+
+
 $("#user-btn").on("click", function () {
     $("#user").show();
     $(".main_header").show();
     $(".main_card").hide();
     $(".fast_payment").hide();
     $("#chart").hide();
-    $("#crop").hide();
+    $("#crop-section").hide();
     $("#equipment").hide();
-    $("#field").hide();
+    $("#field-section").hide();
     $("#log").hide();
-    $("#staff").hide();
+    $("#staff-section").hide();
     $("#vehicle-section").hide();
 })
 $("#dashboard-btn").on("click", function () {
@@ -140,7 +148,7 @@ $("#dashboard-btn").on("click", function () {
     $(".fast_payment").show();
     $("#chart").show();
     $("#user").hide();
-    $("#crop").hide();
+    $("#crop-section").hide();
     $("#equipment").hide();
     $("#field").hide();
     $("#log").hide();
@@ -150,18 +158,81 @@ $("#dashboard-btn").on("click", function () {
 $("#vehicle-btn").on("click", function () {
     $("#vehicle-section").show();
     $("#user").hide();
-    $("#crop").hide();
+    $("#crop-section").hide();
     $("#equipment").hide();
-    $("#field").hide();
+    $("#field-section").hide();
     $("#log").hide();
-    $("#staff").hide();
+    $("#staff-section").hide();
     $(".main_header").show();
     $(".main_card").hide();
     $(".fast_payment").hide();
     $("#chart").hide();
 })
-
-/*$('.main_header').show();
-$('.main_card').hide();
-$('.fast_payment').hide();
-$('#chart').hide();*/
+$("#crop-btn").on("click", function () {
+    $('#crop-section').show();
+    $("#user").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+    $("#equipment").hide();
+    $("#field-section").hide();
+    $("#log").hide();
+    $("#staff-section").hide();
+    $("#vehicle-section").hide();
+})
+$("#equipment-btn").on("click", function () {
+    $("#equipment-section").show();
+    $("#user").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+    $("#crop-section").hide();
+    $("#field-section").hide();
+    $("#log").hide();
+    $("#staff-section").hide();
+    $("#vehicle-section").hide();
+})
+$("#field-btn").on("click", function () {
+    $("#field-section").show();
+    $("#user").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+    $("#crop-section").hide();
+    $("#equipment").hide();
+    $("#log").hide();
+    $("#staff-section").hide();
+    $("#vehicle-section").hide();
+    $("#equipment-section").hide();
+})
+$("#staff-btn").on("click",function (){
+    $("#staff-section").show();
+    $("#user").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+    $("#crop-section").hide();
+    $("#equipment").hide();
+    $("#field-section").hide();
+    $("#log").hide();
+    $("#vehicle-section").hide();
+    $("#equipment-section").hide();
+})
+$("#log-btn").on("click",function (){
+    $("#monitoring-log-section").show();
+    $("#user").hide();
+    $(".main_header").show();
+    $(".main_card").hide();
+    $(".fast_payment").hide();
+    $("#chart").hide();
+    $("#crop-section").hide();
+    $("#equipment").hide();
+    $("#field-section").hide();
+    $("#staff-section").hide();
+    $("#vehicle-section").hide();
+    $("#equipment-section").hide();
+})
