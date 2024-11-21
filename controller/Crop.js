@@ -1,7 +1,74 @@
+initializeCrops()
+function initializeCrops(){
+    loadAllCrops();
+    loadAllFields();
+    loadAllLogs();
+}
+function loadAllCrops(){
+    $.ajax({
+        url: "http://localhost:8080/api/v1/crops",
+        type: "GET",
+        success: function (data) {
+            data.map((crop) => {
+                addCropToTable(crop);
+            })
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function loadAllFields(){
+    $.ajax({
+        url: "http://localhost:8080/api/v1/field",
+        type: "GET",
+        success: function (data) {
+            const fieldSelect = document.getElementById('fieldCode');
+            $('#fieldCode').empty();
+            $('#fieldCode').append(`<option value="">Select</option>`);
+            data.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.fieldCode;
+                option.textContent = field.fieldCode;
+                fieldSelect.appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+
+
+function loadAllLogs(){
+    $.ajax({
+        url: "http://localhost:8080/api/v1/monitoringlog",
+        type: "GET",
+        success: function (data) {
+            const logSelect = document.getElementById('logId');
+            $('#logId').empty();
+            $('#logId').append(`<option value="">Select</option>`);
+            data.forEach(log => {
+                const option = document.createElement('option');
+                option.value = log.logId;
+                option.textContent = log.logId;
+                logSelect.appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
 $(document).ready(function () {
     const crops = [];
 
     // Add Crop
+    // Clear Form
+
     $("#crop-form").submit(function (e) {
         e.preventDefault(); // Prevent page reload
 
@@ -24,15 +91,30 @@ $(document).ready(function () {
         // Clear the form after adding
         clearForm();
     });
-
-    // Clear Form
     $("#clearFormBtn-crop").click(function () {
         clearForm();
     });
 
-    // Add Crop to Table
-    function addCropToTable(crop) {
-        const row = `
+
+
+
+
+
+
+    // Ensure all the DOM elements exist before attaching events
+    $(function () {
+        if ($("#crop-form").length && $("#clearFormBtn-crop").length) {
+            $("#crop-form").submit(function (e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+});
+
+// Add Crop to Table
+function addCropToTable(crop) {
+    const row = `
             <tr id="crop-${crop.cropCode}">
                 <td>${crop.cropCode}</td>
                 <td>${crop.cropName}</td>
@@ -47,49 +129,38 @@ $(document).ready(function () {
                     <button class="btn btn-danger btn-sm" onclick="deleteCrop('${crop.cropCode}')">Delete</button>
                 </td>
             </tr>`;
-        $("#crop-table tbody").append(row);
+    $("#crop-table tbody").append(row);
+}
+
+// Edit Crop
+window.editCrop = function (cropCode) {
+    const crop = crops.find(c => c.cropCode === cropCode);
+    if (crop) {
+        $("#cropCode").val(crop.cropCode);
+        $("#cropName").val(crop.cropName);
+        $("#scientificName").val(crop.scientificName);
+        $("#category").val(crop.category);
+        $("#cropSeason").val(crop.cropSeason);
+        $("#fieldCode").val(crop.fieldCode);
+        $("#logId").val(crop.logId);
+        // Show crop image if exists (Optional)
+        if (crop.cropImage) {
+            // Add an image preview if necessary
+        }
+        $("#editCropModal").modal("show");
     }
-
-    // Edit Crop
-    window.editCrop = function (cropCode) {
-        const crop = crops.find(c => c.cropCode === cropCode);
-        if (crop) {
-            $("#cropCode").val(crop.cropCode);
-            $("#cropName").val(crop.cropName);
-            $("#scientificName").val(crop.scientificName);
-            $("#category").val(crop.category);
-            $("#cropSeason").val(crop.cropSeason);
-            $("#fieldCode").val(crop.fieldCode);
-            $("#logId").val(crop.logId);
-            // Show crop image if exists (Optional)
-            if (crop.cropImage) {
-                // Add an image preview if necessary
-            }
-            $("#editCropModal").modal("show");
-        }
-    };
-
-    // Delete Crop
-    window.deleteCrop = function (cropCode) {
-        const index = crops.findIndex(c => c.cropCode === cropCode);
-        if (index !== -1) {
-            crops.splice(index, 1);
-            $(`#crop-${cropCode}`).remove();
-        }
-    };
-
-    // Clear Form
-    function clearForm() {
-        $("#crop-form")[0].reset();
-        $("#cropImage").val(''); // Reset the file input
+};
+// Delete Crop
+window.deleteCrop = function (cropCode) {
+    const index = crops.findIndex(c => c.cropCode === cropCode);
+    if (index !== -1) {
+        crops.splice(index, 1);
+        $(`#crop-${cropCode}`).remove();
     }
+};
 
-    // Ensure all the DOM elements exist before attaching events
-    $(function () {
-        if ($("#crop-form").length && $("#clearFormBtn-crop").length) {
-            $("#crop-form").submit(function (e) {
-                e.preventDefault();
-            });
-        }
-    });
-});
+// Clear form
+function clearForm() {
+    $("#crop-form")[0].reset();
+    $("#cropImage").val(''); // Reset the file input
+}
