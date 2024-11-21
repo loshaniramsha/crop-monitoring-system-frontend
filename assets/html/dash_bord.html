@@ -679,6 +679,238 @@
             <tbody></tbody>
         </table>
     </section>
+    <!--Staff-->
+    <section id="staff-section">
+        <h1 class="text-center">Staff Management</h1>
+        <form id="staff-form">
+            <div class="row">
+                <!-- Staff ID and Name -->
+                <div class="col-md-6 form-group">
+                    <label for="staffId">Staff ID</label>
+                    <input type="text" id="staffId-staff" class="form-control" placeholder="Enter Staff ID" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" placeholder="Enter First Name" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" placeholder="Enter Last Name" required>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Designation and Gender -->
+                <div class="col-md-6 form-group">
+                    <label for="designation">Designation</label>
+                    <input type="text" id="designation" class="form-control" placeholder="Enter Designation" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Date of Birth and Joining Date -->
+                <div class="col-md-6 form-group">
+                    <label for="birthDate">Date of Birth</label>
+                    <input type="date" id="birthDate" class="form-control" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="joiningDate">Joining Date</label>
+                    <input type="date" id="joiningDate" class="form-control" required>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Address -->
+                <div class="col-md-6 form-group">
+                    <label for="addressLine1">Address Line 1</label>
+                    <input type="text" id="addressLine1" class="form-control" placeholder="Enter Address Line 1" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressLine2">Address Line 2</label>
+                    <input type="text" id="addressLine2" class="form-control" placeholder="Enter Address Line 2">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressLine3">Address Line 3</label>
+                    <input type="text" id="addressLine3" class="form-control" placeholder="Enter Address Line 3">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressLine4">Address Line 4</label>
+                    <input type="text" id="addressLine4" class="form-control" placeholder="Enter Address Line 4">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressLine5">Address Line 5</label>
+                    <input type="text" id="addressLine5" class="form-control" placeholder="Enter Address Line 5">
+                </div>
+            </div>
+            <div class="row">
+                <!-- Phone Number and Email -->
+                <div class="col-md-6 form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter Phone Number" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email-staff" class="form-control" placeholder="Enter Email" required>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Role -->
+                <div class="col-md-6 form-group">
+                    <label for="role">Role</label>
+                    <select id="role" class="form-control" required>
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="MANAGER">Manager</option>
+                        <option value="WORKER">Worker</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Log ID -->
+                <div class="col-md-6 form-group">
+                    <label for="logId">Log ID</label>
+                    <input type="text" id="logId-staff" class="form-control" placeholder="Enter Log ID" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Add Staff</button>
+            <button type="button" class="btn btn-warning" id="clearFormBtn-staff">Clear</button>
+        </form>
+        <br>
+        <table class="table table-bordered" id="staff-table">
+            <thead>
+            <tr>
+                <th>Staff ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Designation</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Joining Date</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Log ID</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Staff records will be inserted here -->
+            </tbody>
+        </table>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editStaffModal" tabindex="-1" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editStaffModalLabel">Edit Staff</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-staff-form">
+                            <!-- Staff ID -->
+                            <div class="mb-3">
+                                <label for="editStaffId" class="form-label">Staff ID</label>
+                                <input type="text" id="editStaffId-staff" class="form-control" readonly>
+                            </div>
+                            <!-- First Name -->
+                            <div class="mb-3">
+                                <label for="editFirstName" class="form-label">First Name</label>
+                                <input type="text" id="editFirstName" class="form-control" required>
+                            </div>
+                            <!-- Last Name -->
+                            <div class="mb-3">
+                                <label for="editLastName" class="form-label">Last Name</label>
+                                <input type="text" id="editLastName" class="form-control" required>
+                            </div>
+                            <!-- Designation -->
+                            <div class="mb-3">
+                                <label for="editDesignation" class="form-label">Designation</label>
+                                <input type="text" id="editDesignation" class="form-control" required>
+                            </div>
+                            <!-- Gender -->
+                            <div class="mb-3">
+                                <label for="editGender" class="form-label">Gender</label>
+                                <select id="editGender" class="form-control" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <!-- Date of Birth -->
+                            <div class="mb-3">
+                                <label for="editBirthDate" class="form-label">Date of Birth</label>
+                                <input type="date" id="editBirthDate" class="form-control" required>
+                            </div>
+                            <!-- Joining Date -->
+                            <div class="mb-3">
+                                <label for="editJoiningDate" class="form-label">Joining Date</label>
+                                <input type="date" id="editJoiningDate" class="form-control" required>
+                            </div>
+                            <!-- Address -->
+                            <div class="mb-3">
+                                <label for="editAddressLine1" class="form-label">Address Line 1</label>
+                                <input type="text" id="editAddressLine1" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAddressLine2" class="form-label">Address Line 2</label>
+                                <input type="text" id="editAddressLine2" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAddressLine3" class="form-label">Address Line 3</label>
+                                <input type="text" id="editAddressLine3" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAddressLine4" class="form-label">Address Line 4</label>
+                                <input type="text" id="editAddressLine4" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAddressLine5" class="form-label">Address Line 5</label>
+                                <input type="text" id="editAddressLine5" class="form-control">
+                            </div>
+                            <!-- Phone Number -->
+                            <div class="mb-3">
+                                <label for="editPhoneNumber" class="form-label">Phone Number</label>
+                                <input type="tel" id="editPhoneNumber" class="form-control" required>
+                            </div>
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" id="editEmail-staff" class="form-control" required>
+                            </div>
+                            <!-- Role -->
+                            <div class="mb-3">
+                                <label for="editRole" class="form-label">Role</label>
+                                <select id="editRole" class="form-control" required>
+                                    <option value="">Select Role</option>
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="MANAGER">Manager</option>
+                                    <option value="WORKER">Worker</option>
+                                </select>
+                            </div>
+                            <!-- Log ID -->
+                            <div class="mb-3">
+                                <label for="editLogId" class="form-label">Log ID</label>
+                                <input type="text" id="editLogId" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
 
 
 
@@ -868,5 +1100,6 @@
 <script src="../../controller/Crop.js"></script>
 <script src="../../controller/Equipment.js"></script>
 <script src="../../controller/Field.js"></script>
+<script src="../../controller/Staff.js"></script>
 </body>
 </html>
