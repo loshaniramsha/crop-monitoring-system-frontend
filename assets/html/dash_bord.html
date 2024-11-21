@@ -908,18 +908,131 @@
         </div>
 
     </section>
+    <!--Log-->
+    <section id="monitoring-log-section">
+        <h1 class="text-center">Monitoring Log Management</h1>
+        <form id="monitoring-log-form">
+            <!-- Log Details -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="logCode">Log Code</label>
+                    <input type="text" id="logCode" class="form-control" placeholder="Enter Log Code" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="logDate">Log Date</label>
+                    <input type="date" id="logDate" class="form-control" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label for="logDetails">Log Details</label>
+                    <textarea id="logDetails" class="form-control" placeholder="Enter Log Details" rows="4" required></textarea>
+                </div>
+            </div>
+            <!-- Observed Image -->
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label for="observedImage">Observed Image</label>
+                    <input type="file" id="observedImage" class="form-control" accept="image/*" required>
+                </div>
+            </div>
+            <!-- Field Selection -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fieldSelect">Select Field</label>
+                    <select id="fieldSelect" class="form-control" required>
+                        <option value="">Loading Fields...</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Crop Selection -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="cropSelect">Select Crop</label>
+                    <select id="cropSelect" class="form-control" required>
+                        <option value="">Loading Crops...</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Staff Selection -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="staffSelect">Select Staff</label>
+                    <select id="staffSelect" class="form-control" required>
+                        <option value="">Loading Staff...</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" id="addButton" class="btn btn-success">Add Monitoring Log</button>
+                    <button type="button" id="clearButton" class="btn btn-secondary">Clear</button>
+                </div>
+            </div>
+        </form>
+        <!-- Table -->
+        <table class="table table-bordered mt-4">
+            <thead>
+            <tr>
+                <th>Log Code</th>
+                <th>Date</th>
+                <th>Details</th>
+                <th>Image</th>
+                <th>Field</th>
+                <th>Crop</th>
+                <th>Staff</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="logTableBody"></tbody>
+        </table>
 
+        <!-- Edit Modal -->
+        <div id="editModal-log" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Monitoring Log</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Fields in Modal -->
+                        <form id="edit-log-form">
+                            <div class="form-group">
+                                <label for="editLogCode">Log Code</label>
+                                <input type="text" id="editLogCode" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="editLogDate">Log Date</label>
+                                <input type="date" id="editLogDate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="editLogDetails">Log Details</label>
+                                <textarea id="editLogDetails" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="editFieldSelect">Field</label>
+                                <select id="editFieldSelect" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCropSelect">Crop</label>
+                                <select id="editCropSelect" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editStaffSelect">Staff</label>
+                                <select id="editStaffSelect" class="form-control"></select>
+                            </div>
+                            <button type="button" id="saveEditButton" class="btn btn-primary mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-
-
-
-
-
-
+    </section>
 
 </main>
-
 <section class="right">
     <section class="investment">
         <header class="investment_header">
@@ -1087,9 +1200,6 @@
     </section>
 </section>
 
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.1/chart.min.js" integrity="sha512-O2fWHvFel3xjQSi9FyzKXWLTvnom+lOYR/AUEThL/fbP4hv1Lo5LCFCGuTXBRyKC4K4DJldg5kxptkgXAzUpvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -1101,5 +1211,6 @@
 <script src="../../controller/Equipment.js"></script>
 <script src="../../controller/Field.js"></script>
 <script src="../../controller/Staff.js"></script>
+<script src="../../controller/MonitoringLog.js"></script>
 </body>
 </html>
