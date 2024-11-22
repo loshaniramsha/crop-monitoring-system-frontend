@@ -436,19 +436,75 @@
                     <label for="fieldCode">Field Code</label>
                     <select id="fieldCode" required>
                         <option value="">Select Field Code</option>
-
                     </select>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="logId">Log ID</label>
                     <select id="logId" required>
-
+                        <option value="">Select Log ID</option>
                     </select>
                 </div>
             </div>
             <button type="submit" class="btn btn-success">Add Crop</button>
             <button type="button" class="btn btn-warning" id="clearFormBtn-crop">Clear</button>
         </form>
+        <!-- Modal for editing crop details -->
+        <div class="modal fade" id="updateCropModal" tabindex="-1" role="dialog" aria-labelledby="updateCropModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCropModalLabel">Update Crop</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="update-crop-form">
+                            <div class="form-group">
+                                <label for="modalCropCode">Crop Code</label>
+                                <input type="text" class="form-control" id="modalCropCode" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCropName">Crop Name</label>
+                                <input type="text" class="form-control" id="modalCropName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalScientificName">Scientific Name</label>
+                                <input type="text" class="form-control" id="modalScientificName">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCropImage">Crop Image</label>
+                                <input type="file" class="form-control" id="modalCropImage" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCategory">Category</label>
+                                <input type="text" class="form-control" id="modalCategory">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCropSeason">Season</label>
+                                <input type="text" class="form-control" id="modalCropSeason">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalFieldCode">Field Code</label>
+                                <select class="form-control" id="modalFieldCode" required>
+                                    <option value="">Select Field Code</option>
+                                    <!-- Add field options dynamically if needed -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalLogId">Log ID</label>
+                                <select class="form-control" id="modalLogId" required>
+                                    <option value="">Select Log ID</option>
+                                    <!-- Add log options dynamically if needed -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Crop Table -->
         <table id="crop-table" class="table mt-4">
@@ -468,6 +524,7 @@
             <tbody></tbody>
         </table>
     </section>
+
     <!--Equipment-->
     <section id="equipment-section" style="padding: 20px;">
         <h1 class="text-center mb-5">Equipment Management</h1>
@@ -491,8 +548,8 @@
                     <label for="equipmentState">State</label>
                     <select class="form-control" id="equipmentState" required>
                         <option value="">Select State</option>
-                        <option value="ACTIVE">Active</option>
-                        <option value="INACTIVE">Inactive</option>
+                        <option value="ACTIVE">AVAILABLE</option>
+                        <option value="INACTIVE">NOT_AVAILABLE</option>
                     </select>
                 </div>
             </div>
@@ -565,8 +622,8 @@
                             <div class="form-group mb-3">
                                 <label for="editEquipmentState">State</label>
                                 <select class="form-control" id="editEquipmentState" required>
-                                    <option value="ACTIVE">Active</option>
-                                    <option value="INACTIVE">Inactive</option>
+                                    <option value="ACTIVE">AVAILABLE</option>
+                                    <option value="INACTIVE">NOT_AVAILABLE</option>
                                 </select>
                             </div>
                             <div class="form-group mb-3">
