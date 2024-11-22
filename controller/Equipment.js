@@ -1,8 +1,24 @@
+initializeEquipment();
 function initializeEquipment() {
     loadAllEquipment();
     loadAllFields();
     loadStaffIds();
+    nextId();
 }
+function nextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/equipment/generateId", // Adjusted to match the generateEquipmentId endpoint
+        type: "GET",
+        success: function (data) {
+            // Assuming the endpoint returns the next ID as a plain string
+            $('#equipmentId').val(data);
+        },
+        error: function (error) {
+            console.error("Error generating next ID:", error);
+        }
+    });
+}
+
 
 // Fetch and load all equipment
 function loadAllEquipment() {
@@ -10,6 +26,7 @@ function loadAllEquipment() {
         url: "http://localhost:8080/api/v1/equipment",
         type: "GET",
         success: function (data) {
+            console.log("Equipment data:", data);  // Add this line to check the structure of the data
             $('#equipment-table tbody').empty();
             data.forEach((equipment) => {
                 addEquipmentToTable(equipment);
@@ -58,15 +75,16 @@ function loadStaffIds() {
 }
 
 // Add a row to the equipment table
+
 function addEquipmentToTable(equipment) {
     const equipmentRow = `
         <tr>
             <td>${equipment.equipmentId}</td>
-            <td>${equipment.name}</td>
-            <td>${equipment.type}</td>
-            <td>${equipment.state}</td>
-            <td>${equipment.field ? equipment.field.fieldId : ''}</td>
-            <td>${equipment.staff ? equipment.staff.staffId : ''}</td>
+            <td>${equipment.equipmentName || 'N/A'}</td> <!-- Assuming the name property is 'equipmentName' -->
+            <td>${equipment.equipmentType || 'N/A'}</td> <!-- Assuming the type property is 'equipmentType' -->
+            <td>${equipment.state || 'N/A'}</td> <!-- Fallback in case of missing state -->
+            <td>${equipment.fieldCode || 'N/A'}</td> <!-- Fallback for fieldCode -->
+            <td>${equipment.staffId || 'N/A'}</td> <!-- Fallback for staffId -->
             <td>
                 <button class="btn btn-warning btn-sm" onclick="updateEquipment('${equipment.equipmentId}')">Update</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
@@ -97,5 +115,29 @@ function deleteEquipment(equipmentId) {
 
 // Initialize on page load
 $(document).ready(function () {
-    initializeEquipment();
+    $("#equipment-form").submit(function (e) {
+        e.preventDefault();
+        const equipment = {
+            name: $("#equipmentName").val(),
+            type: $("#equipmentType").val(),
+            state: $("#equipmentState").val(),
+            fieldCode: $("#fieldId").val(),
+            staffId: $("#staffId-equipment").val(),
+        };
+        $.ajax({
+            url: "http://localhost:8080/api/v1/equipment",
+            type: "POST",
+            data: JSON.stringify(equipment),
+            contentType: "application/json",
+            success: function () {
+                console.log("Equipment added successfully.");
+                loadAllEquipment();
+                clearForm();
+            },
+            error: function (error) {
+                console.error("Error adding equipment:", error);
+            }
+        });
+    })
+
 });
