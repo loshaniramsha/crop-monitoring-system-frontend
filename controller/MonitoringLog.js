@@ -150,17 +150,22 @@ function saveLogChanges() {
 }
 
 function deleteLog(logCode) {
-    $.ajax({
-        url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
-        type: "DELETE",
-        success: function () {
-            loadAllLogs(); // Refresh the log table
-        },
-        error: function (error) {
-            console.error("Error deleting log:", error);
-        }
-    });
+    const confirmed = confirm("Are you sure you want to delete this log?");
+    if (confirmed) { // Ensure the delete action proceeds only if confirmed
+        $.ajax({
+            url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
+            type: "DELETE",
+            success: function () {
+                console.log(`Log with code ${logCode} deleted successfully.`);
+                loadAllLogs(); // Refresh the log table after deletion
+            },
+            error: function (error) {
+                console.error("Error deleting log:", error);
+            }
+        });
+    }
 }
+
 
 $('#addButton').click(function() {
     const newLog = {
