@@ -8,6 +8,26 @@ $(document).ready(function() {
         loadAllLogs();
         loadAllVehicles();
         loadAllEquipment();
+        nextId();
+    }
+    function nextId() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/staff/generateId", // API endpoint for generating the next Staff ID
+            type: "GET",
+            success: function (data) {
+                if (data) {
+                    // Check if data is the expected ID or part of a structured response
+                    const nextStaffId = typeof data === "object" ? data.id || data.nextId : data;
+                    $('#staffId-staff').val(nextStaffId);
+                    console.log("Next ID:", nextStaffId); // Log the extracted ID for debugging
+                } else {
+                    console.warn("Received empty response for next ID.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error generating next ID:", xhr.responseText || error);
+            }
+        });
     }
 
     // Load all staff records from the backend
