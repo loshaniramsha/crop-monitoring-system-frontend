@@ -168,13 +168,11 @@ function deleteVehicle(vehicleCode) {
     }
 }
 
-
-
 function clearForm() {
-    $("#vehicleCode").val("");
     $("#licensePlateNumber").val("");
     $("#vehicleType").val("");
     $("#vehicleStates").val("");
     $("#staffId").val("");
     $("#vehiceRemark").val("");
 }
+$('#clearFormBtn').click(clearForm);
