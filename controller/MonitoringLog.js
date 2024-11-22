@@ -1,3 +1,4 @@
+initializeLog()
 function initializeLog() {
     loadAllLogs();
     loadAllCrops();
@@ -10,7 +11,7 @@ function loadAllLogs() {
         url: "http://localhost:8080/api/v1/monitoringlog",
         type: "GET",
         success: function (data) {
-            console.log("Logs data:", data);  // Add this line to check the structure of the data
+            console.log("Logs data:", data);
             $('#logTableBody').empty();  // Correct table body selector
             data.forEach((log) => {
                 addLogToTable(log);
@@ -27,10 +28,10 @@ function loadAllCrops() {
         url: "http://localhost:8080/api/v1/crop",
         type: "GET",
         success: function (data) {
-            const cropSelect = $('#cropSelect');  // Correct selector
+            const cropSelect = $('#cropSelect');
             cropSelect.empty().append('<option value="">Select Crop</option>');
             data.forEach(crop => {
-                cropSelect.append(`<option value="${crop.cropId}">${crop.cropName}</option>`);  // Assuming cropName is the name
+                cropSelect.append(`<option value="${crop.cropId}">${crop.cropName}</option>`);
             });
         },
         error: function (error) {
@@ -44,10 +45,10 @@ function loadAllFields() {
         url: "http://localhost:8080/api/v1/field",
         type: "GET",
         success: function (data) {
-            const fieldSelect = $('#fieldSelect');  // Correct selector
+            const fieldSelect = $('#fieldSelect');
             fieldSelect.empty().append('<option value="">Select Field</option>');
             data.forEach(field => {
-                fieldSelect.append(`<option value="${field.fieldId}">${field.fieldName}</option>`);  // Assuming fieldName is the name
+                fieldSelect.append(`<option value="${field.fieldId}">${field.fieldName}</option>`);
             });
         },
         error: function (error) {
@@ -61,10 +62,10 @@ function loadStaffIds() {
         url: "http://localhost:8080/api/v1/staff",
         type: "GET",
         success: function (data) {
-            const staffSelect = $('#staffSelect');  // Correct selector
+            const staffSelect = $('#staffSelect');
             staffSelect.empty().append('<option value="">Select Staff</option>');
             data.forEach(staff => {
-                staffSelect.append(`<option value="${staff.staffId}">${staff.staffName}</option>`);  // Assuming staffName is the name
+                staffSelect.append(`<option value="${staff.staffId}">${staff.staffName}</option>`);
             });
         },
         error: function (error) {
@@ -79,10 +80,10 @@ function addLogToTable(log) {
         <td>${log.logCode}</td>
         <td>${log.logDate}</td>
         <td>${log.logDetails}</td>
-        <td><img src="${log.observedImage}" alt="Observed Image" width="100"></td>  <!-- Assuming you return an image URL -->
-        <td>${log.fieldName}</td>
-        <td>${log.cropName}</td>
-        <td>${log.staffName}</td>
+        <td><img src="${log.observedImage}" alt="Observed Image" width="100"></td>
+        <td>${log.fieldId}</td>
+        <td>${log.cropCode}</td>
+        <td>${log.staffId}</td>
         <td>
             <button class="btn btn-primary btn-sm" onclick="editLog('${log.logCode}')">Edit</button>
             <button class="btn btn-danger btn-sm" onclick="deleteLog('${log.logCode}')">Delete</button>
@@ -99,9 +100,9 @@ function editLog(logCode) {
             $('#editLogCode').val(log.logCode);
             $('#editLogDate').val(log.logDate);
             $('#editLogDetails').val(log.logDetails);
-            $('#editFieldSelect').val(log.fieldId);  // Assuming the API returns the field ID
-            $('#editCropSelect').val(log.cropId);    // Assuming the API returns the crop ID
-            $('#editStaffSelect').val(log.staffId);  // Assuming the API returns the staff ID
+            $('#editFieldSelect').val(log.fieldId || '');
+            $('#editCropSelect').val(log.cropId || '');
+            $('#editStaffSelect').val(log.staffId || '');
             $('#editModal-log').modal('show');
         },
         error: function (error) {
@@ -121,16 +122,16 @@ function saveLogChanges() {
     };
 
     $.ajax({
-        url: "http://localhost:8080/api/v1/monitoringlog",
+        url: `http://localhost:8080/api/v1/monitoringlog/${logData.logCode}`,
         type: "PUT",
         data: JSON.stringify(logData),
         contentType: "application/json",
         success: function () {
             $('#editModal-log').modal('hide');
-            loadAllLogs();  // Reload logs after editing
+            loadAllLogs();  // Refresh the log table
         },
         error: function (error) {
-            console.error("Error saving log changes:", error);
+            console.error("Error saving changes:", error);
         }
     });
 }
@@ -140,7 +141,7 @@ function deleteLog(logCode) {
         url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
         type: "DELETE",
         success: function () {
-            loadAllLogs();  // Reload logs after deleting
+            loadAllLogs(); // Refresh the log table
         },
         error: function (error) {
             console.error("Error deleting log:", error);
@@ -148,35 +149,29 @@ function deleteLog(logCode) {
     });
 }
 
-// Add Monitoring Log
-$('#addButton').click(function () {
-    const logData = {
+$('#addButton').click(function() {
+    const newLog = {
         logCode: $('#logCode').val(),
         logDate: $('#logDate').val(),
         logDetails: $('#logDetails').val(),
-        observedImage: $('#observedImage').val(),  // Assuming you're handling the image upload separately
         fieldId: $('#fieldSelect').val(),
         cropId: $('#cropSelect').val(),
         staffId: $('#staffSelect').val()
     };
-
     $.ajax({
-        url: "http://localhost:8080/api/v1/monitoringlog",
-        type: "POST",
-        data: JSON.stringify(logData),
-        contentType: "application/json",
+        url: 'http://localhost:8080/api/v1/monitoringlog',
+        type: 'POST',
+        data: JSON.stringify(newLog),
+        contentType: 'application/json',
         success: function () {
-            loadAllLogs();  // Reload logs after adding
-            $('#monitoring-log-form')[0].reset();  // Reset form
+            loadAllLogs();  // Refresh the log table after adding
         },
         error: function (error) {
-            console.error("Error adding log:", error);
+            console.error("Error adding new log:", error);
         }
     });
 });
 
-// Clear Form
-$('#clearButton').click(function () {
-    $('#monitoring-log-form')[0].reset();  // Reset form fields
-})
-;
+$('#clearButton').click(function() {
+    $('#monitoring-log-form')[0].reset();  // Reset the form fields
+});
