@@ -163,7 +163,6 @@ $(document).ready(function() {
     });
 });
 
-
 // Function to delete staff record
 function deleteStaff(staffId) {
     console.log("Deleting staff with ID:", staffId); // Debugging line
@@ -174,7 +173,8 @@ function deleteStaff(staffId) {
             type: "DELETE",
             success: function () {
                 console.log(`Staff with ID ${staffId} deleted successfully.`);
-                loadAllStaff(); // Reload the staff list after successful deletion
+                // Remove the row from the table
+                $(`tr[data-staff-id="${staffId}"]`).remove(); // This will remove the staff row from the table
             },
             error: function (error) {
                 console.error(`Error deleting staff with ID ${staffId}:`, error);
