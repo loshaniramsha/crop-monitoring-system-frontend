@@ -1,16 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const signInBtn = document.querySelector("#sign-in-btn");
-    const signUpBtn = document.querySelector("#sign-up-btn");
-    const container = document.querySelector(".container");
 
-    signUpBtn.addEventListener("click", () => {
-        container.classList.add("sign-up-mode");
-    });
-
-    signInBtn.addEventListener("click", () => {
-        container.classList.remove("sign-up-mode");
-    });
-});
 
 /*Chart*/
  const chart=document.querySelector('#chart').getContext('2d');
@@ -136,7 +124,7 @@ $("#user-btn").on("click", function () {
     $(".fast_payment").hide();
     $("#chart").hide();
     $("#crop-section").hide();
-    $("#equipment").hide();
+    $("#equipment-section").hide();
     $("#field-section").hide();
     $("#log").hide();
     $("#staff-section").hide();
@@ -153,7 +141,7 @@ $("#dashboard-btn").on("click", function () {
     $("#field").hide();
     $("#log").hide();
     $("#staff").hide();
-    $("vehicle-btn").hide();
+    $("#vehicle-btn").hide();
 })
 $("#vehicle-btn").on("click", function () {
     $("#vehicle-section").show();
@@ -161,7 +149,7 @@ $("#vehicle-btn").on("click", function () {
     $("#crop-section").hide();
     $("#equipment").hide();
     $("#field-section").hide();
-    $("#log").hide();
+    $("#monitoring-log-section").hide();
     $("#staff-section").hide();
     $(".main_header").show();
     $(".main_card").hide();
@@ -177,7 +165,7 @@ $("#crop-btn").on("click", function () {
     $("#chart").hide();
     $("#equipment").hide();
     $("#field-section").hide();
-    $("#log").hide();
+    $("#monitoring-log-section").hide();
     $("#staff-section").hide();
     $("#vehicle-section").hide();
 })
@@ -218,7 +206,7 @@ $("#staff-btn").on("click",function (){
     $("#crop-section").hide();
     $("#equipment").hide();
     $("#field-section").hide();
-    $("#log").hide();
+    $("#monitoring-log-section").hide();
     $("#vehicle-section").hide();
     $("#equipment-section").hide();
 })
@@ -236,3 +224,4 @@ $("#log-btn").on("click",function (){
     $("#vehicle-section").hide();
     $("#equipment-section").hide();
 })
+
