@@ -1,8 +1,7 @@
-
 initializeVehicles()
 
-
 function initializeVehicles() {
+
     loadAllVehicles();
     loadStaffIds();
 }
