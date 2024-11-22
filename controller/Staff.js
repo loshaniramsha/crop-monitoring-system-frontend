@@ -1,140 +1,192 @@
+$(document).ready(function() {
+    initializeStaff();
 
-document.addEventListener("DOMContentLoaded", () => {
-    const staffForm = document.getElementById("staff-form");
-    const editStaffForm = document.getElementById("edit-staff-form");
-    const staffTableBody = document.querySelector("#staff-table tbody");
-    const clearFormButton = document.getElementById("clearFormBtn-staff");
-
-    let editingRow = null; // Track the row being edited
-
-    // Clear form function
-    function clearForm(form) {
-        form.reset();
+    // Initialize all components and load data
+    function initializeStaff() {
+        loadAllStaff();
+        loadAllFields();
+        loadAllLogs();
+        loadAllVehicles();
+        loadAllEquipment();
     }
 
-    // Handle staff form submission
-    staffForm.addEventListener("submit", (event) => {
-        event.preventDefault();
+    // Load all staff records from the backend
+    function loadAllStaff() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/staff",
+            type: "GET",
+            success: function (data) {
+                console.log("Staff data:", data); // Add this line to check the structure of the data
+                $('#staff-table tbody').empty();
+                data.forEach((staff) => {
+                    addStaffToTable(staff);
+                });
+            },
+            error: function (error) {
+                console.error("Error loading staff:", error);
+            }
+        });
+    }
 
-        // Collect form values
-        const staffData = {
-            staffId: document.getElementById("staffId-staff").value.trim(),
-            firstName: document.getElementById("firstName").value.trim(),
-            lastName: document.getElementById("lastName").value.trim(),
-            designation: document.getElementById("designation").value.trim(),
-            gender: document.getElementById("gender").value.trim(),
-            birthDate: document.getElementById("birthDate").value.trim(),
-            joiningDate: document.getElementById("joiningDate").value.trim(),
-            address: [
-                document.getElementById("addressLine1").value.trim(),
-                document.getElementById("addressLine2").value.trim(),
-                document.getElementById("addressLine3").value.trim(),
-                document.getElementById("addressLine4").value.trim(),
-                document.getElementById("addressLine5").value.trim(),
-            ].filter(line => line).join(", "),
-            phoneNumber: document.getElementById("phoneNumber").value.trim(),
-            email: document.getElementById("email-staff").value.trim(),
-            role: document.getElementById("role").value.trim(),
-            logId: document.getElementById("logId-staff").value.trim(),
+    // Add staff data to the table
+    function addStaffToTable(staff) {
+        const staffRow = `
+            <tr data-staff-id="${staff.staffId}">
+                <td>${staff.staffId}</td>
+                <td>${staff.firstName}</td>
+                <td>${staff.lastName}</td>
+                <td>${staff.designation}</td>
+                <td>${staff.gender}</td>
+                <td>${staff.birthDate}</td>
+                <td>${staff.joiningDate}</td>
+                <td>${staff.address}</td>
+                <td>${staff.phoneNumber}</td>
+                <td>${staff.email}</td>
+                <td>${staff.role}</td>
+                <td>${staff.logId}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick="editStaff(${staff.staffId})">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteStaff(${staff.staffId})">Delete</button>
+                </td>
+            </tr>
+        `;
+        $('#staff-table tbody').append(staffRow);
+    }
+
+    // Edit staff record (Open Modal)
+    function editStaff(staffId) {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/staff/${staffId}`,
+            type: "GET",
+            success: function (staff) {
+                // Populate the modal with the staff's data
+                $('#editStaffId-staff').val(staff.staffId);
+                $('#editFirstName').val(staff.firstName);
+                $('#editLastName').val(staff.lastName);
+                $('#editDesignation').val(staff.designation);
+                $('#editGender').val(staff.gender);
+                $('#editBirthDate').val(staff.birthDate);
+                $('#editJoiningDate').val(staff.joiningDate);
+                $('#editAddressLine1').val(staff.address.addressLine1);
+                $('#editAddressLine2').val(staff.address.addressLine2);
+                $('#editAddressLine3').val(staff.address.addressLine3);
+                $('#editAddressLine4').val(staff.address.addressLine4);
+                $('#editAddressLine5').val(staff.address.addressLine5);
+                $('#editPhoneNumber').val(staff.phoneNumber);
+                $('#editEmail-staff').val(staff.email);
+                $('#editRole').val(staff.role);
+                $('#editLogId').val(staff.logId);
+
+                // Show the modal
+                $('#editStaffModal').modal('show');
+            },
+            error: function (error) {
+                console.error("Error loading staff data for edit:", error);
+            }
+        });
+    }
+
+    // Save changes for editing staff
+    $('#edit-staff-form').submit(function (e) {
+        e.preventDefault();
+
+        const updatedStaff = {
+            staffId: $('#editStaffId-staff').val(),
+            firstName: $('#editFirstName').val(),
+            lastName: $('#editLastName').val(),
+            designation: $('#editDesignation').val(),
+            gender: $('#editGender').val(),
+            birthDate: $('#editBirthDate').val(),
+            joiningDate: $('#editJoiningDate').val(),
+            address: {
+                addressLine1: $('#editAddressLine1').val(),
+                addressLine2: $('#editAddressLine2').val(),
+                addressLine3: $('#editAddressLine3').val(),
+                addressLine4: $('#editAddressLine4').val(),
+                addressLine5: $('#editAddressLine5').val()
+            },
+            phoneNumber: $('#editPhoneNumber').val(),
+            email: $('#editEmail-staff').val(),
+            role: $('#editRole').val(),
+            logId: $('#editLogId').val(),
         };
 
-        // Validation
-        if (Object.values(staffData).some(value => !value)) {
-            alert("Please fill out all required fields!");
-            return;
-        }
-
-        // Create new row for the staff table
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td>${staffData.staffId}</td>
-            <td>${staffData.firstName}</td>
-            <td>${staffData.lastName}</td>
-            <td>${staffData.designation}</td>
-            <td>${staffData.gender}</td>
-            <td>${staffData.birthDate}</td>
-            <td>${staffData.joiningDate}</td>
-            <td>${staffData.address}</td>
-            <td>${staffData.phoneNumber}</td>
-            <td>${staffData.email}</td>
-            <td>${staffData.role}</td>
-            <td>${staffData.logId}</td>
-            <td>
-                <button class="btn btn-success btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editStaffModal">Edit</button>
-                <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
-            </td>
-        `;
-
-        // Append new row
-        staffTableBody.appendChild(newRow);
-
-        // Clear form
-        clearForm(staffForm);
+        $.ajax({
+            url: `http://localhost:8080/api/v1/staff/${updatedStaff.staffId}`,
+            type: "PUT",
+            data: JSON.stringify(updatedStaff),
+            contentType: "application/json",
+            success: function () {
+                console.log("Staff updated successfully.");
+                loadAllStaff(); // Reload the staff list
+                $('#editStaffModal').modal('hide'); // Close the modal
+            },
+            error: function (error) {
+                console.error("Error updating staff:", error);
+            }
+        });
     });
 
-    // Handle edit and delete button clicks
-    staffTableBody.addEventListener("click", (event) => {
-        const target = event.target;
-
-        if (target.classList.contains("editBtn")) {
-            const row = target.closest("tr");
-            editingRow = row;
-
-            // Populate the modal with the current row data
-            document.getElementById("editStaffId-staff").value = row.cells[0].textContent;
-            document.getElementById("editFirstName").value = row.cells[1].textContent;
-            document.getElementById("editLastName").value = row.cells[2].textContent;
-            document.getElementById("editDesignation").value = row.cells[3].textContent;
-            document.getElementById("editGender").value = row.cells[4].textContent;
-            document.getElementById("editBirthDate").value = row.cells[5].textContent;
-            document.getElementById("editJoiningDate").value = row.cells[6].textContent;
-            const addressParts = row.cells[7].textContent.split(", ");
-            document.getElementById("editAddressLine1").value = addressParts[0] || "";
-            document.getElementById("editAddressLine2").value = addressParts[1] || "";
-            document.getElementById("editAddressLine3").value = addressParts[2] || "";
-            document.getElementById("editAddressLine4").value = addressParts[3] || "";
-            document.getElementById("editAddressLine5").value = addressParts[4] || "";
-            document.getElementById("editPhoneNumber").value = row.cells[8].textContent;
-            document.getElementById("editEmail-staff").value = row.cells[9].textContent;
-            document.getElementById("editRole").value = row.cells[10].textContent;
-            document.getElementById("editLogId").value = row.cells[11].textContent;
-        } else if (target.classList.contains("deleteBtn")) {
-            // Delete the row
-            const row = target.closest("tr");
-            row.remove();
+    // Delete staff record
+    function deleteStaff(staffId) {
+        if (confirm("Are you sure you want to delete this staff member?")) {
+            $.ajax({
+                url: `http://localhost:8080/api/v1/staff/${staffId}`,
+                type: "DELETE",
+                success: function () {
+                    console.log("Staff deleted successfully.");
+                    loadAllStaff(); // Reload the staff list
+                },
+                error: function (error) {
+                    console.error("Error deleting staff:", error);
+                }
+            });
         }
+    }
+
+    // Add new staff
+    $('#staff-form').submit(function (e) {
+        e.preventDefault();
+
+        const newStaff = {
+            staffId: $('#staffId-staff').val(),
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            designation: $('#designation').val(),
+            gender: $('#gender').val(),
+            birthDate: $('#birthDate').val(),
+            joiningDate: $('#joiningDate').val(),
+            address: {
+                addressLine1: $('#addressLine1').val(),
+                addressLine2: $('#addressLine2').val(),
+                addressLine3: $('#addressLine3').val(),
+                addressLine4: $('#addressLine4').val(),
+                addressLine5: $('#addressLine5').val()
+            },
+            phoneNumber: $('#phoneNumber').val(),
+            email: $('#email-staff').val(),
+            role: $('#role').val(),
+            logId: $('#logId-staff').val(),
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/staff",
+            type: "POST",
+            data: JSON.stringify(newStaff),
+            contentType: "application/json",
+            success: function () {
+                console.log("Staff added successfully.");
+                loadAllStaff(); // Reload the staff list
+                $('#staff-form')[0].reset(); // Clear the form
+            },
+            error: function (error) {
+                console.error("Error adding staff:", error);
+            }
+        });
     });
 
-    // Handle edit staff form submission
-    editStaffForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if (editingRow) {
-            // Update the editing row with new data from the modal form
-            editingRow.cells[1].textContent = document.getElementById("editFirstName").value.trim();
-            editingRow.cells[2].textContent = document.getElementById("editLastName").value.trim();
-            editingRow.cells[3].textContent = document.getElementById("editDesignation").value.trim();
-            editingRow.cells[4].textContent = document.getElementById("editGender").value.trim();
-            editingRow.cells[5].textContent = document.getElementById("editBirthDate").value.trim();
-            editingRow.cells[6].textContent = document.getElementById("editJoiningDate").value.trim();
-            editingRow.cells[7].textContent = [
-                document.getElementById("editAddressLine1").value.trim(),
-                document.getElementById("editAddressLine2").value.trim(),
-                document.getElementById("editAddressLine3").value.trim(),
-                document.getElementById("editAddressLine4").value.trim(),
-                document.getElementById("editAddressLine5").value.trim(),
-            ].filter(line => line).join(", ");
-            editingRow.cells[8].textContent = document.getElementById("editPhoneNumber").value.trim();
-            editingRow.cells[9].textContent = document.getElementById("editEmail-staff").value.trim();
-            editingRow.cells[10].textContent = document.getElementById("editRole").value.trim();
-            editingRow.cells[11].textContent = document.getElementById("editLogId").value.trim();
-
-            // Hide modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById("editStaffModal"));
-            modal.hide();
-        }
+    // Clear form on "Clear" button click
+    $('#clearFormBtn-staff').click(function() {
+        $('#staff-form')[0].reset();
     });
-
-    // Clear form on button click
-    clearFormButton.addEventListener("click", () => clearForm(staffForm));
 });
