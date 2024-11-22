@@ -100,14 +100,6 @@ window.editCrop = function (cropCode) {
     }
 };
 // Delete Crop
-window.deleteCrop = function (cropCode) {
-    const index = crops.findIndex(c => c.cropCode === cropCode);
-    if (index !== -1) {
-        crops.splice(index, 1);
-        $(`#crop-${cropCode}`).remove();
-    }
-};
-
 
 $(document).ready(function () {
     const crops = [];
@@ -162,3 +154,29 @@ $(document).ready(function () {
         $("#crop-form")[0].reset();
     }
 });
+
+//delete
+function deleteCrop(cropCode) {
+    // Show confirmation alert
+    const confirmed = confirm("Are you sure you want to delete this crop?");
+
+    if (confirmed) {
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/crops/' + cropCode, // Ensure correct URL for delete request
+            type: 'DELETE',
+            success: function () {
+                // Remove crop row from the table
+                $('#crop-' + cropCode).remove();
+                alert("Crop deleted successfully.");
+            },
+            error: function (xhr, status, error) {
+                console.log("Error deleting crop:", error);
+                alert("Failed to delete crop.");
+            }
+        });
+    } else {
+        alert("Crop deletion canceled.");
+    }
+}
+
+
