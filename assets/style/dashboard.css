@@ -721,7 +721,6 @@ canvas{
     }
 }
 
-
 /* For tablets and smaller devices */
 @media screen and (max-width: 1024px) {
     .main_card {
@@ -795,24 +794,25 @@ canvas{
         font-size: 1rem;
     }
 }
+
 /*Form*/
 #user {
-    margin-top: 2rem;
-    background-color: #f2f4f6;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
+    margin-top: 1rem;
+   /* background-color: #f2f4f6;
+    border: 1px solid #ddd;*/
+    padding: 10px;
+    border-radius: 5px;
 }
 #user_table {
     color: #333;
 }
 /*vehicle*/
 #vehicle-section {
-               background: #f8f9fa;
-               border: 1px solid #ddd;
+              /* background: #f8f9fa;
+               border: 1px solid #ddd;*/
                border-radius: 8px;
                padding: 10px;
-    margin-top: 20px;
+               margin-top: 5px;
            }
 
 h1 {
@@ -855,7 +855,7 @@ button {
 }
 
 #vehicle-table th {
-    background: #f1f1f1;
+    /*background: #f1f1f1;*/
     font-weight: bold;
 }
 
@@ -865,11 +865,11 @@ button {
 
 /*crop*/
 #crop-section {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
+   /* background-color: #f8f9fa;
+    border: 1px solid #ddd;*/
     border-radius: 8px;
     padding: 20px;
-    margin-top: 30px;
+    margin-top: 5px;
 }
 
 h1 {
