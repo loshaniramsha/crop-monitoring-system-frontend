@@ -4,6 +4,19 @@ function initializeLog() {
     loadAllCrops();
     loadAllFields();
     loadStaffIds();
+    nextId();
+}
+function nextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/monitoringlog/generateId",
+        type: "GET",
+        success: function (data) {
+            $('#logCode').val(data);
+        },
+        error: function (error) {
+            console.error("Error generating next ID:", error);
+        }
+    });
 }
 
 function loadAllLogs() {
