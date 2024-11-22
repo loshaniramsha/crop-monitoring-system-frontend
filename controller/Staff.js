@@ -73,38 +73,6 @@ $(document).ready(function() {
         $('#staff-table tbody').append(staffRow);
     }
 
-    // Edit staff record (Open Modal)
-    function editStaff(staffId) {
-        $.ajax({
-            url: `http://localhost:8080/api/v1/staff/${staffId}`,
-            type: "GET",
-            success: function (staff) {
-                // Populate the modal with the staff's data
-                $('#editStaffId-staff').val(staff.staffId);
-                $('#editFirstName').val(staff.firstName);
-                $('#editLastName').val(staff.lastName);
-                $('#editDesignation').val(staff.designation);
-                $('#editGender').val(staff.gender);
-                $('#editBirthDate').val(staff.birthDate);
-                $('#editJoiningDate').val(staff.joiningDate);
-                $('#editAddressLine1').val(staff.address.addressLine1);
-                $('#editAddressLine2').val(staff.address.addressLine2);
-                $('#editAddressLine3').val(staff.address.addressLine3);
-                $('#editAddressLine4').val(staff.address.addressLine4);
-                $('#editAddressLine5').val(staff.address.addressLine5);
-                $('#editPhoneNumber').val(staff.phoneNumber);
-                $('#editEmail-staff').val(staff.email);
-                $('#editRole').val(staff.role);
-                $('#editLogId').val(staff.logId);
-
-                // Show the modal
-                $('#editStaffModal').modal('show');
-            },
-            error: function (error) {
-                console.error("Error loading staff data for edit:", error);
-            }
-        });
-    }
 
     // Save changes for editing staff
     $('#edit-staff-form').submit(function (e) {
@@ -147,22 +115,6 @@ $(document).ready(function() {
         });
     });
 
-    // Delete staff record
-    function deleteStaff(staffId) {
-        if (confirm("Are you sure you want to delete this staff member?")) {
-            $.ajax({
-                url: `http://localhost:8080/api/v1/staff/${staffId}`,
-                type: "DELETE",
-                success: function () {
-                    console.log("Staff deleted successfully.");
-                    loadAllStaff(); // Reload the staff list
-                },
-                error: function (error) {
-                    console.error("Error deleting staff:", error);
-                }
-            });
-        }
-    }
 
     // Add new staff
     $('#staff-form').submit(function (e) {
@@ -210,3 +162,55 @@ $(document).ready(function() {
         $('#staff-form')[0].reset();
     });
 });
+
+
+// Function to delete staff record
+function deleteStaff(staffId) {
+    console.log("Deleting staff with ID:", staffId); // Debugging line
+    // Show confirmation dialog before deletion
+    if (confirm("Are you sure you want to delete this staff member?")) {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/staff/${staffId}`, // API endpoint to delete the staff member
+            type: "DELETE",
+            success: function () {
+                console.log(`Staff with ID ${staffId} deleted successfully.`);
+                loadAllStaff(); // Reload the staff list after successful deletion
+            },
+            error: function (error) {
+                console.error(`Error deleting staff with ID ${staffId}:`, error);
+            }
+        });
+    }
+}
+
+// Delegate event for dynamically generated delete buttons
+$(document).on('click', '.btn-danger', function() {
+    const staffId = $(this).closest('tr').data('staff-id');
+    deleteStaff(staffId);
+});
+
+// Delegate event for dynamically generated edit buttons
+$(document).on('click', '.btn-primary', function() {
+    const staffId = $(this).closest('tr').data('staff-id');
+    editStaff(staffId);
+});
+
+function editStaff(staffId) {
+    // You should populate the form fields with the staff data from the API
+    $.ajax({
+        url: `http://localhost:8080/api/v1/staff/${staffId}`,
+        type: "GET",
+        success: function (data) {
+            // Populate modal fields with the data
+            $('#editStaffId-staff').val(data.staffId);
+            $('#editFirstName').val(data.firstName);
+            $('#editLastName').val(data.lastName);
+            // Populate other fields similarly
+            $('#editStaffModal').modal('show');
+        },
+        error: function (error) {
+            console.error("Error loading staff data for editing:", error);
+        }
+    });
+}
+
