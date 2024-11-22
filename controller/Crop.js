@@ -3,7 +3,23 @@ function initializeCrops(){
     loadAllCrops();
     loadAllFields();
     loadAllLogs();
+    nextId();
 }
+
+function nextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/crops/generateId", // Adjusted to match the generateCropId endpoint
+        type: "GET",
+        success: function (data) {
+            // Assuming the endpoint returns the next ID as a plain string
+            $('#cropCode').val(data);
+        },
+        error: function (error) {
+            console.error("Error generating next ID:", error);
+        }
+    });
+}
+
 function loadAllCrops(){
     $.ajax({
         url: "http://localhost:8080/api/v1/crops",
