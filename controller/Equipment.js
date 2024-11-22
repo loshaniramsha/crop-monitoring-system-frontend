@@ -112,6 +112,15 @@ function deleteEquipment(equipmentId) {
         }
     });
 }
+//clear
+function clearForm() {
+    $("#equipmentName").val("");
+    $("#equipmentType").val("");
+    $("#equipmentState").val("");
+    $("#fieldId").val("");
+    $("#staffId-equipment").val("");
+}
+$('#clearFormBtn-equipment').click(clearForm);
 
 // Initialize on page load
 $(document).ready(function () {
