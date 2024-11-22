@@ -1,9 +1,21 @@
 initializeVehicles()
 
 function initializeVehicles() {
-
     loadAllVehicles();
     loadStaffIds();
+    nextId();
+}
+function nextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/vehicle/generateId",
+        type: "GET",
+        success: function (data) {
+            $('#vehicleCode').val(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
 }
 
 function loadAllVehicles() {
@@ -20,6 +32,7 @@ function loadAllVehicles() {
         }
     });
 }
+
 
 function loadStaffIds() {
     $.ajax({
@@ -133,10 +146,29 @@ function updateVehicle(code) {
 }
 
 // Delete vehicle
-function deleteVehicle(code) {
-    vehicles = vehicles.filter((v) => v.code !== code);
-    $(`#row-${code}`).remove();
+function deleteVehicle(vehicleCode) {
+    if (confirm("Are you sure you want to delete this vehicle?")) {
+        vehicles = vehicles.filter((v) => v.code !== vehicleCode); // Correct vehicle property
+        const row = $(`#row-${vehicleCode}`);
+        row.remove();
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/vehicle/${vehicleCode}`,
+            type: "DELETE",
+            success: function () {
+                console.log("Vehicle deleted successfully.");
+            },
+            error: function (error) {
+                console.error("Error deleting vehicle:", error);
+                alert("There was an error deleting the vehicle.");
+            }
+        });
+    } else {
+        alert("Vehicle deletion canceled.");
+    }
 }
+
+
 
 function clearForm() {
     $("#vehicleCode").val("");
