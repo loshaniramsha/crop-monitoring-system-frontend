@@ -99,27 +99,6 @@ function editVehicle(vehicleCode) {
     });
 }
 
-// Update vehicle after editing
-function updateVehicle(vehicleCode) {
-    const vehicle = vehicles.find(v => v.vehicleCode === vehicleCode);
-    vehicle.licensePlateNumber = $("#editLicensePlate").val();
-    vehicle.vehicleType = $("#editVehicleType").val();
-    vehicle.state = $("#editState").val();
-    vehicle.staffId = $("#editStaffId").val();
-    vehicle.remark = $("#editRemark").val();
-
-    // Update table row
-    const row = $(`#row-${vehicleCode}`);
-    row.find("td:nth-child(2)").text(vehicle.licensePlateNumber);
-    row.find("td:nth-child(3)").text(vehicle.vehicleType);
-    row.find("td:nth-child(4)").text(vehicle.state);
-    row.find("td:nth-child(5)").text(vehicle.staffId);
-    row.find("td:nth-child(6)").text(vehicle.remark);
-
-    // Close modal
-    $("#editVehicleModal").modal("hide");
-}
-
 // Delete vehicle logic
 function deleteVehicle(vehicleCode) {
     if (confirm("Are you sure you want to delete this vehicle?")) {
@@ -166,8 +145,7 @@ $("#vehicle-form").submit(function (e) {
         success: function (response) {
             // Add the newly saved vehicle to the table
             addVehicleToTable(vehicle);
-
-            // Clear the form fields
+            // Clear the form fields after the data has been successfully saved
             clearForm();
         },
         error: function (xhr, status, error) {
@@ -197,7 +175,6 @@ function addVehicleToTable(vehicle) {
 }
 
 function clearForm() {
-    $("#vehicleCode").val("");
     $("#licensePlateNumber").val("");
     $("#vehicleType").val("");
     $("#vehicleStates").val("");
@@ -208,9 +185,55 @@ function clearForm() {
 // Correctly bind the clear form button click event
 $('#clearFormBtn').click(clearForm);
 
-
-
 // Initialize vehicle management
 $(document).ready(function () {
 
 });
+
+// Function to handle updating vehicle data
+function updateVehicle(vehicleCode) {
+    // Get updated values from the modal form
+    const updatedVehicle = {
+        vehicleCode: vehicleCode, // Keep the same vehicle code
+        licensePlateNumber: $("#editLicensePlate").val(),
+        vehicleType: $("#editVehicleType").val(),
+        state: $("#editState").val(),
+        staffId: $("#editStaffId").val(),
+        remark: $("#editRemark").val(),
+    };
+
+    // Send updated data to the backend
+    $.ajax({
+        url: `http://localhost:8080/api/v1/vehicle/${vehicleCode}`, // Update endpoint with vehicleCode
+        type: "PUT", // Use PUT method for updating
+        contentType: "application/json",
+        data: JSON.stringify(updatedVehicle), // Convert the object to JSON format
+        success: function (response) {
+            // Update the table row with new data
+            const row = $(`#row-${vehicleCode}`);
+            row.find("td:nth-child(2)").text(updatedVehicle.licensePlateNumber);
+            row.find("td:nth-child(3)").text(updatedVehicle.vehicleType);
+            row.find("td:nth-child(4)").text(updatedVehicle.state);
+            row.find("td:nth-child(5)").text(updatedVehicle.staffId);
+            row.find("td:nth-child(6)").text(updatedVehicle.remark);
+
+            // Close the modal
+            $("#editVehicleModal").modal("hide");
+            loadAllVehicles();
+
+            // Optionally show a success message
+            alert("Vehicle updated successfully.");
+        },
+        error: function (error) {
+            console.error("Error updating vehicle:", error);
+            alert("There was an error updating the vehicle. Please try again.");
+        }
+    });
+}
+
+// Binding Save Changes button in the modal
+$("#saveEditVehicleBtn").off("click").on("click", function () {
+    const vehicleCode = $("#editVehicleCode").val(); // Retrieve the vehicleCode from the modal
+    updateVehicle(vehicleCode); // Call the updateVehicle function with the vehicleCode
+});
+
