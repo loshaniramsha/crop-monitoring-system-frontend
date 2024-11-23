@@ -211,3 +211,62 @@ function clear() {
 }
 
 $('#clearButton').click(clear);      // Attach the clear function properly
+
+// Function to load the data for editing
+function editLog(logCode) {
+    $.ajax({
+        url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
+        type: "GET",
+        success: function (log) {
+            // Populate modal fields with the log data
+            $('#editLogCode').val(log.logCode);
+            $('#editLogDate').val(log.logDate);
+            $('#editLogDetails').val(log.logDetails);
+            // Optionally load the image preview if needed
+            $('#editobservedImage-log').val(''); // Reset the file input for a new file
+            $('#editModal-log').modal('show');  // Show the modal
+        },
+        error: function (error) {
+            console.error("Error fetching log:", error);
+        }
+    });
+}
+
+// Save changes when the "Save Changes" button is clicked
+$('#saveEditButton').click(function() {
+    const logCode = $('#editLogCode').val();
+    const logDate = $('#editLogDate').val();
+    const logDetails = $('#editLogDetails').val();
+    const observedImage = $('#editobservedImage-log')[0].files[0];  // For the image file
+
+    if (!logDate || !logDetails || (observedImage && observedImage.size === 0)) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('logCode', logCode);
+    formData.append('logDate', logDate);
+    formData.append('logDetails', logDetails);
+    if (observedImage) {
+        formData.append('observedImage', observedImage);  // Append the new image if provided
+    }
+
+    // Send the updated data to the server
+    $.ajax({
+        url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
+        type: "PUT",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log("Log updated successfully:", response);
+            loadAllLogs();  // Reload the logs to display the updated log
+            $('#editModal-log').modal('hide');  // Close the modal
+        },
+        error: function (error) {
+            console.error("Error updating log:", error);
+            alert("There was an error updating the log.");
+        }
+    });
+});
