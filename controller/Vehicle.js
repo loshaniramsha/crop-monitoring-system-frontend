@@ -62,6 +62,7 @@ function loadStaffIds() {
 
 // Add vehicle to the table
 function addVehicleToTable(vehicle) {
+
     const row = `
         <tr id="row-${vehicle.vehicleCode}">
             <td>${vehicle.vehicleCode}</td>
@@ -143,10 +144,10 @@ function deleteVehicle(vehicleCode) {
     }
 }
 
-// Handle form submission to add vehicle
 $("#vehicle-form").submit(function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
 
+    // Create a vehicle object from form input values
     const vehicle = {
         vehicleCode: $("#vehicleCode").val(),
         licensePlateNumber: $("#licensePlateNumber").val(),
@@ -156,18 +157,47 @@ $("#vehicle-form").submit(function (e) {
         remark: $("#vehiceRemark").val(),
     };
 
-    // Check if vehicle already exists
-    if (!vehicles.find(v => v.vehicleCode === vehicle.vehicleCode)) {
-        vehicles.push(vehicle);
-        addVehicleToTable(vehicle);
-        clearForm();
-    } else {
-        alert("Vehicle with this code already exists.");
-    }
+    // Send vehicle data to the backend
+    $.ajax({
+        url: "http://localhost:8080/api/v1/vehicle", // Ensure this endpoint matches your backend route
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(vehicle), // Convert the object to JSON format
+        success: function (response) {
+            // Add the newly saved vehicle to the table
+            addVehicleToTable(vehicle);
+
+            // Clear the form fields
+            clearForm();
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.error("Error saving vehicle:", error);
+            alert("Error saving vehicle. Please try again.");
+        }
+    });
 });
 
-// Clear form inputs
+// Add vehicle to the table
+function addVehicleToTable(vehicle) {
+    const row = `
+        <tr id="row-${vehicle.vehicleCode}">
+            <td>${vehicle.vehicleCode}</td>
+            <td>${vehicle.licensePlateNumber}</td>
+            <td>${vehicle.vehicleType}</td>
+            <td>${vehicle.state}</td>
+            <td>${vehicle.staffId}</td>
+            <td>${vehicle.remark}</td>
+            <td class="actions">
+                <button class="btn btn-primary btn-sm" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
+            </td>
+        </tr>`;
+    $("#vehicle-table tbody").append(row);
+}
+
 function clearForm() {
+    $("#vehicleCode").val("");
     $("#licensePlateNumber").val("");
     $("#vehicleType").val("");
     $("#vehicleStates").val("");
@@ -175,7 +205,10 @@ function clearForm() {
     $("#vehiceRemark").val("");
 }
 
+// Correctly bind the clear form button click event
 $('#clearFormBtn').click(clearForm);
+
+
 
 // Initialize vehicle management
 $(document).ready(function () {
