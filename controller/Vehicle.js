@@ -1,19 +1,28 @@
-initializeVehicles()
 
+initializeVehicles();
 function initializeVehicles() {
     loadAllVehicles();
     loadStaffIds();
     nextId();
 }
+
 function nextId() {
     $.ajax({
-        url: "http://localhost:8080/api/v1/vehicle/generateId",
+        url: "http://localhost:8080/api/v1/vehicle/generateId",  // Ensure this endpoint returns a plain string
         type: "GET",
         success: function (data) {
-            $('#vehicleCode').val(data);
+            // Log the response to confirm it's a plain string
+            console.log("Generated ID:", data);
+
+            // Set the vehicle code field with the generated ID
+            if (data) {
+                $('#vehicleCode').val(data);  // Directly set the value
+            } else {
+                console.error('No ID returned from the server.');
+            }
         },
         error: function (error) {
-            console.log(error);
+            console.error("Error fetching next vehicle ID:", error);
         }
     });
 }
@@ -23,30 +32,9 @@ function loadAllVehicles() {
         url: "http://localhost:8080/api/v1/vehicle",
         type: "GET",
         success: function (data) {
-            data.map((vehicle) => {
+            vehicles = data;
+            data.forEach(vehicle => {
                 addVehicleToTable(vehicle);
-            })
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
-}
-
-
-function loadStaffIds() {
-    $.ajax({
-        url: "http://localhost:8080/api/v1/staff",
-        type: "GET",
-        success: function (data) {
-            const vehicleSelect = document.getElementById('staffId');
-            $('#staffId').empty();
-            $('#staffId').append(`<option value="">Select</option>`);
-            data.forEach(staff => {
-                const option = document.createElement('option');
-                option.value = staff.staffId;
-                option.textContent = staff.staffId;
-                vehicleSelect.appendChild(option);
             });
         },
         error: function (error) {
@@ -55,37 +43,22 @@ function loadStaffIds() {
     });
 }
 
-// Populate staff IDs
-$(document).ready(function () {
-    const staffIdSelect = $("#staffId, #editStaffId");
-    staffIds.forEach((id) =>
-        staffIdSelect.append(`<option value="${id}">${id}</option>`)
-    );
-
-    // Handle form submission
-    $("#vehicle-form").submit(function (e) {
-        e.preventDefault();
-        const vehicle = {
-            code: $("#vehicleCode").val(),
-            license: $("#licensePlateNumber").val(),
-            type: $("#vehicleType").val(),
-            state: $("#vehicleStates").val(),
-            staffId: $("#staffId").val(),
-            remark: $("#vehiceRemark").val(),
-        };
-
-        if (!vehicles.find((v) => v.code === vehicle.code)) {
-            vehicles.push(vehicle);
-            addVehicleToTable(vehicle);
-            clearForm();
-        } else {
-            alert("Vehicle with this code already exists.");
+function loadStaffIds() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/staff",
+        type: "GET",
+        success: function (data) {
+            staffIds = data;
+            const staffSelect = $("#staffId, #editStaffId");
+            staffIds.forEach(staff => {
+                staffSelect.append(`<option value="${staff.staffId}">${staff.staffId}</option>`);
+            });
+        },
+        error: function (error) {
+            console.log(error);
         }
     });
-
-    // Clear form button
-    $("#clearFormBtn").click(clearForm);
-});
+}
 
 // Add vehicle to the table
 function addVehicleToTable(vehicle) {
@@ -98,22 +71,20 @@ function addVehicleToTable(vehicle) {
             <td>${vehicle.staffId}</td>
             <td>${vehicle.remark}</td>
             <td class="actions">
-                <button class="btn btn-primary btn-sm" onclick="editVehicle('${vehicle.code}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteVehicle('${vehicle.code}')">Delete</button>
+                <button class="btn btn-primary btn-sm" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
             </td>
         </tr>`;
     $("#vehicle-table tbody").append(row);
 }
 
-// Clear form
+// Edit vehicle logic
+function editVehicle(vehicleCode) {
+    const vehicle = vehicles.find(v => v.vehicleCode === vehicleCode);
 
-// Edit vehicle with modal
-function editVehicle(code) {
-    const vehicle = vehicles.find((v) => v.code === code);
-
-    $("#editVehicleCode").val(vehicle.code);
-    $("#editLicensePlate").val(vehicle.license);
-    $("#editVehicleType").val(vehicle.type);
+    $("#editVehicleCode").val(vehicle.vehicleCode);
+    $("#editLicensePlate").val(vehicle.licensePlateNumber);
+    $("#editVehicleType").val(vehicle.vehicleType);
     $("#editState").val(vehicle.state);
     $("#editStaffId").val(vehicle.staffId);
     $("#editRemark").val(vehicle.remark);
@@ -121,42 +92,46 @@ function editVehicle(code) {
     // Show modal
     $("#editVehicleModal").modal("show");
 
+    // Handle save button click for editing
     $("#saveEditVehicleBtn").off("click").on("click", function () {
-        updateVehicle(code);
+        updateVehicle(vehicleCode);
     });
 }
 
-// Update vehicle logic
-function updateVehicle(code) {
-    const vehicle = vehicles.find((v) => v.code === code);
-    vehicle.license = $("#editLicensePlate").val();
-    vehicle.type = $("#editVehicleType").val();
+// Update vehicle after editing
+function updateVehicle(vehicleCode) {
+    const vehicle = vehicles.find(v => v.vehicleCode === vehicleCode);
+    vehicle.licensePlateNumber = $("#editLicensePlate").val();
+    vehicle.vehicleType = $("#editVehicleType").val();
     vehicle.state = $("#editState").val();
     vehicle.staffId = $("#editStaffId").val();
     vehicle.remark = $("#editRemark").val();
 
-    const row = $(`#row-${code}`);
-    row.find("td:nth-child(2)").text(vehicle.license);
-    row.find("td:nth-child(3)").text(vehicle.type);
+    // Update table row
+    const row = $(`#row-${vehicleCode}`);
+    row.find("td:nth-child(2)").text(vehicle.licensePlateNumber);
+    row.find("td:nth-child(3)").text(vehicle.vehicleType);
     row.find("td:nth-child(4)").text(vehicle.state);
     row.find("td:nth-child(5)").text(vehicle.staffId);
     row.find("td:nth-child(6)").text(vehicle.remark);
 
+    // Close modal
     $("#editVehicleModal").modal("hide");
 }
 
-// Delete vehicle
+// Delete vehicle logic
 function deleteVehicle(vehicleCode) {
     if (confirm("Are you sure you want to delete this vehicle?")) {
-        vehicles = vehicles.filter((v) => v.code !== vehicleCode); // Correct vehicle property
-        const row = $(`#row-${vehicleCode}`);
-        row.remove();
+        // Remove vehicle from array and update table
+        vehicles = vehicles.filter(v => v.vehicleCode !== vehicleCode);
+        $(`#row-${vehicleCode}`).remove();
 
+        // Call API to delete the vehicle from the backend
         $.ajax({
             url: `http://localhost:8080/api/v1/vehicle/${vehicleCode}`,
             type: "DELETE",
             success: function () {
-                console.log("Vehicle deleted successfully.");
+                alert("Vehicle deleted successfully.");
             },
             error: function (error) {
                 console.error("Error deleting vehicle:", error);
@@ -168,6 +143,30 @@ function deleteVehicle(vehicleCode) {
     }
 }
 
+// Handle form submission to add vehicle
+$("#vehicle-form").submit(function (e) {
+    e.preventDefault();
+
+    const vehicle = {
+        vehicleCode: $("#vehicleCode").val(),
+        licensePlateNumber: $("#licensePlateNumber").val(),
+        vehicleType: $("#vehicleType").val(),
+        state: $("#vehicleStates").val(),
+        staffId: $("#staffId").val(),
+        remark: $("#vehiceRemark").val(),
+    };
+
+    // Check if vehicle already exists
+    if (!vehicles.find(v => v.vehicleCode === vehicle.vehicleCode)) {
+        vehicles.push(vehicle);
+        addVehicleToTable(vehicle);
+        clearForm();
+    } else {
+        alert("Vehicle with this code already exists.");
+    }
+});
+
+// Clear form inputs
 function clearForm() {
     $("#licensePlateNumber").val("");
     $("#vehicleType").val("");
@@ -175,4 +174,10 @@ function clearForm() {
     $("#staffId").val("");
     $("#vehiceRemark").val("");
 }
+
 $('#clearFormBtn').click(clearForm);
+
+// Initialize vehicle management
+$(document).ready(function () {
+
+});
