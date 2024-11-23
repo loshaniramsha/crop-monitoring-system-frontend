@@ -43,17 +43,29 @@
         <form action="" class="sign-up-form">
             <h2 class="tittle">Sign up</h2>
             <div class="input-field">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Username">
-            </div>
-            <div class="input-field">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Email">
+                <input type="email" placeholder="Email">
             </div>
             <div class="input-field">
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="Password">
             </div>
+            <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="re-enter Password">
+            </div>
+            <div class="input-field">
+                <i class="fas fa-user"></i>
+                <select id="jobRoleSelect">
+                    <option value="" disabled selected>Select Job Role</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="manager">Manager</option>
+                    <option value="qa">QA Engineer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
             <input type="submit" value="Sign up" class="btn">
             <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
@@ -71,6 +83,9 @@
                 </a>
             </div>
         </form>
+
+
+
     </div>
     <div class="panels-container">
         <div class="panel left-panel">
