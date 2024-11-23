@@ -228,31 +228,15 @@
         </ul>
     </section>
     <canvas id="chart"></canvas>
+
     <!--user-->
     <section class="user" id="user" style="padding: 20px;">
-        <h1 class="text-center mb-5">User Register</h1>
-        <form id="user_form">
-            <div class="form-group mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
-            </div>
-            <div class="form-group mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
-            </div>
-            <div class="form-group mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
-            </div>
-            <button class="btn btn-success" type="submit" id="addBtn">Add</button>
-            <button class="btn btn-warning" type="button" id="clearBtn">Clear</button>
-        </form>
+        <h1 class="text-center mb-5">User Management</h1>
         <table class="table mt-4" id="user_table">
             <thead>
             <tr>
-                <th scope="col">Name</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
+                <th scope="col">Role</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -268,24 +252,34 @@
                     <div class="modal-body">
                         <form id="edit_form">
                             <div class="form-group mb-3">
-                                <label for="editName" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="editName" required>
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="editEmail" required>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="editEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="editEmail" disabled>
+                                <label for="editRole-user" class="form-label">Role</label>
+                                <select class="form-control" id="editRole-user" required>
+                                    <option value="developer">Developer</option>
+                                    <option value="designer">Designer</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="qa">QA Engineer</option>
+                                    <option value="admin">Admin</option>
+                                </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="editPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="editPassword" required>
                             </div>
-                            <button type="button" class="btn btn-success" id="updateBtn">Update</button>
+                            <button type="button" class="btn btn-success" id="updateBtn">Save Change</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
     </section>
+
     <!--Vehicle-->
     <section id="vehicle-section" style="padding: 20px;">
         <h1 class="text-center mb-5">Vehicle Registration</h1>
@@ -350,11 +344,11 @@
         </table>
 
         <!-- Modal for Editing Vehicle -->
-        <div class="modal fade" id="editVehicleModal" tabindex="-1">
+        <div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Vehicle</h5>
+                        <h5 class="modal-title" id="editVehicleModalLabel">Edit Vehicle</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -378,12 +372,16 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="editState">State</label>
-                                <input type="text" class="form-control" id="editState" required>
+                                <select class="form-control" id="editState" required>
+                                    <option value="AVAILABLE">AVAILABLE</option>
+                                    <option value="NOT_AVAILABLE">NOT_AVAILABLE</option>
+                                </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="editStaffId">Staff ID</label>
                                 <select class="form-control" id="editStaffId" required>
                                     <option value="">Select Staff ID</option>
+                                    <!-- Staff IDs will be populated dynamically -->
                                 </select>
                             </div>
                             <div class="form-group mb-3">
@@ -397,6 +395,7 @@
             </div>
         </div>
     </section>
+
     <!--crops-->
     <section id="crop-section">
         <h1 class="text-center">Crop Management</h1>
@@ -641,6 +640,7 @@
             </div>
         </div>
     </section>
+
     <!--field-->
     <section id="field-section">
         <h1 class="text-center">Field Management</h1>
@@ -732,6 +732,7 @@
             <tbody></tbody>
         </table>
     </section>
+
     <!--Staff-->
     <section id="staff-section">
         <h1 class="text-center">Staff Management</h1>
@@ -808,7 +809,7 @@
                     <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter Phone Number" required>
                 </div>
                 <div class="col-md-6 form-group">
-                    <label for="email">Email</label>
+                    <label for="email-staff">Email</label>
                     <input type="email" id="email-staff" class="form-control" placeholder="Enter Email" required>
                 </div>
             </div>
@@ -854,7 +855,11 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Staff records will be inserted here -->
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="editStaff(${staff.staffId})">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteStaff(${staff.staffId})">Delete</button>
+            </td>
+
             </tbody>
         </table>
         <!-- Edit Modal -->
@@ -960,6 +965,7 @@
             </div>
         </div>
     </section>
+
     <!--Log-->
     <section id="monitoring-log-section">
         <h1 class="text-center">Monitoring Log Management</h1>
@@ -1082,7 +1088,6 @@
             </div>
         </div>
     </section>
-
 
 </main>
 <section class="right">
@@ -1258,7 +1263,7 @@
 <script src="assets/lib/jquery-3.7.1.min.js"></script>
 <script src="script/script.js"></script>
 
-<!--<script type="module" src="../../controller/User.js"></script>-->
+<script src="controller/User.js"></script>
 <script src="controller/Vehicle.js"></script>
 <script src="controller/Crop.js"></script>
 <script src="controller/Equipment.js"></script>
