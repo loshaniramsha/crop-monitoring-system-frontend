@@ -75,6 +75,7 @@ form .sign-up-form{
     height: 50px;
     background: #f0f0f0;
     margin: 10px 0;
+
     border: 2px solid #df4adf;
     border-radius: 50px;
     display: flex;
@@ -289,4 +290,78 @@ a{
 }
 
 
-/*%%%%%%%%%%%%%%*/
+/* General Input Field Styles */
+.input-field {
+    width: 100%;
+    height: 50px;
+    background: #f0f0f0;
+    margin: 10px 0;
+    border: 2px solid #df4adf;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Added for positioning icon */
+}
+
+.input-field i {
+    position: absolute;
+    left: 15px; /* Position the icon inside input field */
+    color: #666;
+    font-size: 18px;
+}
+
+/* Style for text input and password fields */
+.input-field input {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+    padding-left: 40px; /* Space for the icon */
+    border-radius: 50px;
+}
+
+/* Style for the select dropdown */
+.input-field select {
+    width: 100%;
+    height: 40px;
+    background: #f0f0f0;
+    margin: 10px 0;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+    padding-left: 40px; /* Add padding for icon alignment */
+    padding-right: 15px; /* Space for the custom arrow */
+    border-radius: 50px;
+    outline: none;
+    appearance: none; /* Removes the default dropdown arrow */
+    -webkit-appearance: none; /* Safari */
+    -moz-appearance: none; /* Firefox */
+}
+
+/* Focus state for select */
+.input-field select:focus {
+    border-color: #773a77; /* Darker border on focus */
+    background-color: #ffffff;
+}
+
+/* Remove default dropdown arrow in Internet Explorer and Edge */
+.input-field select::-ms-expand {
+    display: none;
+}
+
+/* Custom dropdown arrow (after select) */
+.input-field select::after {
+    content: "▼"; /* Custom downward arrow */
+    font-size: 18px;
+    color: #444;
+    position: absolute;
+    right: 20px; /* Adjust position of arrow */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ensure arrow does not block select functionality */
+}
