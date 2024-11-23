@@ -59,11 +59,11 @@ $(document).ready(function() {
                 <td>${staff.gender}</td>
                 <td>${staff.birthDate}</td>
                 <td>${staff.joiningDate}</td>
-                <td>${staff.address}</td>
+                <td>${staff.addressLine5}</td>
                 <td>${staff.phoneNumber}</td>
                 <td>${staff.email}</td>
                 <td>${staff.role}</td>
-                <td>${staff.logId}</td>
+                <td>${staff.logCode}</td>
                 <td>
                     <button class="btn btn-primary btn-sm" onclick="editStaff(${staff.staffId})">Edit</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteStaff(${staff.staffId})">Delete</button>
@@ -117,45 +117,80 @@ $(document).ready(function() {
 
 
     // Add new staff
-    $('#staff-form').submit(function (e) {
-        e.preventDefault();
+    $(document).ready(function () {
+        // Submit new staff form
+        $('#staff-form').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
 
-        const newStaff = {
-            staffId: $('#staffId-staff').val(),
-            firstName: $('#firstName').val(),
-            lastName: $('#lastName').val(),
-            designation: $('#designation').val(),
-            gender: $('#gender').val(),
-            birthDate: $('#birthDate').val(),
-            joiningDate: $('#joiningDate').val(),
-            address: {
-                addressLine1: $('#addressLine1').val(),
-                addressLine2: $('#addressLine2').val(),
-                addressLine3: $('#addressLine3').val(),
-                addressLine4: $('#addressLine4').val(),
-                addressLine5: $('#addressLine5').val()
-            },
-            phoneNumber: $('#phoneNumber').val(),
-            email: $('#email-staff').val(),
-            role: $('#role').val(),
-            logId: $('#logId-staff').val(),
-        };
+            // Create a new staff object from the form inputs
+            const newStaff = {
+                staffId: $('#staffId-staff').val(),
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val(),
+                designation: $('#designation').val(),
+                gender: $('#gender').val(),
+                birthDate: $('#birthDate').val(),
+                joiningDate: $('#joiningDate').val(),
+                address: {
+                    addressLine1: $('#addressLine1').val(),
+                    addressLine2: $('#addressLine2').val(),
+                    addressLine3: $('#addressLine3').val(),
+                    addressLine4: $('#addressLine4').val(),
+                    addressLine5: $('#addressLine5').val()
+                },
+                phoneNumber: $('#phoneNumber').val(),
+                role: $('#role').val(),
+                logId: $('#logId-staff').val(),
+                email: $('#email-staff').val(),
+            };
 
-        $.ajax({
-            url: "http://localhost:8080/api/v1/staff",
-            type: "POST",
-            data: JSON.stringify(newStaff),
-            contentType: "application/json",
-            success: function () {
-                console.log("Staff added successfully.");
-                loadAllStaff(); // Reload the staff list
-                $('#staff-form')[0].reset(); // Clear the form
-            },
-            error: function (error) {
-                console.error("Error adding staff:", error);
-            }
+            // Send the new staff data to the backend
+            $.ajax({
+                url: "http://localhost:8080/api/v1/staff", // Backend endpoint
+                type: "POST",
+                data: JSON.stringify(newStaff),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log("Staff added successfully:", response);
+
+                    // Add the new staff to the table
+                    addStaffToTable(newStaff);
+
+                    // Reset the form fields
+                    $('#staff-form')[0].reset();
+                },
+                error: function (error) {
+                    console.error("Error adding staff:", error);
+                }
+            });
         });
+
+        // Add a new staff row to the table
+        function addStaffToTable(staff) {
+            const staffRow = `
+            <tr data-staff-id="${staff.staffId}">
+                <td>${staff.staffId}</td>
+                <td>${staff.firstName}</td>
+                <td>${staff.lastName}</td>
+                <td>${staff.designation}</td>
+                <td>${staff.gender}</td>
+                <td>${staff.birthDate}</td>
+                <td>${staff.joiningDate}</td>
+                <td>${staff.address.addressLine5}</td>
+                <td>${staff.phoneNumber}</td>
+                <td>${staff.email}</td>
+                <td>${staff.role}</td>
+                <td>${staff.logId}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick="editStaff('${staff.staffId}')">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteStaff('${staff.staffId}')">Delete</button>
+                </td>
+            </tr>
+        `;
+            $('#staff-table tbody').append(staffRow);
+        }
     });
+
 
     // Clear form on "Clear" button click
     $('#clearFormBtn-staff').click(function() {
@@ -205,6 +240,19 @@ function editStaff(staffId) {
             $('#editStaffId-staff').val(data.staffId);
             $('#editFirstName').val(data.firstName);
             $('#editLastName').val(data.lastName);
+            $('#editDesignation').val(data.designation);
+            $('#editGender').val(data.gender);
+            $('#editBirthDate').val(data.birthDate);
+            $('#editJoiningDate').val(data.joiningDate);
+            $('#editAddressLine1').val(data.addressLine1);
+            $('#editAddressLine2').val(data.addressLine2);
+            $('#editAddressLine3').val(data.addressLine3);
+            $('#editAddressLine4').val(data.addressLine4);
+            $('#editAddressLine5').val(data.addressLine5);
+            $('#editPhoneNumber').val(data.phoneNumber);
+            $('#editRole').val(data.role);
+            $('#editLogId-staff').val(data.logId);
+            $('#editEmail-staff').val(data.email);
             // Populate other fields similarly
             $('#editStaffModal').modal('show');
         },
