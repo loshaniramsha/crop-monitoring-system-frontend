@@ -73,49 +73,6 @@ $(document).ready(function() {
         $('#staff-table tbody').append(staffRow);
     }
 
-
-    // Save changes for editing staff
-    $('#edit-staff-form').submit(function (e) {
-        e.preventDefault();
-
-        const updatedStaff = {
-            staffId: $('#editStaffId-staff').val(),
-            firstName: $('#editFirstName').val(),
-            lastName: $('#editLastName').val(),
-            designation: $('#editDesignation').val(),
-            gender: $('#editGender').val(),
-            birthDate: $('#editBirthDate').val(),
-            joiningDate: $('#editJoiningDate').val(),
-            address: {
-                addressLine1: $('#editAddressLine1').val(),
-                addressLine2: $('#editAddressLine2').val(),
-                addressLine3: $('#editAddressLine3').val(),
-                addressLine4: $('#editAddressLine4').val(),
-                addressLine5: $('#editAddressLine5').val()
-            },
-            phoneNumber: $('#editPhoneNumber').val(),
-            email: $('#editEmail-staff').val(),
-            role: $('#editRole').val(),
-            logId: $('#editLogId').val(),
-        };
-
-        $.ajax({
-            url: `http://localhost:8080/api/v1/staff/${updatedStaff.staffId}`,
-            type: "PUT",
-            data: JSON.stringify(updatedStaff),
-            contentType: "application/json",
-            success: function () {
-                console.log("Staff updated successfully.");
-                loadAllStaff(); // Reload the staff list
-                $('#editStaffModal').modal('hide'); // Close the modal
-            },
-            error: function (error) {
-                console.error("Error updating staff:", error);
-            }
-        });
-    });
-
-
     // Add new staff
     $(document).ready(function () {
         // Submit new staff form
@@ -229,36 +186,115 @@ $(document).on('click', '.btn-primary', function() {
     const staffId = $(this).closest('tr').data('staff-id');
     editStaff(staffId);
 });
-
+/************/
 function editStaff(staffId) {
-    // You should populate the form fields with the staff data from the API
     $.ajax({
-        url: `http://localhost:8080/api/v1/staff/${staffId}`,
+        url: `http://localhost:8080/api/v1/staff/${staffId}`, // Backend API to fetch staff details
         type: "GET",
-        success: function (data) {
-            // Populate modal fields with the data
-            $('#editStaffId-staff').val(data.staffId);
-            $('#editFirstName').val(data.firstName);
-            $('#editLastName').val(data.lastName);
-            $('#editDesignation').val(data.designation);
-            $('#editGender').val(data.gender);
-            $('#editBirthDate').val(data.birthDate);
-            $('#editJoiningDate').val(data.joiningDate);
-            $('#editAddressLine1').val(data.addressLine1);
-            $('#editAddressLine2').val(data.addressLine2);
-            $('#editAddressLine3').val(data.addressLine3);
-            $('#editAddressLine4').val(data.addressLine4);
-            $('#editAddressLine5').val(data.addressLine5);
-            $('#editPhoneNumber').val(data.phoneNumber);
-            $('#editRole').val(data.role);
-            $('#editLogId-staff').val(data.logId);
-            $('#editEmail-staff').val(data.email);
-            // Populate other fields similarly
-            $('#editStaffModal').modal('show');
+        success: function (staff) {
+            if (staff) {
+                // Populate modal fields with fetched staff data
+                $('#editStaffId-staff').val(staff.staffId);
+                $('#editFirstName').val(staff.firstName);
+                $('#editLastName').val(staff.lastName);
+                $('#editDesignation').val(staff.designation);
+                $('#editGender').val(staff.gender);
+                $('#editBirthDate').val(staff.birthDate);
+                $('#editJoiningDate').val(staff.joiningDate);
+                $('#editAddressLine5').val(staff.addressLine5);
+                $('#editPhoneNumber').val(staff.phoneNumber);
+                $('#editEmail-staff').val(staff.email);
+                $('#editRole').val(staff.role);
+                $('#editLogId').val(staff.logId);
+
+                // Show the modal
+                $('#editStaffModal').modal('show');
+            } else {
+                console.error("No data found for the staff ID:", staffId);
+            }
         },
-        error: function (error) {
-            console.error("Error loading staff data for editing:", error);
+        error: function (xhr, status, error) {
+            console.error("Error fetching staff details:", xhr.responseText || error);
         }
     });
 }
 
+$('#edit-staff-form').submit(function (e) {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Collect updated staff data from the modal form
+    const updatedStaff = {
+        staffId: $('#editStaffId-staff').val(),
+        firstName: $('#editFirstName').val(),
+        lastName: $('#editLastName').val(),
+        designation: $('#editDesignation').val(),
+        gender: $('#editGender').val(),
+        birthDate: $('#editBirthDate').val(),
+        joiningDate: $('#editJoiningDate').val(),
+        addressLine5: $('#editAddressLine5').val(),
+        phoneNumber: $('#editPhoneNumber').val(),
+        email: $('#editEmail-staff').val(),
+        role: $('#editRole').val(),
+        logId: $('#editLogId').val()
+    };
+
+    $.ajax({
+        url: `http://localhost:8080/api/v1/staff/${updatedStaff.staffId}`, // Backend API to update staff details
+        type: "PUT",
+        data: JSON.stringify(updatedStaff),
+        contentType: "application/json", // JSON payload
+        success: function (response) {
+            console.log("Staff updated successfully:", response);
+
+            // Reload staff data into the table
+            loadAllStaff();
+
+            // Hide the modal
+            $('#editStaffModal').modal('hide');
+        },
+        error: function (xhr, status, error) {
+            console.error("Error updating staff:", xhr.responseText || error);
+            alert(`Failed to update staff: ${xhr.responseText || error}`);
+        }
+    });
+});
+
+function loadAllStaff() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/staff", // Backend API to fetch all staff
+        type: "GET",
+        success: function (data) {
+            $('#staff-table tbody').empty(); // Clear the table body
+            data.forEach((staff) => {
+                addStaffToTable(staff); // Add each staff row to the table
+            });
+        },
+        error: function (error) {
+            console.error("Error loading staff data:", error);
+        }
+    });
+}
+
+function addStaffToTable(staff) {
+    const staffRow = `
+        <tr data-staff-id="${staff.staffId}">
+            <td>${staff.staffId}</td>
+            <td>${staff.firstName}</td>
+            <td>${staff.lastName}</td>
+            <td>${staff.designation}</td>
+            <td>${staff.gender}</td>
+            <td>${staff.birthDate}</td>
+            <td>${staff.joiningDate}</td>
+            <td>${staff.addressLine5}</td>
+            <td>${staff.phoneNumber}</td>
+            <td>${staff.email}</td>
+            <td>${staff.role}</td>
+            <td>${staff.logId}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="editStaff('${staff.staffId}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteStaff('${staff.staffId}')">Delete</button>
+            </td>
+        </tr>
+    `;
+    $('#staff-table tbody').append(staffRow);
+}
