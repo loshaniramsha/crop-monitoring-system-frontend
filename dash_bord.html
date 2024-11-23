@@ -912,7 +912,7 @@
                                 <input type="date" id="editJoiningDate" class="form-control" required>
                             </div>
                             <!-- Address -->
-                            <div class="mb-3">
+<!--                            <div class="mb-3">
                                 <label for="editAddressLine1" class="form-label">Address Line 1</label>
                                 <input type="text" id="editAddressLine1" class="form-control" required>
                             </div>
@@ -927,7 +927,7 @@
                             <div class="mb-3">
                                 <label for="editAddressLine4" class="form-label">Address Line 4</label>
                                 <input type="text" id="editAddressLine4" class="form-control">
-                            </div>
+                            </div>-->
                             <div class="mb-3">
                                 <label for="editAddressLine5" class="form-label">Address Line 5</label>
                                 <input type="text" id="editAddressLine5" class="form-control">
@@ -963,6 +963,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 
     <!--Log-->
@@ -993,33 +994,7 @@
                     <input type="file" id="observedImage" class="form-control" accept="image/*" required>
                 </div>
             </div>
-            <!-- Field Selection -->
-       <!--     <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="fieldSelect">Select Field</label>
-                    <select id="fieldSelect" class="form-control" required>
-                        <option value="">Loading Fields...</option>
-                    </select>
-                </div>
-            </div>-->
-            <!-- Crop Selection -->
-        <!--    <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="cropSelect">Select Crop</label>
-                    <select id="cropSelect" class="form-control" required>
-                        <option value="">Loading Crops...</option>
-                    </select>
-                </div>
-            </div>-->
-            <!-- Staff Selection -->
-         <!--   <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="staffSelect">Select Staff</label>
-                    <select id="staffSelect" class="form-control" required>
-                        <option value="">Loading Staff...</option>
-                    </select>
-                </div>
-            </div>-->
+
             <!-- Buttons -->
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -1036,9 +1011,6 @@
                 <th>Date</th>
                 <th>Details</th>
                 <th>Image</th>
-              <!--  <th>Field</th>
-                <th>Crop</th>
-                <th>Staff</th>-->
                 <th>Actions</th>
             </tr>
             </thead>
@@ -1068,17 +1040,11 @@
                                 <label for="editLogDetails">Log Details</label>
                                 <textarea id="editLogDetails" class="form-control" rows="3"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="editFieldSelect">Field</label>
-                                <select id="editFieldSelect" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editCropSelect">Crop</label>
-                                <select id="editCropSelect" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editStaffSelect">Staff</label>
-                                <select id="editStaffSelect" class="form-control"></select>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label for="editobservedImage-log">Observed Image</label>
+                                    <input type="file" id="editobservedImage-log" class="form-control" accept="image/*" required>
+                                </div>
                             </div>
                             <button type="button" id="saveEditButton" class="btn btn-primary mt-3">Save Changes</button>
                         </form>
