@@ -94,9 +94,6 @@ function addLogToTable(log) {
         <td>${log.logDate}</td>
         <td>${log.logDetails}</td>
         <td><img src="${log.observedImage}" alt="Observed Image" width="100"></td>
-        <td>${log.fieldId}</td>
-        <td>${log.cropCode}</td>
-        <td>${log.staffId}</td>
         <td>
             <button class="btn btn-primary btn-sm" onclick="editLog('${log.logCode}')">Edit</button>
             <button class="btn btn-danger btn-sm" onclick="deleteLog('${log.logCode}')">Delete</button>
@@ -166,30 +163,51 @@ function deleteLog(logCode) {
     }
 }
 
-
 $('#addButton').click(function() {
-    const newLog = {
-        logCode: $('#logCode').val(),
-        logDate: $('#logDate').val(),
-        logDetails: $('#logDetails').val(),
-        fieldId: $('#fieldSelect').val(),
-        cropId: $('#cropSelect').val(),
-        staffId: $('#staffSelect').val()
-    };
+    // Collect form data
+    const logCode = $('#logCode').val();
+    const logDate = $('#logDate').val();
+    const logDetails = $('#logDetails').val();
+    const observedImage = $('#observedImage')[0].files[0];  // For file input
+
+    // Check if all required fields are filled
+    if (!logCode || !logDate || !logDetails || !observedImage) {
+        alert("Please fill in all fields and upload an image.");
+        return;
+    }
+
+    // Prepare the FormData object to handle both file and text data
+    const formData = new FormData();
+    formData.append('logCode', logCode);
+    formData.append('logDate', logDate);
+    formData.append('logDetails', logDetails);
+    formData.append('observedImage', observedImage);
+
+    // Send the data to the server
     $.ajax({
         url: 'http://localhost:8080/api/v1/monitoringlog',
         type: 'POST',
-        data: JSON.stringify(newLog),
-        contentType: 'application/json',
-        success: function () {
-            loadAllLogs();  // Refresh the log table after adding
+        data: formData,
+        contentType: false,  // Do not set content type, as FormData sets it automatically
+        processData: false,  // Let jQuery handle the data processing
+        success: function(response) {
+            console.log("Monitoring log added successfully:", response);
+            loadAllLogs();  // Reload the logs to display the newly added one
+            $('#monitoring-log-form')[0].reset();  // Reset the form after submission
+            nextId(); // Optionally, regenerate the next ID for the logCode
         },
-        error: function (error) {
+        error: function(error) {
             console.error("Error adding new log:", error);
+            alert("There was an error while adding the log.");
         }
     });
 });
 
-$('#clearButton').click(function() {
-    $('#monitoring-log-form')[0].reset();  // Reset the form fields
-});
+
+function clear() {
+    $('#logDate').val('');
+    $('#logDetails').val('');
+    $('#observedImage').val('');
+}
+
+$('#clearButton').click(clear);      // Attach the clear function properly
