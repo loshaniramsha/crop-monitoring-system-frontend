@@ -1,5 +1,12 @@
+initializeUser()
+
 function initializeUser() {
     loadAllUser();
+    setEmail();
+}
+
+function setEmail() {
+    $("#email").val(localStorage.getItem("email"));
 }
 function loadAllUser() {
     $.ajax({
@@ -79,20 +86,46 @@ $('#updateBtn').click(function () {
     });
 });
 
-$(document).on('click', '.delete-btn', function () {
-    const email = $(this).data("email");
-    if (confirm("Are you sure you want to delete this user?")) {
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/${email}`,
-            type: "DELETE",
-            success: function () {
-                loadAllUser(); // Reload the user table after deletion
-            },
-            error: function (error) {
-                console.log("Error deleting user:", error);
-            }
-        });
-    }
+$('#btn-acc-delete').on('click', function () {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    let email = localStorage.getItem("email")
+    let password = $("#deletePassword").val();
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/auth/signin",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            email: email,
+            password: password
+        }),
+        success: function (data) {
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/${email}`,
+                type: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + data.token
+                },
+                success: function () {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("email");
+                    window.location.href = "index.html";
+                },
+                error: function (xhr, status, error) {
+                    alert("Error deleting user: " + error);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Password wrong!!");
+        }
+
+    });
 });
+
+/*^^^^^^^^^^^^^^^*/
+
 
 initializeUser();

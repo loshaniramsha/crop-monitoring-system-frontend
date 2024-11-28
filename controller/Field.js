@@ -1,95 +1,11 @@
+initializeFields()
 document.addEventListener("DOMContentLoaded", () => {
-    // DOM Elements
     const fieldForm = document.getElementById("field-form");
     const fieldTableBody = document.querySelector("#field-table tbody");
     const clearFormButton = document.getElementById("clearFormBtn-field");
 
-    // Mock Data for Populating the Select Dropdowns
-    const fields = [
-        { id: "F001", name: "Field 1" },
-        { id: "F002", name: "Field 2" },
-        { id: "F003", name: "Field 3" }
-    ];
-
-    const staff = [
-        { id: "S001", name: "Staff 1" },
-        { id: "S002", name: "Staff 2" },
-        { id: "S003", name: "Staff 3" }
-    ];
-
-    const crops = [
-        { id: "C001", name: "Crop 1" },
-        { id: "C002", name: "Crop 2" },
-        { id: "C003", name: "Crop 3" }
-    ];
-
-    const equipment = [
-        { id: "E001", name: "Equipment 1" },
-        { id: "E002", name: "Equipment 2" },
-        { id: "E003", name: "Equipment 3" }
-    ];
-
-    // Function to populate select options dynamically
-    function populateSelectOptions() {
-        const logSelect = document.getElementById("logId-field");
-        const staffSelect = document.getElementById("staffId-field");
-        const cropSelect = document.getElementById("cropId-field");
-        const equipmentSelect = document.getElementById("equipmentId-field");
-
-        // Populate Log ID dropdown
-        fields.forEach(field => {
-            const option = document.createElement("option");
-            option.value = field.id;
-            option.textContent = field.name;
-            logSelect.appendChild(option);
-        });
-
-        // Populate Staff ID dropdown
-        staff.forEach(member => {
-            const option = document.createElement("option");
-            option.value = member.id;
-            option.textContent = member.name;
-            staffSelect.appendChild(option);
-        });
-
-        // Populate Crops ID dropdown
-        crops.forEach(crop => {
-            const option = document.createElement("option");
-            option.value = crop.id;
-            option.textContent = crop.name;
-            cropSelect.appendChild(option);
-        });
-
-        // Populate Equipment ID dropdown
-        equipment.forEach(eq => {
-            const option = document.createElement("option");
-            option.value = eq.id;
-            option.textContent = eq.name;
-            equipmentSelect.appendChild(option);
-        });
-    }
-
-    // Function to clear the form
-    function clearForm() {
-        fieldForm.reset();
-    }
-
-    // Function to handle image file upload and return a data URL
-    function handleImageUpload(fileInput) {
-        return new Promise((resolve, reject) => {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function () {
-                    resolve(reader.result); // Return the base64 data URL of the image
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file); // Read the file as a data URL
-            } else {
-                resolve(null); // No file selected
-            }
-        });
-    }
+    // Initialize fields and populate dropdowns
+    initializeFields();
 
     // Handle form submission
     fieldForm.addEventListener("submit", async (event) => {
@@ -113,13 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const image1Url = await handleImageUpload(fieldImage1);
         const image2Url = await handleImageUpload(fieldImage2);
 
-        // Validation check
+        // Validation
         if (!fieldCode || !fieldName || !fieldLocation || !extentSize || !logId || !staffId || !cropId || !equipmentId) {
             alert("Please fill out all required fields!");
             return;
         }
 
-        // Create new row for the table
+        // Add the new field to the table
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
             <td>${fieldCode}</td>
@@ -137,28 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
             </td>
         `;
-
-        // Append the row to the table body
         fieldTableBody.appendChild(newRow);
 
-        // Clear the form after submission
+        // Clear the form
         clearForm();
     });
 
-    // Event delegation for Edit and Delete
+    // Clear form
+    clearFormButton.addEventListener("click", clearForm);
+
+    // Handle delete and edit button actions
     fieldTableBody.addEventListener("click", (event) => {
         const target = event.target;
         if (target.classList.contains("deleteBtn")) {
             if (confirm("Are you sure you want to delete this record?")) {
                 target.closest("tr").remove();
             }
-        }
-
-        if (target.classList.contains("editBtn")) {
+        } else if (target.classList.contains("editBtn")) {
             const row = target.closest("tr");
             const cells = row.querySelectorAll("td");
 
-            // Populate the form with values from the table row for editing
+            // Populate the form with values for editing
             document.getElementById("fieldCode-field").value = cells[0].textContent;
             document.getElementById("fieldName").value = cells[1].textContent;
             document.getElementById("fieldLocation").value = cells[2].textContent;
@@ -168,14 +83,197 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("cropId-field").value = cells[6].textContent;
             document.getElementById("equipmentId-field").value = cells[7].textContent;
 
-            // Remove the row for updating
             row.remove();
         }
     });
-
-    // Clear form button
-    clearFormButton.addEventListener("click", clearForm);
-
-    // Populate the select dropdowns on page load
-    populateSelectOptions();
 });
+
+// Function to initialize all fields
+function initializeFields() {
+    loadAllFields();
+    loadStaffIds();
+    loadCropIds();
+    loadEquipmentIds();
+    loadLogIds();
+    FieldNextId();
+}
+function FieldNextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/field/generateId",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            document.getElementById("fieldCode-field").value = data;
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+}
+
+// Load all fields
+function loadAllFields() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/field",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            const fieldTableBody = document.querySelector("#field-table tbody");
+            fieldTableBody.innerHTML = "";
+            data.forEach((field) => {
+
+                let location = field.fieldLocation.x + ", " + field.fieldLocation.y;
+                fieldTableBody.innerHTML += `
+                <tr>
+                    <td>${field.fieldCode}</td>
+                    <td>${field.fieldName}</td>
+                    <td>${location}</td>
+                    <td>${field.extentSize}</td>
+                    <td>${field.logCode}</td>
+                    <td>${'-'}</td>
+                    <td>${'-'}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm editBtn">Edit</button>
+                        <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
+                    </td>
+                </tr>`;
+            });
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+}
+
+// Load options for dropdowns
+function loadStaffIds() {
+    loadDropdown("http://localhost:8080/api/v1/staff", "staffId-field", "staffId");
+}
+
+function loadCropIds() {
+    loadDropdown("http://localhost:8080/api/v1/crops", "cropId-field", "cropId");
+}
+
+function loadEquipmentIds() {
+    loadDropdown("http://localhost:8080/api/v1/equipment", "equipmentId-field", "equipmentId");
+}
+
+function loadLogIds() {
+    loadDropdown("http://localhost:8080/api/v1/monitoringlog", "logId-field", "logCode");
+}
+
+function loadDropdown(url, selectId, key) {
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            console.log(data);
+            const select = document.getElementById(selectId);
+            select.innerHTML = `<option value="">Select</option>`;
+            data.forEach((item) => {
+                const option = document.createElement("option");
+                option.value = item[key];
+                option.textContent = item[key];
+                select.appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+}
+
+// Image upload handling
+function handleImageUpload(fileInput) {
+    return new Promise((resolve, reject) => {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        } else {
+            resolve(null);
+        }
+    });
+}
+
+/*
+document.addEventListener("DOMContentLoaded", () => {
+    const fieldForm = document.getElementById("field-form");
+    const fieldTableBody = document.querySelector("#field-table tbody");
+    const clearFormButton = document.getElementById("clearFormBtn-field");
+
+    initializeFields();
+
+    // Handle form submission
+    fieldForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        // Get form values
+        const fieldCode = document.getElementById("fieldCode-field").value.trim();
+        const fieldName = document.getElementById("fieldName").value.trim();
+        const fieldLocation = document.getElementById("fieldLocation").value.trim();
+        const extentSize = document.getElementById("extentSize").value.trim();
+        const logId = document.getElementById("logId-field").value.trim();
+
+        // Validate form inputs
+        if (!fieldCode || !fieldName || !fieldLocation || !extentSize || !logId) {
+            alert("Please fill out all required fields!");
+            return;
+        }
+
+        // Prepare the field object
+        const fieldData = {
+            fieldCode: fieldCode,
+            fieldName: fieldName,
+            fieldLocation: fieldLocation,
+            extentSize: parseFloat(extentSize),
+            logCode: logId,
+        };
+
+        // Make AJAX request to save field
+        $.ajax({
+            url: "http://localhost:8080/api/v1/field", // Adjust URL based on your API endpoint
+            type: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify(fieldData),
+            success: function () {
+                alert("Field added successfully!");
+                loadAllFields(); // Reload all fields
+                clearForm(); // Clear the form inputs
+            },
+            error: function (error) {
+                console.error("Error adding field:", error);
+                alert("Failed to add field. Please check your input or server configuration.");
+            },
+        });
+    });
+
+    // Clear form
+    clearFormButton.addEventListener("click", clearForm);
+});*/
+
+$("#field-form")
+
+// Clear form function
+function clearForm() {
+    $('#fieldName').val('');
+    $('#fieldLocation').val('');
+    $('#extentSize').val('');
+    $('#logId-field').val('');
+    $('#fieldImage1').val('');
+    $('#fieldImage2').val('');
+
+}
+

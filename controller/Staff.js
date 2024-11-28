@@ -5,15 +5,43 @@ $(document).ready(function() {
     function initializeStaff() {
         loadAllStaff();
         loadAllFields();
-        loadAllLogs();
+        loadAllLogsInStaff();
         loadAllVehicles();
         loadAllEquipment();
         nextId();
     }
+
+    function loadAllLogsInStaff() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/monitoringlog",
+            type: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            success: function (data) {
+                const logSelect = $('#logId-staff');
+                logSelect.empty();
+                logSelect.append('<option value="">Select Log</option>');
+                data.forEach(log => {
+                    logSelect.append(`<option value="${log.logCode}">${log.logCode}</option>`);
+                });
+            },
+            error: function (error) {
+                console.error("Error loading logs:", error);
+            }
+        });
+    }
+
+
+
+
     function nextId() {
         $.ajax({
             url: "http://localhost:8080/api/v1/staff/generateId", // API endpoint for generating the next Staff ID
             type: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
             success: function (data) {
                 if (data) {
                     // Check if data is the expected ID or part of a structured response
@@ -35,6 +63,9 @@ $(document).ready(function() {
         $.ajax({
             url: "http://localhost:8080/api/v1/staff",
             type: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
             success: function (data) {
                 console.log("Staff data:", data); // Add this line to check the structure of the data
                 $('#staff-table tbody').empty();
@@ -105,6 +136,9 @@ $(document).ready(function() {
             $.ajax({
                 url: "http://localhost:8080/api/v1/staff", // Backend endpoint
                 type: "POST",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
                 data: JSON.stringify(newStaff),
                 contentType: "application/json",
                 success: function (response) {
@@ -163,6 +197,9 @@ function deleteStaff(staffId) {
         $.ajax({
             url: `http://localhost:8080/api/v1/staff/${staffId}`, // API endpoint to delete the staff member
             type: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
             success: function () {
                 console.log(`Staff with ID ${staffId} deleted successfully.`);
                 // Remove the row from the table
@@ -191,6 +228,9 @@ function editStaff(staffId) {
     $.ajax({
         url: `http://localhost:8080/api/v1/staff/${staffId}`, // Backend API to fetch staff details
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (staff) {
             if (staff) {
                 // Populate modal fields with fetched staff data
@@ -205,7 +245,7 @@ function editStaff(staffId) {
                 $('#editPhoneNumber').val(staff.phoneNumber);
                 $('#editEmail-staff').val(staff.email);
                 $('#editRole').val(staff.role);
-                $('#editLogId').val(staff.logId);
+                $('#editLogId').val(staff.logCode);
 
                 // Show the modal
                 $('#editStaffModal').modal('show');
@@ -241,6 +281,9 @@ $('#edit-staff-form').submit(function (e) {
     $.ajax({
         url: `http://localhost:8080/api/v1/staff/${updatedStaff.staffId}`, // Backend API to update staff details
         type: "PUT",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         data: JSON.stringify(updatedStaff),
         contentType: "application/json", // JSON payload
         success: function (response) {
@@ -263,6 +306,9 @@ function loadAllStaff() {
     $.ajax({
         url: "http://localhost:8080/api/v1/staff", // Backend API to fetch all staff
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             $('#staff-table tbody').empty(); // Clear the table body
             data.forEach((staff) => {
@@ -289,7 +335,7 @@ function addStaffToTable(staff) {
             <td>${staff.phoneNumber}</td>
             <td>${staff.email}</td>
             <td>${staff.role}</td>
-            <td>${staff.logId}</td>
+            <td>${staff.logCode}</td>
             <td>
                 <button class="btn btn-primary btn-sm" onclick="editStaff('${staff.staffId}')">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteStaff('${staff.staffId}')">Delete</button>

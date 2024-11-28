@@ -1,5 +1,4 @@
 
-
 /*Chart*/
  const chart=document.querySelector('#chart').getContext('2d');
 
@@ -138,7 +137,7 @@ $("#dashboard-btn").on("click", function () {
     $("#user").hide();
     $("#crop-section").hide();
     $("#equipment").hide();
-    $("#field").hide();
+    $("#field-section").hide();
     $("#log").hide();
     $("#staff").hide();
     $("#vehicle-btn").hide();
@@ -163,7 +162,7 @@ $("#crop-btn").on("click", function () {
     $(".main_card").hide();
     $(".fast_payment").hide();
     $("#chart").hide();
-    $("#equipment").hide();
+    $("#equipment-section").hide();
     $("#field-section").hide();
     $("#monitoring-log-section").hide();
     $("#staff-section").hide();
@@ -178,7 +177,7 @@ $("#equipment-btn").on("click", function () {
     $("#chart").hide();
     $("#crop-section").hide();
     $("#field-section").hide();
-    $("#log").hide();
+    $("#monitoring-log-section").hide();
     $("#staff-section").hide();
     $("#vehicle-section").hide();
 })
@@ -191,7 +190,7 @@ $("#field-btn").on("click", function () {
     $("#chart").hide();
     $("#crop-section").hide();
     $("#equipment").hide();
-    $("#log").hide();
+    $("#monitoring-log-section").hide();
     $("#staff-section").hide();
     $("#vehicle-section").hide();
     $("#equipment-section").hide();

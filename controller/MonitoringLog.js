@@ -10,6 +10,9 @@ function nextId() {
     $.ajax({
         url: "http://localhost:8080/api/v1/monitoringlog/generateId",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             $('#logCode').val(data);
         },
@@ -23,6 +26,9 @@ function loadAllLogs() {
     $.ajax({
         url: "http://localhost:8080/api/v1/monitoringlog",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             console.log("Logs data:", data);
             $('#logTableBody').empty();  // Correct table body selector
@@ -40,6 +46,9 @@ function loadAllCrops() {
     $.ajax({
         url: "http://localhost:8080/api/v1/crop",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             const cropSelect = $('#cropSelect');
             cropSelect.empty().append('<option value="">Select Crop</option>');
@@ -57,6 +66,9 @@ function loadAllFields() {
     $.ajax({
         url: "http://localhost:8080/api/v1/field",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             const fieldSelect = $('#fieldSelect');
             fieldSelect.empty().append('<option value="">Select Field</option>');
@@ -74,6 +86,9 @@ function loadStaffIds() {
     $.ajax({
         url: "http://localhost:8080/api/v1/staff",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             const staffSelect = $('#staffSelect');
             staffSelect.empty().append('<option value="">Select Staff</option>');
@@ -88,24 +103,43 @@ function loadStaffIds() {
 }
 
 function addLogToTable(log) {
-    const tableBody = $('#logTableBody');
-    const row = `<tr>
-        <td>${log.logCode}</td>
-        <td>${log.logDate}</td>
-        <td>${log.logDetails}</td>
-        <td><img src="${log.observedImage}" alt="Observed Image" width="100"></td>
-        <td>
-            <button class="btn btn-primary btn-sm" onclick="editLog('${log.logCode}')">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteLog('${log.logCode}')">Delete</button>
-        </td>
-    </tr>`;
-    tableBody.append(row);
+
+    const img = document.createElement('img');
+    img.src = log.observedImage ? "data:image/png;base64," + log.observedImage : 'default-image.png'; // Use a default image if log.image is null
+    img.alt = 'Log Image';
+    img.style.width = '50px'; // Adjust size as needed
+    img.style.height = '50px';
+
+    const tableBody = document.getElementById('logTableBody'); // Ensure tableBody is correctly selected
+
+// Create a row element
+    const row = document.createElement('tr');
+    row.innerHTML = `
+    <td>${log.logCode}</td>
+    <td>${log.logDate}</td>
+    <td>${log.logDetails}</td>
+    <td></td>
+    <td>
+        <button class="btn btn-primary btn-sm" onclick="editLog('${log.logCode}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteLog('${log.logCode}')">Delete</button>
+    </td>
+`;
+
+// Append the image to the third cell (logDetails cell)
+    row.cells[3].appendChild(img);
+
+// Append the row to the table body
+    tableBody.appendChild(row);
+
 }
 
 function editLog(logCode) {
     $.ajax({
         url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (log) {
             $('#editLogCode').val(log.logCode);
             $('#editLogDate').val(log.logDate);
@@ -134,6 +168,9 @@ function saveLogChanges() {
     $.ajax({
         url: `http://localhost:8080/api/v1/monitoringlog/${logData.logCode}`,
         type: "PUT",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         data: JSON.stringify(logData),
         contentType: "application/json",
         success: function () {
@@ -152,6 +189,9 @@ function deleteLog(logCode) {
         $.ajax({
             url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
             type: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
             success: function () {
                 console.log(`Log with code ${logCode} deleted successfully.`);
                 loadAllLogs(); // Refresh the log table after deletion
@@ -187,6 +227,9 @@ $('#addButton').click(function() {
     $.ajax({
         url: 'http://localhost:8080/api/v1/monitoringlog',
         type: 'POST',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         data: formData,
         contentType: false,  // Do not set content type, as FormData sets it automatically
         processData: false,  // Let jQuery handle the data processing
@@ -217,6 +260,9 @@ function editLog(logCode) {
     $.ajax({
         url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (log) {
             // Populate modal fields with the log data
             $('#editLogCode').val(log.logCode);
@@ -256,6 +302,9 @@ $('#saveEditButton').click(function() {
     $.ajax({
         url: `http://localhost:8080/api/v1/monitoringlog/${logCode}`,
         type: "PUT",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         data: formData,
         contentType: false,
         processData: false,

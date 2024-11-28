@@ -10,6 +10,9 @@ function nextId() {
     $.ajax({
         url: "http://localhost:8080/api/v1/vehicle/generateId",  // Ensure this endpoint returns a plain string
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             // Log the response to confirm it's a plain string
             console.log("Generated ID:", data);
@@ -31,6 +34,9 @@ function loadAllVehicles() {
     $.ajax({
         url: "http://localhost:8080/api/v1/vehicle",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             vehicles = data;
             data.forEach(vehicle => {
@@ -47,6 +53,9 @@ function loadStaffIds() {
     $.ajax({
         url: "http://localhost:8080/api/v1/staff",
         type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function (data) {
             staffIds = data;
             const staffSelect = $("#staffId, #editStaffId");
@@ -110,6 +119,9 @@ function deleteVehicle(vehicleCode) {
         $.ajax({
             url: `http://localhost:8080/api/v1/vehicle/${vehicleCode}`,
             type: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
             success: function () {
                 alert("Vehicle deleted successfully.");
             },
@@ -140,9 +152,17 @@ $("#vehicle-form").submit(function (e) {
     $.ajax({
         url: "http://localhost:8080/api/v1/vehicle", // Ensure this endpoint matches your backend route
         type: "POST",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         contentType: "application/json",
         data: JSON.stringify(vehicle), // Convert the object to JSON format
         success: function (response) {
+            Swal.fire({
+                title: "Successful!",
+                text: "Vehicle Saved Successfully..!",
+                icon: "success"
+            });
             // Add the newly saved vehicle to the table
             addVehicleToTable(vehicle);
             // Clear the form fields after the data has been successfully saved
@@ -206,6 +226,9 @@ function updateVehicle(vehicleCode) {
     $.ajax({
         url: `http://localhost:8080/api/v1/vehicle/${vehicleCode}`, // Update endpoint with vehicleCode
         type: "PUT", // Use PUT method for updating
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         contentType: "application/json",
         data: JSON.stringify(updatedVehicle), // Convert the object to JSON format
         success: function (response) {
