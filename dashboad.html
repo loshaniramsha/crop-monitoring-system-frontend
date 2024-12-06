@@ -2,300 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Green Shadow (Pvt) Ltd</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/style/dashboard.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Dashboard  with Clock and Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="assets/style/dashboad.css">
+
 </head>
 <body>
+<div class="sidebar">
+    <div class="brand">Green Shadow</div>
+    <ul>
+        <li><a href="#" id="dashboard-btn" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li id="crop-nav"><a href="#" id="crop-btn"><i class="fas fa-seedling"></i> Crops</a></li> <!-- Seedling icon for crops -->
+        <li id="equipment-nav"><a href="#" id="equipment-btn"><i class="fas fa-tools"></i> Equipment</a></li> <!-- Tools icon for equipment -->
+        <li id="field-nav"><a href="#" id="field-btn"><i class="fas fa-cogs"></i> Field</a></li> <!-- Cog icon for field-related operations -->
+        <li id="log-nav"><a href="#" id="log-btn"><i class="fas fa-clipboard-list"></i> Logs</a></li> <!-- Clipboard icon for logs -->
+        <li id="staff-nav"><a href="#" id="staff-btn"><i class="fas fa-users"></i> Staff</a></li> <!-- Users icon for staff -->
+        <li id="vehicle-nav"><a href="#" id="vehicle-btn"><i class="fas fa-truck"></i> Vehicle</a></li> <!-- Truck icon for vehicles -->
+        <li id="setting-nav"><a href="#" id="user-btn"><i class="fas fa-cogs"></i> Settings</a></li> <!-- Cogs icon for settings -->
 
-<nav>
-    <div class="container nav-container">
-        <a href="#" class="nav_logo">
-            <img src="assets/img/logo.png" alt="logo" width="50px">
-        </a>
-        <div class="nav_search">
-            <i class="uil uil-search"></i>
-            <input type="search" placeholder="Search..">
+        <div>
+            <button href="#" id="logout">Logout</button>
         </div>
-        <div class="nav_profile-wrapper">
-            <button class="nav_theme-btn">
-                <i class="uil uil-moon"></i>
-            </button>
-            <div class="nav_profile">
-                <div class="nav_profile-photo">
-                    <img src="assets/img/profile.png" alt="profile" width="50px">
-                </div>
-                <h5>Nana Addo</h5>
-                <i class="uil uil-angle-down"></i>
-            </div>
-            <button class="nav_menu-btn">
-                <i class="uil uil-bars"></i>
-            </button>
+    </ul>
+</div>
+
+<div class="main-content">
+    <header>
+        <h1>Welcome Back!</h1>
+        <div class="user-profile">
+            <!-- Search Field -->
+        <!--    <div class="search-container">
+                <input
+                        type="text"
+                        id="searchField-"
+                        placeholder="Search..."
+                        aria-label="Search"
+                        class="search-input"
+                />
+                <button class="search-btn">🔍</button>
+            </div>-->
+
+            <!-- Dark Mode Toggle -->
+            <button class="dark-mode-toggle">Dark Mode</button>
+        </div>
+    </header>
+
+    <div class="extras" id="extras">
+        <div class="clock">
+            <h3>Current Time</h3>
+            <div id="time">00:00:00</div>
+        </div>
+        <div class="calendar" >
+            <h3>Today's Date</h3>
+            <div id="date">January 1, 2024</div>
         </div>
     </div>
-</nav>
-<!-- Sidebar -->
-<div class="sidebar">
-    <!-- Close Button -->
-    <button class="sidebar_close-btn">
-        <i class="uil uil-times"></i>
-    </button>
-    <a href="#" class="active" id="dashboard-btn">
-        <i class="uil uil-dashboard"></i>
-        <h5>Dashboard</h5>
-    </a>
-    <a href="#" id="crop-btn">
-        <i class="uil uil-map-marker"></i>
-        <h5>Crop</h5>
-    </a>
-    <a href="#" id="equipment-btn">
-        <i class="uil uil-map-marker"></i>
-        <h5>Equipment</h5>
-    </a>
-    <a href="#" id="field-btn">
-        <i class="uil uil-map-marker"></i>
-        <h5>Field</h5>
-    </a>
-    <a href="#" id="log-btn">
-        <i class="uil uil-book-open"></i>
-        <h5>Log</h5>
-    </a>
-    <a href="#" id="staff-btn">
-        <i class="uil uil-users-alt"></i>
-        <h5>Staff</h5>
-    </a>
-    <a href="#" id="user-btn">
-        <i class="uil uil-user-circle"></i>
-        <h5>User</h5>
-    </a>
-    <a href="#" id="vehicle-btn">
-        <i class="uil uil-truck"></i>
-        <h5>Vehicle</h5>
-    </a>
-</div>
-<main class="main">
-    <header class="main_header">
-        <h1>Green Shadow (Pvt) Ltd</h1>
-        <input type="date">
-    </header>
-    <section class="main_card">
-        <article class="card">
-            <div class="card_header">
-                <div class="card_header_left">
-                    <img src="assets/img" alt="">
-                    <h3>BTC</h3>
-                </div>
-                <div class="card_header_right">
-                    <img src="assets/img" alt="">
-                </div>
-            </div>
-            <div class="card_body">
-                <h1>Plants</h1>
-                <div class="card_body-chip">
-                    <img src="assets/img" alt="">
-                </div>
 
-            </div>
-            <div class="card_footer">
-                <div class="card_footer_left">
-                    <small>Card Holder</small>
-                    <h5>Ernest</h5>
-                </div>
-                <div class="card_footer_right">
-                    <div class="expiry">
-                        <small>Expiry</small>
-                        <h5>09/25</h5>
-                    </div>
-                    <div class="cvv">
-                        <small>CVV</small>
-                        <h5>123</h5>
-                    </div>
-                </div>
-            </div>
-        </article>
-        <article class="card">
-            <div class="card_header">
-                <div class="card_header_left">
-                    <img src="assets/img" alt="">
-                    <h3>BTC</h3>
-                </div>
-                <div class="card_header_right">
-                    <img src="assets/img" alt="">
-                </div>
-            </div>
-            <div class="card_body">
-                <h1>Plants</h1>
-                <div class="card_body-chip">
-                    <img src="assets/img" alt="">
-                </div>
-
-            </div>
-            <div class="card_footer">
-                <div class="card_footer_left">
-                    <small>Card Holder</small>
-                    <h5>Ernest</h5>
-                </div>
-                <div class="card_footer_right">
-                    <div class="expiry">
-                        <small>Expiry</small>
-                        <h5>09/25</h5>
-                    </div>
-                    <div class="cvv">
-                        <small>CVV</small>
-                        <h5>123</h5>
-                    </div>
-                </div>
-            </div>
-        </article>
-        <article class="card">
-            <div class="card_header">
-                <div class="card_header_left">
-                    <img src="assets/img" alt="">
-                    <h3>BTC</h3>
-                </div>
-                <div class="card_header_right">
-                    <img src="assets/img" alt="">
-                </div>
-            </div>
-            <div class="card_body">
-                <h1>Plants</h1>
-                <div class="card_body-chip">
-                    <img src="assets/img" alt="">
-                </div>
-
-            </div>
-            <div class="card_footer">
-                <div class="card_footer_left">
-                    <small>Card Holder</small>
-                    <h5>Ernest</h5>
-                </div>
-                <div class="card_footer_right">
-                    <div class="expiry">
-                        <small>Expiry</small>
-                        <h5>09/25</h5>
-                    </div>
-                    <div class="cvv">
-                        <small>CVV</small>
-                        <h5>123</h5>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section class="fast_payment">
-        <h2>Fast Payment</h2>
-        <ul class="fast_payment_badges">
-            <li class="fast_payment_badge">
-                <h4>+</h4>
-            </li>
-            <li class="fast_payment_badge">
-                <span class="bg-primary"></span>
-                <div>
-                    <h5>Training</h5>
-                    <h4>$500</h4>
-                </div>
-            </li>
-            <li class="fast_payment_badge">
-                <span class="bg-primary"></span>
-                <div>
-                    <h5>Internet</h5>
-                    <h4>$49</h4>
-                </div>
-            </li>
-            <li class="fast_payment_badge">
-                <span class="bg-primary"></span>
-                <div>
-                    <h5>Gas</h5>
-                    <h4>$500</h4>
-                </div>
-            </li>
-            <li class="fast_payment_badge">
-                <span class="bg-primary"></span>
-                <div>
-                    <h5>Training</h5>
-                    <h4>$500</h4>
-                </div>
-            </li>
-            <li class="fast_payment_badge">
-                <span class="bg-primary"></span>
-                <div>
-                    <h5>Food</h5>
-                    <h4>$500</h4>
-                </div>
-            </li>
-        </ul>
-    </section>
-    <canvas id="chart"></canvas>
-    <!--user-->
-    <section class="user" id="user">
-        <h1 class="text-center mb-5">User Registration</h1>
-        <form id="user-form">
-            <!-- Email Input -->
-            <div class="form-group mb-3">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter Email" disabled>
-            </div>
-            <!-- Current Password Input -->
-            <div class="form-group mb-3">
-                <label for="currentPassword">Current Password</label>
-                <input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password" required>
-            </div>
-            <!-- New Password Input -->
-            <div class="form-group mb-3">
-                <label for="newPassword">New Password</label>
-                <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password" required>
-            </div>
-            <!-- Re-enter Password Input -->
-            <div class="form-group mb-3">
-                <label for="reEnterPassword">Re-enter Password</label>
-                <input type="password" class="form-control" id="reEnterPassword" placeholder="Re-enter New Password" required>
-            </div>
-            <!-- Buttons -->
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-
-            <label style="font-size: 20px; font-weight: bold; text-align: center">Delete Account</label>
-
-            <div class="form-group mb-3">
-                <label for="deletePassword">Enter Password</label>
-                <input type="password" class="form-control" id="deletePassword" placeholder="Enter Password" required>
-            </div>
-            <button id="btn-acc-delete" type="button" class="btn btn-danger" >Delete Account</button>
-
-
-        </form>
-
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Delete Account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Please confirm your email to delete the account.</p>
-                        <div class="form-group mb-3">
-                            <label for="deleteEmail">Email</label>
-                            <input type="email" class="form-control" id="deleteEmail" placeholder="Enter Email" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm Delete</button>
-                    </div>
-                </div>
-            </div>
+    <div class="cards" id="card">
+        <div class="card">
+            <i class="fas fa-users"></i>
+            <h3>Users</h3>
+            <p>2,345</p>
         </div>
-    </section>
+        <div class="card">
+            <i class="fas fa-shopping-cart"></i>
+            <h3>Sales</h3>
+            <p>$8,764</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Traffic</h3>
+            <p>45,678</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>Revenue</h3>
+            <p>$25,000</p>
+        </div>
+    </div>
 
-    <!--Vehicle-->
+    <div class="charts" id="chart">
+        <div class="chart">
+            <h3>Revenue Chart</h3>
+            <canvas id="revenueChart"></canvas>
+        </div>
+        <div class="chart">
+            <h3>Traffic Sources</h3>
+            <canvas id="trafficChart"></canvas>
+        </div>
+    </div>
+
+   <!--Vehicle-->
     <section id="vehicle-section" style="padding: 20px;">
         <h1 class="text-center mb-5">Vehicle Registration</h1>
         <form id="vehicle-form">
+            <div class="search-bar mb-4">
+                <label for="searchVehicleId" style="font-weight: bold; margin-right: 10px;">Search by Vehicle ID:</label>
+                <select class="form-control" id="searchVehicleId" style="width: 300px; display: inline-block;">
+                    <option value="">Select Vehicle ID</option>
+                </select>
+                <button class="btn btn-primary" id="searchButton" style="margin-left: 10px;" >Search</button>
+            </div>
+            <br>
+
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="vehicleCode">Vehicle Code</label>
@@ -329,7 +141,7 @@
                 <div class="col-md-6 form-group">
                     <label for="staffId">Staff ID</label>
                     <select class="form-control" id="staffId" required>
-                        <option value="">Select Staff ID</option>
+                        <option value="null">Select Staff ID</option>
                     </select>
                 </div>
                 <div class="col-md-6 form-group">
@@ -407,11 +219,60 @@
             </div>
         </div>
     </section>
+    <!-- User Registration -->
+    <section class="user" id="user">
+        <h1 class="text-center mb-5">Manage User</h1>
+        <form id="user-form">
+            <!-- Email Input -->
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter Email" disabled>
+            </div>
+            <!-- Current Password Input -->
+            <div class="form-group mb-3">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password" required>
+            </div>
+            <!-- New Password Input -->
+            <div class="form-group mb-3">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password" required>
+            </div>
+            <!-- Re-enter Password Input -->
+            <div class="form-group mb-3">
+                <label for="reEnterPassword">Re-enter Password</label>
+                <input type="password" class="form-control" id="reEnterPassword" placeholder="Re-enter New Password" required>
+            </div>
+            <!-- Buttons -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+            <br><br>
 
+            <label style="font-size: 30px; color: red; font-weight: bold; text-align: center">Delete Account</label>
+            <br><br>
+
+            <div class="form-group mb-3">
+                <label for="deletePassword">Enter Password</label>
+                <input type="password" class="form-control" id="deletePassword" placeholder="Enter Password" required>
+            </div>
+            <button id="btn-acc-delete" type="button" class="btn btn-danger" >Delete Account</button>
+
+
+        </form>
+    </section>
     <!--crops-->
     <section id="crop-section">
         <h1 class="text-center">Crop Management</h1>
         <form id="crop-form">
+            <div class="search-bar mb-4">
+                <label for="searchCropId" style="font-weight: bold; margin-right: 10px;">Search Crop by Code:</label>
+                <select class="form-control" id="searchCropId" style="width: 300px; display: inline-block;">
+                    <option value="">Search Crop by Code</option>
+                </select>
+                <button class="btn btn-primary" id="searchButton-crop" style="margin-left: 10px;" >Search</button>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="cropCode">Crop Code</label>
@@ -535,11 +396,18 @@
             <tbody></tbody>
         </table>
     </section>
-
     <!--Equipment-->
     <section id="equipment-section" style="padding: 20px;">
         <h1 class="text-center mb-5">Equipment Management</h1>
         <form id="equipment-form">
+            <div class="search-bar mb-4">
+                <label for="searchEquipmentId" style="font-weight: bold; margin-right: 10px;">Search by Equipment ID:</label>
+                <select class="form-control" id="searchEquipmentId" style="width: 300px; display: inline-block;">
+                    <option value="">Select Equipment ID</option>
+                </select>
+                <button class="btn btn-primary" id="searchButton-equipment" style="margin-left: 10px;">Search</button>
+            </div>
+
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="equipmentId">Equipment ID</label>
@@ -568,20 +436,22 @@
                 <div class="col-md-6 form-group">
                     <label for="fieldId">Field ID</label>
                     <select class="form-control" id="fieldId" required>
-                        <option value="null">Select Field</option>
+                        <option value="">Select Field</option>
                         <!-- Options populated dynamically -->
                     </select>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="staffId-equipment">Staff ID</label>
                     <select class="form-control" id="staffId-equipment" required>
-                        <option value="null">Select Staff</option>
+                        <option value="">Select Staff</option>
                         <!-- Options populated dynamically -->
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
+                   <!-- <button type="button" class="btn btn-success w-30" id="addEquipmentBtn">Add Equipment</button>
+               -->
                     <button type="button" class="btn btn-success w-30" id="addEquipmentBtn">Add Equipment</button>
                 </div>
                 <div class="col-md-6">
@@ -652,11 +522,18 @@
             </div>
         </div>
     </section>
-
     <!--field-->
     <section id="field-section">
         <h1 class="text-center">Field Management</h1>
+        <!-- Field Form -->
         <form id="field-form">
+            <div class="search-bar mb-4">
+                <label for="searchFieldId" style="font-weight: bold; margin-right: 10px;">Search by Field ID:</label>
+                <select class="form-control" id="searchFieldId" style="width: 300px; display: inline-block;">
+                    <option value="">Select Field ID</option>
+                </select>
+                <button class="btn btn-primary" id="searchButton-field" style="margin-left: 10px;">Search</button>
+            </div>
             <div class="row">
                 <!-- Field Code and Name -->
                 <div class="col-md-6 form-group">
@@ -668,17 +545,24 @@
                     <input type="text" id="fieldName" placeholder="Enter Field Name" required>
                 </div>
             </div>
+
+            <div id="map"></div>
+            <input type="text" id="lat" placeholder="Latitude">
+            <input type="text" id="lng" placeholder="Longitude">
+            <button onclick="setLocation()">Go to Location</button>
+
             <div class="row">
                 <!-- Field Location and Extent Size -->
                 <div class="col-md-6 form-group">
                     <label for="fieldLocation">Field Location</label>
-                    <input type="text" id="fieldLocation" placeholder="Enter Latitude, Longitude" required>
+                    <input type="text" id="fieldLocation" placeholder="Enter Latitude, Longitude" disabled>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="extentSize">Extent Size (in acres)</label>
                     <input type="number" id="extentSize" placeholder="Enter Extent Size" required>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="logId-field">Log ID</label>
@@ -688,6 +572,7 @@
                     </select>
                 </div>
             </div>
+
             <div class="row">
                 <!-- Field Images -->
                 <div class="col-md-6 form-group">
@@ -699,6 +584,7 @@
                     <input type="file" id="fieldImage2" accept="image/*">
                 </div>
             </div>
+
             <button type="submit" class="btn btn-success">Add Field</button>
             <button type="button" class="btn btn-warning" id="clearFormBtn-field">Clear</button>
         </form>
@@ -719,12 +605,164 @@
             </thead>
             <tbody></tbody>
         </table>
-    </section>
 
+        <!-- Modal for Editing Field -->
+        <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="edit-field-form">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="fieldModalLabel">Edit Field</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="fieldCodeModal">Field Code</label>
+                                <input type="text" id="fieldCodeModal" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldNameModal">Field Name</label>
+                                <input type="text" id="fieldNameModal" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldLocationModal">Field Location</label>
+                                <input type="text" id="fieldLocationModal" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="extentSizeModal">Extent Size (acres)</label>
+                                <input type="number" id="extentSizeModal" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="logIdModal">Log ID</label>
+                                <select id="logIdModal" class="form-control" required>
+                                    <option value="">Select Log</option>
+                                    <!-- Options populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldImageModal1">Field Image 1</label>
+                                <input type="file" id="fieldImageModal1" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldImageModal2">Field Image 2</label>
+                                <input type="file" id="fieldImageModal2" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                           <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Log-->
+    <section id="monitoring-log-section">
+        <h1 class="text-center">Monitoring Log Management</h1>
+        <form id="monitoring-log-form">
+            <div class="search-bar mb-4">
+                <label for="searchLogId" style="font-weight: bold; margin-right: 10px;">Search by Logs ID:</label>
+                <select class="form-control" id="searchLogId" style="width: 300px; display: inline-block;">
+                    <option value="">Select Log ID</option>
+                </select>
+                <button class="btn btn-primary" id="searchButton-Log" style="margin-left: 10px;" >Search</button>
+            </div>
+            <br>
+            <!-- Log Details -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="logCode">Log Code</label>
+                    <input type="text" id="logCode" class="form-control" placeholder="Enter Log Code" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="logDate">Log Date</label>
+                    <input type="date" id="logDate" class="form-control" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label for="logDetails">Log Details</label>
+                    <textarea id="logDetails" class="form-control" placeholder="Enter Log Details" rows="4" required></textarea>
+                </div>
+            </div>
+            <!-- Observed Image -->
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label for="observedImage">Observed Image</label>
+                    <input type="file" id="observedImage" class="form-control" accept="image/*" required>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" id="addButton" class="btn btn-success">Add Monitoring Log</button>
+                    <button type="button" id="clearButton" class="btn btn-secondary">Clear</button>
+                </div>
+            </div>
+        </form>
+        <!-- Table -->
+        <table class="table table-bordered mt-4">
+            <thead>
+            <tr>
+                <th>Log Code</th>
+                <th>Date</th>
+                <th>Details</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="logTableBody"></tbody>
+        </table>
+
+        <!-- Edit Modal -->
+        <div id="editModal-log" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Monitoring Log</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Fields in Modal -->
+                        <form id="edit-log-form">
+                            <div class="form-group">
+                                <label for="editLogCode">Log Code</label>
+                                <input type="text" id="editLogCode" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="editLogDate">Log Date</label>
+                                <input type="date" id="editLogDate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="editLogDetails">Log Details</label>
+                                <textarea id="editLogDetails" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label for="editobservedImage-log">Observed Image</label>
+                                    <input type="file" id="editobservedImage-log" class="form-control" accept="image/*" required>
+                                </div>
+                            </div>
+                            <button type="button" id="saveEditButton" class="btn btn-primary mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!--Staff-->
     <section id="staff-section">
         <h1 class="text-center">Staff Management</h1>
         <form id="staff-form">
+            <div class="search-bar mb-4">
+                <label for="searchStaffId" style="font-weight: bold; margin-right: 10px;">Search by Staff ID:</label>
+                <select class="form-control" id="searchStaffId" style="width: 300px; display: inline-block;">
+                    <option value="">Select Staff ID</option>
+                </select>
+                <button class="btn btn-primary" id="searchButtonStaff" style="margin-left: 10px;">Search</button>
+            </div>
             <div class="row">
                 <!-- Staff ID and Name -->
                 <div class="col-md-6 form-group">
@@ -809,7 +847,18 @@
                         <option value="">Select Role</option>
                         <option value="ADMIN">Admin</option>
                         <option value="MANAGER">Manager</option>
-                        <option value="WORKER">Worker</option>
+                        <option value="SCIENTIST">Scientist</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Field ID -->
+                <div class="col-md-6 form-group">
+                    <label for="fieldId-staff">Field ID</label>
+                    <select class="form-control" id="fieldId-staff" required>
+                        <option value="">Select Field</option>
+                        <!-- Options populated dynamically -->
                     </select>
                 </div>
             </div>
@@ -942,264 +991,12 @@
 
     </section>
 
-    <!--Log-->
-    <section id="monitoring-log-section">
-        <h1 class="text-center">Monitoring Log Management</h1>
-        <form id="monitoring-log-form">
-            <!-- Log Details -->
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="logCode">Log Code</label>
-                    <input type="text" id="logCode" class="form-control" placeholder="Enter Log Code" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="logDate">Log Date</label>
-                    <input type="date" id="logDate" class="form-control" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    <label for="logDetails">Log Details</label>
-                    <textarea id="logDetails" class="form-control" placeholder="Enter Log Details" rows="4" required></textarea>
-                </div>
-            </div>
-            <!-- Observed Image -->
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    <label for="observedImage">Observed Image</label>
-                    <input type="file" id="observedImage" class="form-control" accept="image/*" required>
-                </div>
-            </div>
+</div>
 
-            <!-- Buttons -->
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <button type="button" id="addButton" class="btn btn-success">Add Monitoring Log</button>
-                    <button type="button" id="clearButton" class="btn btn-secondary">Clear</button>
-                </div>
-            </div>
-        </form>
-        <!-- Table -->
-        <table class="table table-bordered mt-4">
-            <thead>
-            <tr>
-                <th>Log Code</th>
-                <th>Date</th>
-                <th>Details</th>
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody id="logTableBody"></tbody>
-        </table>
-
-        <!-- Edit Modal -->
-        <div id="editModal-log" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Monitoring Log</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Fields in Modal -->
-                        <form id="edit-log-form">
-                            <div class="form-group">
-                                <label for="editLogCode">Log Code</label>
-                                <input type="text" id="editLogCode" class="form-control" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="editLogDate">Log Date</label>
-                                <input type="date" id="editLogDate" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="editLogDetails">Log Details</label>
-                                <textarea id="editLogDetails" class="form-control" rows="3"></textarea>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <label for="editobservedImage-log">Observed Image</label>
-                                    <input type="file" id="editobservedImage-log" class="form-control" accept="image/*" required>
-                                </div>
-                            </div>
-                            <button type="button" id="saveEditButton" class="btn btn-primary mt-3">Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</main>
-<section class="right">
-    <section class="investment">
-        <header class="investment_header">
-            <h2>Investment</h2>
-            <a href="#">More<i class="uil uil-angle-right-b"></i></a>
-        </header>
-        <article>
-            <img src="assets/img/uniliver.png" alt="Uniliver">
-            <h4>Uniliver</h4>
-            <div class="date-time">
-                <p>7 Nov, 2024</p>
-                <small class="text-muted">9:14 pm</small>
-            </div>
-            <div class="bond">
-                <p>1,243</p>
-                <small class="text-muted">Bonds</small>
-            </div>
-            <div class="amount">
-                <h5>$1,243.00</h5>
-                <small class="danger">4.5%</small>
-            </div>
-        </article>
-        <article>
-            <img src="assets/img/tesla.png" alt="Uniliver">
-            <h4>Uniliver</h4>
-            <div class="date-time">
-                <p>7 Nov, 2024</p>
-                <small class="text-muted">9:14 pm</small>
-            </div>
-            <div class="bond">
-                <p>1,243</p>
-                <small class="text-muted">Bonds</small>
-            </div>
-            <div class="amount">
-                <h5>$1,243.00</h5>
-                <small class="danger">4.5%</small>
-            </div>
-        </article>
-        <article>
-            <img src="assets/img/monster.png" alt="Uniliver">
-            <h4>Uniliver</h4>
-            <div class="date-time">
-                <p>7 Nov, 2024</p>
-                <small class="text-muted">9:14 pm</small>
-            </div>
-            <div class="bond">
-                <p>1,243</p>
-                <small class="text-muted">Bonds</small>
-            </div>
-            <div class="amount">
-                <h5>$1,243.00</h5>
-                <small class="danger">4.5%</small>
-            </div>
-        </article>
-        <article>
-            <img src="assets/img/mcdonalds.png" alt="Uniliver">
-            <h4>Uniliver</h4>
-            <div class="date-time">
-                <p>7 Nov, 2024</p>
-                <small class="text-muted">9:14 pm</small>
-            </div>
-            <div class="bond">
-                <p>1,243</p>
-                <small class="text-muted">Bonds</small>
-            </div>
-            <div class="amount">
-                <h5>$1,243.00</h5>
-                <small class="danger">4.5%</small>
-            </div>
-        </article>
-    </section>
-    <section class="recent-transaction">
-        <header class="recent-transaction_header">
-            <h2>Recent Transaction</h2>
-            <a href="#">More<i class="uil uil-angle-right-b"></i></a>
-        </header>
-        <article class="transaction">
-            <div class="transaction_service">
-                <div class="icon bg-purple-light">
-                    <i class="uil uil-headphone-alt"></i>
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                </div>
-            </div>
-            <div class="transaction_card-details">
-                <div class="transaction_card-img bg-danger">
-                    <img src="assets/img/visa.png">
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                    <small class="text-muted">Credit Card</small>
-                </div>
-            </div>
-            <h4>$</h4>
-        </article>
-        <article class="transaction">
-            <div class="transaction_service">
-                <div class="icon bg-purple-light">
-                    <i class="uil uil-headphone-alt"></i>
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                </div>
-            </div>
-            <div class="transaction_card-details">
-                <div class="transaction_card-img bg-danger">
-                    <img src="assets/img/visa.png">
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                    <small class="text-muted">Credit Card</small>
-                </div>
-            </div>
-            <h4>$</h4>
-        </article>
-        <article class="transaction">
-            <div class="transaction_service">
-                <div class="icon bg-purple-light">
-                    <i class="uil uil-headphone-alt"></i>
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                </div>
-            </div>
-            <div class="transaction_card-details">
-                <div class="transaction_card-img bg-danger">
-                    <img src="assets/img/visa.png">
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                    <small class="text-muted">Credit Card</small>
-                </div>
-            </div>
-            <h4>$</h4>
-        </article>
-        <article class="transaction">
-            <div class="transaction_service">
-                <div class="icon bg-purple-light">
-                    <i class="uil uil-headphone-alt"></i>
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                </div>
-            </div>
-            <div class="transaction_card-details">
-                <div class="transaction_card-img bg-danger">
-                    <img src="assets/img/visa.png">
-                </div>
-                <div class="transaction_details">
-                    <h4>Music</h4>
-                    <p>$500</p>
-                    <small class="text-muted">Credit Card</small>
-                </div>
-            </div>
-            <h4>$</h4>
-        </article>
-    </section>
-</section>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.1/chart.min.js" integrity="sha512-O2fWHvFel3xjQSi9FyzKXWLTvnom+lOYR/AUEThL/fbP4hv1Lo5LCFCGuTXBRyKC4K4DJldg5kxptkgXAzUpvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="assets/lib/jquery-3.7.1.min.js"></script>
 <script src="script/script.js"></script>
@@ -1211,5 +1008,6 @@
 <script src="controller/Field.js"></script>
 <script src="controller/Staff.js"></script>
 <script src="controller/MonitoringLog.js"></script>
+
 </body>
 </html>

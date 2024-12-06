@@ -102,36 +102,38 @@ function loadStaffIds() {
     });
 }
 
-function addLogToTable(log) {
 
+function addLogToTable(log) {
     const img = document.createElement('img');
-    img.src = log.observedImage ? "data:image/png;base64," + log.observedImage : 'default-image.png'; // Use a default image if log.image is null
+    img.src = log.observedImage ? "data:image/png;base64," + log.observedImage : 'default-image.png';
     img.alt = 'Log Image';
-    img.style.width = '50px'; // Adjust size as needed
+    img.style.width = '50px';
     img.style.height = '50px';
 
-    const tableBody = document.getElementById('logTableBody'); // Ensure tableBody is correctly selected
-
-// Create a row element
+    const tableBody = document.getElementById('logTableBody');
     const row = document.createElement('tr');
-    row.innerHTML = `
-    <td>${log.logCode}</td>
-    <td>${log.logDate}</td>
-    <td>${log.logDetails}</td>
-    <td></td>
-    <td>
-        <button class="btn btn-primary btn-sm" onclick="editLog('${log.logCode}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteLog('${log.logCode}')">Delete</button>
-    </td>
-`;
 
-// Append the image to the third cell (logDetails cell)
+    // Assign an ID to the row based on the log code
+    row.id = `row-${log.logCode}`;
+
+    row.innerHTML = `
+        <td>${log.logCode}</td>
+        <td>${log.logDate}</td>
+        <td>${log.logDetails}</td>
+        <td></td>
+        <td>
+            <button class="btn btn-primary btn-sm" style="background-color: #4CAF50; border-color: #4CAF50;" onclick="editLog('${log.logCode}')">Edit</button>
+            <button class="btn btn-danger btn-sm" style="background-color: #f44336; border-color: #f44336;" onclick="deleteLog('${log.logCode}')">Delete</button>
+        </td>
+    `;
+
+    // Append the image to the third cell
     row.cells[3].appendChild(img);
 
-// Append the row to the table body
+    // Add the row to the table body
     tableBody.appendChild(row);
-
 }
+
 
 function editLog(logCode) {
     $.ajax({
@@ -319,3 +321,85 @@ $('#saveEditButton').click(function() {
         }
     });
 });
+
+$("#editModal-log").hide();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Function to populate Log IDs in the dropdown
+function populateLogIds() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/monitoringlog", // Replace with your actual backend API endpoint
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token") // Ensure token is correctly stored
+        },
+        success: function (data) {
+            const searchDropdown = $("#searchLogId");
+            searchDropdown.empty(); // Clear existing options
+            searchDropdown.append('<option value="">Select Log ID</option>'); // Default option
+
+            // Populate dropdown with log codes
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(log => {
+                    searchDropdown.append(`<option value="${log.logCode}">${log.logCode}</option>`);
+                });
+            } else {
+                console.warn("No log data found.");
+                alert("No Log IDs available.");
+            }
+        },
+        error: function (error) {
+            console.error("Error loading Log IDs:", error);
+            alert("Failed to load Log IDs. Check your network or API.");
+        }
+    });
+}
+
+// Function to handle search and highlight functionality
+$("#searchButton-Log").click(function () {
+    const selectedLogId = $("#searchLogId").val();
+    if (!selectedLogId) {
+        alert("Please select a Log ID.");
+        return;
+    }
+
+    // Remove any previous highlights
+    $("#logTableBody tr").removeClass("highlight-row");
+
+    // Find and highlight the row with the matching ID
+    const targetRow = $(`#row-${selectedLogId}`);
+    if (targetRow.length > 0) {
+        targetRow.addClass("highlight-row");
+        // Scroll to the highlighted row
+        $('html, body').animate({
+            scrollTop: targetRow.offset().top - 100 // Adjust scroll position
+        }, 500);
+    } else {
+        alert("Log ID not found in the table.");
+    }
+});
+
+
+// Call this function to initialize the Log IDs dropdown
+populateLogIds();

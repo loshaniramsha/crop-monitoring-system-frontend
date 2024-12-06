@@ -1,50 +1,24 @@
+
+// Initialize the equipment management functionality
 initializeEquipment();
+
 function initializeEquipment() {
     loadAllEquipment();
-    loadAllFields();
-    loadStaffIds();
+    loadAllFieldEquipments();
+    loadStaffEquipment();
+    populateEquipmentSearch();
     nextId();
-}
-function nextId() {
-    $.ajax({
-        url: "http://localhost:8080/api/v1/equipment/generateId", // Adjusted to match the generateEquipmentId endpoint
-        type: "GET",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        success: function (data) {
-            // Assuming the endpoint returns the next ID as a plain string
-            $('#equipmentId').val(data);
-        },
-        error: function (error) {
-            console.error("Error generating next ID:", error);
-        }
+
+    // Attach event handlers
+    $('#addEquipmentBtn').click(addEquipment);
+    $('#clearFormBtn-equipment').click(clearForm);
+    $('#equipment-form').submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+        addEquipment();
     });
 }
 
-// Fetch and load all equipment
-function loadAllEquipment() {
-    $.ajax({
-        url: "http://localhost:8080/api/v1/equipment",
-        type: "GET",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        success: function (data) {
-            console.log("Equipment data:", data);  // Add this line to check the structure of the data
-            $('#equipment-table tbody').empty();
-            data.forEach((equipment) => {
-                addEquipmentToTable(equipment);
-            });
-        },
-        error: function (error) {
-            console.error("Error loading equipment:", error);
-        }
-    });
-}
-
-// Fetch and populate all fields
-function loadAllFields() {
+function loadAllFieldEquipments() {
     $.ajax({
         url: "http://localhost:8080/api/v1/field",
         type: "GET",
@@ -65,7 +39,7 @@ function loadAllFields() {
 }
 
 // Fetch and populate all staff IDs
-function loadStaffIds() {
+function loadStaffEquipment() {
     $.ajax({
         url: "http://localhost:8080/api/v1/staff",
         type: "GET",
@@ -97,17 +71,17 @@ function addEquipmentToTable(equipment) {
             <td>${equipment.fieldCode || 'N/A'}</td> <!-- Fallback for fieldCode -->
             <td>${equipment.staffId || 'N/A'}</td> <!-- Fallback for staffId -->
             <td>
-                <button class="btn btn-warning btn-sm" onclick="updateEquipment('${equipment.equipmentId}')">Update</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
+                <button class="btn btn-warning btn-sm" style="background-color: #4CAF50; border-color: #4CAF50;" onclick="updateEquipment('${equipment.equipmentId}')">Update</button>
+                <button class="btn btn-danger btn-sm" style="background-color: #f44336; border-color: #f44336;" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
             </td>
         </tr>`;
     $('#equipment-table tbody').append(equipmentRow);
 }
 
 // Update equipment (placeholder function)
-function updateEquipment(equipmentId) {
+/*function updateEquipment(equipmentId) {
     console.log("Update equipment with ID:", equipmentId);
-}
+}*/
 
 // Delete equipment
 function deleteEquipment(equipmentId) {
@@ -178,8 +152,8 @@ function loadModalFieldsAndStaff(selectedField, selectedStaff) {
             fieldSelect.empty().append('<option value="">Select Field</option>'); // Clear existing options
             fields.forEach(field => {
                 // Populate field options
-                const isSelected = field.fieldId === selectedField ? 'selected' : '';
-                fieldSelect.append(`<option value="${field.fieldId}" ${isSelected}>${field.fieldId}</option>`);
+                const isSelected = field.fieldCode === selectedField ? 'selected' : '';
+                fieldSelect.append(`<option value="${field.fieldCode}" ${isSelected}>${field.fieldCode}</option>`);
             });
         },
         error: function (error) {
@@ -240,8 +214,50 @@ $('#saveEditBtn').click(function () {
     });
 });
 
-/*$$$$$$$$$$$4*/
-// Add Equipment
+// Form submission handler
+$('#equipment-form').submit(function (event) {
+    event.preventDefault(); // Prevent default form submission
+    addEquipment();
+});
+$("#editEquipmentModal").hide();
+
+
+// Generate next equipment ID
+function nextId() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/equipment/generateId",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            $('#equipmentId').val(data);
+        },
+        error: function (error) {
+            console.error("Error generating next ID:", error);
+        }
+    });
+}
+
+// Load all equipment
+function loadAllEquipment() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/equipment",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            $('#equipment-table tbody').empty();
+            data.forEach(equipment => addEquipmentToTable(equipment));
+        },
+        error: function (error) {
+            console.error("Error loading equipment:", error);
+        }
+    });
+}
+
+// Add new equipment
 function addEquipment() {
     const equipmentData = {
         equipmentId: $('#equipmentId').val(),
@@ -249,48 +265,92 @@ function addEquipment() {
         equipmentType: $('#equipmentType').val(),
         state: $('#equipmentState').val(),
         fieldCode: $('#fieldId').val(),
-        staffId: $('#staffId-equipment').val()
+        staffId: $('#staffId-equipment').val(),
     };
 
-    // Validation check
-    if (!equipmentData.equipmentName || !equipmentData.equipmentType || !equipmentData.state) {
+    // Validate inputs
+    if (!equipmentData.equipmentName || !equipmentData.equipmentType || !equipmentData.state || !equipmentData.fieldCode || !equipmentData.staffId) {
         alert('Please fill in all required fields.');
         return;
     }
 
-    // AJAX request to save the equipment
+    // AJAX request to add equipment
     $.ajax({
-        url: "http://localhost:8080/api/v1/equipment", // Update with your API endpoint
+        url: "http://localhost:8080/api/v1/equipment",
         type: "POST",
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
             "Content-Type": "application/json"
         },
         data: JSON.stringify(equipmentData),
-        success: function (response) {
+        success: function () {
             alert("Equipment added successfully!");
-            $('#equipment-form')[0].reset(); // Clear the form after successful submission
-            nextId(); // Fetch and display the next equipment ID
-            loadAllEquipment(); // Reload the equipment table
+            clearForm();
+            nextId();
+            loadAllEquipment();
         },
         error: function (error) {
             console.error("Error adding equipment:", error);
-            alert("Failed to add equipment. Please try again.");
+            alert("Failed to add equipment. Please check your data and try again.");
         }
     });
 }
 
-// Form submission handling
-$('#equipment-form').submit(function (event) {
-    event.preventDefault(); // Prevent the default form submission
-    addEquipment(); // Trigger addEquipment function
+
+// Populate the combo box with equipment IDs
+function populateEquipmentSearch() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/equipment",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            const searchSelect = $('#searchEquipmentId');
+            searchSelect.empty().append('<option value="">Select Equipment ID</option>');
+            data.forEach(equipment => {
+                searchSelect.append(`<option value="${equipment.equipmentId}">${equipment.equipmentId}</option>`);
+            });
+        },
+        error: function (error) {
+            console.error("Error loading equipment IDs for search:", error);
+        }
+    });
+}
+
+$("#searchButton-equipment").click(function () {
+    const selectedEquipmentId = $("#searchEquipmentId").val();
+
+    if (!selectedEquipmentId) {
+        alert("Please select an Equipment ID.");
+        return;
+    }
+
+    // Remove any previous highlights
+    $("#equipment-table tbody tr").removeClass("highlight-row");
+
+    // Find the row corresponding to the selected Equipment ID
+    const targetRow = $(`#equipment-table tbody tr:has(td:contains('${selectedEquipmentId}'))`);
+    if (targetRow.length > 0) {
+        targetRow.addClass("highlight-row");
+        // Scroll to the row smoothly
+        $('html, body').animate({
+            scrollTop: targetRow.offset().top - 100
+        }, 500);
+    } else {
+        alert("Equipment ID not found in the table.");
+    }
 });
 
-// Clear form button
-$('#clearFormBtn-equipment').click(function () {
-    $('#equipment-form')[0].reset(); // Clear the form
-    nextId(); // Reset the equipment ID field
-});
+// Call populateEquipmentSearch when the page is loaded or data is updated
+populateEquipmentSearch();
+
+
+
+
+
+
+
 
 
 

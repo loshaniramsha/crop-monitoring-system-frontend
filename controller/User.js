@@ -3,6 +3,49 @@ initializeUser()
 function initializeUser() {
     loadAllUser();
     setEmail();
+    setPermission()
+}
+
+function setPermission() {
+    let email = localStorage.getItem("email")
+    let role = null
+
+    $.ajax({
+        url: `http://localhost:8080/api/v1/user/${email}`,
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (user) {
+            role = user.role
+
+
+
+            if(role=="ADMIN"){
+                $('#crop-nav').css("display", "none");
+                $('#field-nav').css("display", "none");
+                $('#log-nav').css("display", "none");
+
+            }
+
+            if (role == "SCIENTIST") {
+                $('#vehicle-nav').css("display", "none");
+                $('#staff-nav').css("display", "none");
+                $('#equipment-nav').css("display", "none");
+            }
+
+
+        },
+        error: function (error) {
+            console.log("Error loading user:", error);
+        }
+    });
+
+
+
+
+
+
 }
 
 function setEmail() {

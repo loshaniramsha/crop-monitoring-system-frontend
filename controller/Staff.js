@@ -9,6 +9,7 @@ $(document).ready(function() {
         loadAllVehicles();
         loadAllEquipment();
         nextId();
+        loadAllFieldsInStaff();
     }
 
     function loadAllLogsInStaff() {
@@ -21,7 +22,7 @@ $(document).ready(function() {
             success: function (data) {
                 const logSelect = $('#logId-staff');
                 logSelect.empty();
-                logSelect.append('<option value="">Select Log</option>');
+                logSelect.append('<option selected>Select Log</option>');
                 data.forEach(log => {
                     logSelect.append(`<option value="${log.logCode}">${log.logCode}</option>`);
                 });
@@ -31,9 +32,6 @@ $(document).ready(function() {
             }
         });
     }
-
-
-
 
     function nextId() {
         $.ajax({
@@ -110,27 +108,57 @@ $(document).ready(function() {
         $('#staff-form').submit(function (e) {
             e.preventDefault(); // Prevent default form submission
 
-            // Create a new staff object from the form inputs
-            const newStaff = {
-                staffId: $('#staffId-staff').val(),
-                firstName: $('#firstName').val(),
-                lastName: $('#lastName').val(),
-                designation: $('#designation').val(),
-                gender: $('#gender').val(),
-                birthDate: $('#birthDate').val(),
-                joiningDate: $('#joiningDate').val(),
-                address: {
+            let newStaff = null
+
+            console.log("log id: "+ $('#logId-staff').val())
+
+            if ($('#logId-staff').val() === "Select Log") {
+                newStaff = {
+                    staffId: $('#staffId-staff').val(),
+                    firstName: $('#firstName').val(),
+                    lastName: $('#lastName').val(),
+                    designation: $('#designation').val(),
+                    gender: $('#gender').val(),
+                    birthDate: $('#birthDate').val(),
+                    joiningDate: $('#joiningDate').val(),
                     addressLine1: $('#addressLine1').val(),
                     addressLine2: $('#addressLine2').val(),
                     addressLine3: $('#addressLine3').val(),
                     addressLine4: $('#addressLine4').val(),
-                    addressLine5: $('#addressLine5').val()
-                },
-                phoneNumber: $('#phoneNumber').val(),
-                role: $('#role').val(),
-                logId: $('#logId-staff').val(),
-                email: $('#email-staff').val(),
-            };
+                    addressLine5: $('#addressLine5').val(),
+                    phoneNumber: $('#phoneNumber').val(),
+                    role: $('#role').val(),
+                    email: $('#email-staff').val(),
+                };
+            } else {
+                newStaff = {
+                    staffId: $('#staffId-staff').val(),
+                    firstName: $('#firstName').val(),
+                    lastName: $('#lastName').val(),
+                    designation: $('#designation').val(),
+                    gender: $('#gender').val(),
+                    birthDate: $('#birthDate').val(),
+                    joiningDate: $('#joiningDate').val(),
+                    addressLine1: $('#addressLine1').val(),
+                    addressLine2: $('#addressLine2').val(),
+                    addressLine3: $('#addressLine3').val(),
+                    addressLine4: $('#addressLine4').val(),
+                    addressLine5: $('#addressLine5').val(),
+                    phoneNumber: $('#phoneNumber').val(),
+                    role: $('#role').val(),
+                    logCode: $('#logId-staff').val(),
+                    email: $('#email-staff').val(),
+                };
+            }
+
+            let staff_field = null
+
+            if ($('#fieldId-staff').val() != "Select Field") {
+                staff_field = {
+                    staffId: $('#staffId-staff').val(),
+                    fieldCode: $('#fieldId-staff').val()
+                }
+            }
 
             // Send the new staff data to the backend
             $.ajax({
@@ -144,9 +172,17 @@ $(document).ready(function() {
                 success: function (response) {
                     console.log("Staff added successfully:", response);
 
-                    // Add the new staff to the table
-                    addStaffToTable(newStaff);
+                    if (staff_field != null){
+                        saveAssosiate(staff_field)
+                    }
 
+                    loadAllStaff()
+
+                    swal.fire({
+                        title: "Successful!",
+                        text: "Staff added successfully.",
+                        icon: "success"
+                    })
                     // Reset the form fields
                     $('#staff-form')[0].reset();
                 },
@@ -155,6 +191,32 @@ $(document).ready(function() {
                 }
             });
         });
+
+        function saveAssosiate(staff_field) {
+
+            const formData = new FormData()
+
+            formData.append("staffId", staff_field.staffId)
+            formData.append("fieldCode", staff_field.fieldCode)
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/staff",
+                type: "POST",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log("Staff added successfully:", response);
+                    alert("saved in assosiate")
+                },
+                error: function (error) {
+                    console.error("Error adding staff:", error);
+                }
+            })
+        }
 
         // Add a new staff row to the table
         function addStaffToTable(staff) {
@@ -188,6 +250,29 @@ $(document).ready(function() {
         $('#staff-form')[0].reset();
     });
 });
+
+function loadAllFieldsInStaff() {
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/field", // Backend endpoint
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            const fieldSelect = $('#fieldId-staff');
+            fieldSelect.empty();
+            fieldSelect.append(`<option selected>Select Field</option>`);
+            data.forEach(field => {
+                fieldSelect.append(`<option value="${field.fieldCode}">${field.fieldCode}</option>`);
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+}
 
 // Function to delete staff record
 function deleteStaff(staffId) {
@@ -337,10 +422,90 @@ function addStaffToTable(staff) {
             <td>${staff.role}</td>
             <td>${staff.logCode}</td>
             <td>
-                <button class="btn btn-primary btn-sm" onclick="editStaff('${staff.staffId}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteStaff('${staff.staffId}')">Delete</button>
+                <button class="btn btn-primary btn-sm" style="background-color: #4CAF50; border-color: #4CAF50;"  onclick="editStaff('${staff.staffId}')">Edit</button>
+                <button class="btn btn-danger btn-sm" style="background-color: #f44336; border-color: #f44336;"  onclick="deleteStaff('${staff.staffId}')">Delete</button>
             </td>
         </tr>
     `;
     $('#staff-table tbody').append(staffRow);
 }
+
+$("#editStaffModal").hide();
+
+$("#clearFormBtn-staff").click(clearStaffForm)
+function clearStaffForm() {
+    $('#editFirstName').val('');
+    $('#editLastName').val('');
+    $('#editDesignation').val('');
+    $('#editGender').val('');
+    $('#editBirthDate').val('');
+    $('#editJoiningDate').val('');
+    $('#editAddressLine5').val('');
+    $('#editPhoneNumber').val('');
+    $('#editEmail-staff').val('');
+    $('#editRole').val('');
+    $('#editLogId').val('');
+}
+
+
+
+/*Search*/
+// Function to populate Staff IDs in the dropdown
+function populateStaffIds() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/staff", // Replace with your actual backend API
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token") // Ensure token is correctly stored
+        },
+        success: function (data) {
+            const searchDropdown = $("#searchStaffId");
+            searchDropdown.empty(); // Clear existing options
+            searchDropdown.append('<option value="">Select Staff ID</option>'); // Default option
+
+            // Populate dropdown with staff IDs
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(staff => {
+                    searchDropdown.append(`<option value="${staff.staffId}">${staff.staffId}</option>`);
+                });
+            } else {
+                console.warn("No staff data found.");
+                alert("No Staff IDs available.");
+            }
+        },
+        error: function (error) {
+            console.error("Error loading Staff IDs:", error);
+            alert("Failed to load Staff IDs. Check your network or API.");
+        }
+    });
+}
+
+// Function to highlight the selected row based on Staff ID
+$("#searchButtonStaff").click(function () {
+    const selectedStaffId = $("#searchStaffId").val();
+    if (!selectedStaffId) {
+        alert("Please select a Staff ID.");
+        return;
+    }
+
+    // Remove any previous highlights
+    $("#staff-table tbody tr").removeClass("highlight-row");
+
+    // Highlight the relevant row by matching data-staff-id
+    const targetRow = $(`tr[data-staff-id="${selectedStaffId}"]`);
+    if (targetRow.length > 0) {
+        targetRow.addClass("highlight-row");
+        // Scroll to the highlighted row
+        $('html, body').animate({
+            scrollTop: targetRow.offset().top - 100 // Adjust scroll position
+        }, 500);
+    } else {
+        alert("Staff ID not found in the table.");
+    }
+});
+
+// Initialize by populating Staff IDs
+populateStaffIds();
+
+
+

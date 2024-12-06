@@ -36,7 +36,7 @@ btn_signin.addEventListener("click", () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("email", email);
             alert("Sign in successful!");
-            window.location.href = "dash_bord.html";
+            window.location.href = "dashboad.html";
         },
         error: function (xhr, status, error) {
             alert("Error signing in: " + error);
@@ -79,7 +79,8 @@ btn_signup.addEventListener("click", () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("email", email);
             alert("Sign up successful!");
-            window.location.href = "dash_bord.html";
+           /* window.location.href = "dash_bord.html";*/
+            window.location.href = "dashboad.html";
         },
         error: function (xhr, status, error) {
             alert("Error signing up: " + error);

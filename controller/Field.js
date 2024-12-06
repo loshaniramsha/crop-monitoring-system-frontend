@@ -1,103 +1,12 @@
-initializeFields()
-document.addEventListener("DOMContentLoaded", () => {
-    const fieldForm = document.getElementById("field-form");
-    const fieldTableBody = document.querySelector("#field-table tbody");
-    const clearFormButton = document.getElementById("clearFormBtn-field");
+initializeAllFields();
 
-    // Initialize fields and populate dropdowns
-    initializeFields();
-
-    // Handle form submission
-    fieldForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        // Get form values
-        const fieldCode = document.getElementById("fieldCode-field").value.trim();
-        const fieldName = document.getElementById("fieldName").value.trim();
-        const fieldLocation = document.getElementById("fieldLocation").value.trim();
-        const extentSize = document.getElementById("extentSize").value.trim();
-        const logId = document.getElementById("logId-field").value.trim();
-        const staffId = document.getElementById("staffId-field").value.trim();
-        const cropId = document.getElementById("cropId-field").value.trim();
-        const equipmentId = document.getElementById("equipmentId-field").value.trim();
-
-        // Get image files (if any)
-        const fieldImage1 = document.getElementById("fieldImage1");
-        const fieldImage2 = document.getElementById("fieldImage2");
-
-        // Handle image uploads
-        const image1Url = await handleImageUpload(fieldImage1);
-        const image2Url = await handleImageUpload(fieldImage2);
-
-        // Validation
-        if (!fieldCode || !fieldName || !fieldLocation || !extentSize || !logId || !staffId || !cropId || !equipmentId) {
-            alert("Please fill out all required fields!");
-            return;
-        }
-
-        // Add the new field to the table
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td>${fieldCode}</td>
-            <td>${fieldName}</td>
-            <td>${fieldLocation}</td>
-            <td>${extentSize}</td>
-            <td>${logId}</td>
-            <td>${staffId}</td>
-            <td>${cropId}</td>
-            <td>${equipmentId}</td>
-            <td>${image1Url ? `<img src="${image1Url}" alt="Image 1" width="100">` : '-'}</td>
-            <td>${image2Url ? `<img src="${image2Url}" alt="Image 2" width="100">` : '-'}</td>
-            <td>
-                <button class="btn btn-success btn-sm editBtn">Edit</button>
-                <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
-            </td>
-        `;
-        fieldTableBody.appendChild(newRow);
-
-        // Clear the form
-        clearForm();
-    });
-
-    // Clear form
-    clearFormButton.addEventListener("click", clearForm);
-
-    // Handle delete and edit button actions
-    fieldTableBody.addEventListener("click", (event) => {
-        const target = event.target;
-        if (target.classList.contains("deleteBtn")) {
-            if (confirm("Are you sure you want to delete this record?")) {
-                target.closest("tr").remove();
-            }
-        } else if (target.classList.contains("editBtn")) {
-            const row = target.closest("tr");
-            const cells = row.querySelectorAll("td");
-
-            // Populate the form with values for editing
-            document.getElementById("fieldCode-field").value = cells[0].textContent;
-            document.getElementById("fieldName").value = cells[1].textContent;
-            document.getElementById("fieldLocation").value = cells[2].textContent;
-            document.getElementById("extentSize").value = cells[3].textContent;
-            document.getElementById("logId-field").value = cells[4].textContent;
-            document.getElementById("staffId-field").value = cells[5].textContent;
-            document.getElementById("cropId-field").value = cells[6].textContent;
-            document.getElementById("equipmentId-field").value = cells[7].textContent;
-
-            row.remove();
-        }
-    });
-});
-
-// Function to initialize all fields
-function initializeFields() {
-    loadAllFields();
-    loadStaffIds();
-    loadCropIds();
-    loadEquipmentIds();
-    loadLogIds();
-    FieldNextId();
+function initializeAllFields() {
+    loadAllField();
+    loadAllLogsFields();
+    nextIdField();
 }
-function FieldNextId() {
+
+function nextIdField() {
     $.ajax({
         url: "http://localhost:8080/api/v1/field/generateId",
         type: "GET",
@@ -105,16 +14,40 @@ function FieldNextId() {
             "Authorization": "Bearer " + localStorage.getItem("token")
         },
         success: function (data) {
-            document.getElementById("fieldCode-field").value = data;
+           $('#fieldCode-field').val(data);
         },
         error: function (error) {
-            console.error(error);
-        },
+            console.error("Error generating field code:", error);
+        }
     });
 }
 
-// Load all fields
-function loadAllFields() {
+
+function loadAllLogsFields() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/monitoringlog",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (data) {
+            const logSelect = document.getElementById('logId-field');
+            $('#logId-field').empty();
+            $('#logId-field').append(`<option value="">Select</option>`);
+            data.forEach(log => {
+                const option = document.createElement('option');
+                option.value = log.logCode;
+                option.textContent = log.logCode;
+                logSelect.appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.error("Error loading logs:", error);
+        }
+    });
+}
+
+function loadAllField() {
     $.ajax({
         url: "http://localhost:8080/api/v1/field",
         type: "GET",
@@ -122,158 +55,515 @@ function loadAllFields() {
             "Authorization": "Bearer " + localStorage.getItem("token")
         },
         success: function (data) {
-            const fieldTableBody = document.querySelector("#field-table tbody");
-            fieldTableBody.innerHTML = "";
+            $("#field-table tbody").empty();
             data.forEach((field) => {
-
-                let location = field.fieldLocation.x + ", " + field.fieldLocation.y;
-                fieldTableBody.innerHTML += `
-                <tr>
-                    <td>${field.fieldCode}</td>
-                    <td>${field.fieldName}</td>
-                    <td>${location}</td>
-                    <td>${field.extentSize}</td>
-                    <td>${field.logCode}</td>
-                    <td>${'-'}</td>
-                    <td>${'-'}</td>
-                    <td>
-                        <button class="btn btn-success btn-sm editBtn">Edit</button>
-                        <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
-                    </td>
-                </tr>`;
+                addFieldToTable(field);
             });
         },
         error: function (error) {
-            console.error(error);
-        },
-    });
-}
-
-// Load options for dropdowns
-function loadStaffIds() {
-    loadDropdown("http://localhost:8080/api/v1/staff", "staffId-field", "staffId");
-}
-
-function loadCropIds() {
-    loadDropdown("http://localhost:8080/api/v1/crops", "cropId-field", "cropId");
-}
-
-function loadEquipmentIds() {
-    loadDropdown("http://localhost:8080/api/v1/equipment", "equipmentId-field", "equipmentId");
-}
-
-function loadLogIds() {
-    loadDropdown("http://localhost:8080/api/v1/monitoringlog", "logId-field", "logCode");
-}
-
-function loadDropdown(url, selectId, key) {
-    $.ajax({
-        url: url,
-        type: "GET",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        success: function (data) {
-            console.log(data);
-            const select = document.getElementById(selectId);
-            select.innerHTML = `<option value="">Select</option>`;
-            data.forEach((item) => {
-                const option = document.createElement("option");
-                option.value = item[key];
-                option.textContent = item[key];
-                select.appendChild(option);
-            });
-        },
-        error: function (error) {
-            console.error(error);
-        },
-    });
-}
-
-// Image upload handling
-function handleImageUpload(fileInput) {
-    return new Promise((resolve, reject) => {
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        } else {
-            resolve(null);
+            console.error("Error loading fields:", error);
         }
     });
 }
 
-/*
-document.addEventListener("DOMContentLoaded", () => {
-    const fieldForm = document.getElementById("field-form");
-    const fieldTableBody = document.querySelector("#field-table tbody");
-    const clearFormButton = document.getElementById("clearFormBtn-field");
 
-    initializeFields();
+function clearFieldForm() {
+    $("#logId-field").val("");
+   // $("#fieldCode-field").val("");
+    $("#fieldName").val("");
+    $("#fieldLocation").val("");
+    $("#extentSize").val("");
+    $("#fieldImage1").val("");
+    $("#fieldImage2").val("");
+}
 
-    // Handle form submission
-    fieldForm.addEventListener("submit", (event) => {
-        event.preventDefault();
+// Attach the function to the button click event
+$("#clearFormBtn-field").click(clearFieldForm);
 
-        // Get form values
-        const fieldCode = document.getElementById("fieldCode-field").value.trim();
-        const fieldName = document.getElementById("fieldName").value.trim();
-        const fieldLocation = document.getElementById("fieldLocation").value.trim();
-        const extentSize = document.getElementById("extentSize").value.trim();
-        const logId = document.getElementById("logId-field").value.trim();
+$("#fieldModal").hide();
 
-        // Validate form inputs
-        if (!fieldCode || !fieldName || !fieldLocation || !extentSize || !logId) {
-            alert("Please fill out all required fields!");
-            return;
-        }
+function parseCoordinates(input) {
+    const [x, y] = input.split(',').map(Number); // Split the string and convert to numbers
+    return { x, y }; // Return as an object
+}
 
-        // Prepare the field object
+$(document).ready(function () {
+    // Handle Add Field form submission
+    $("#field-form").submit(function (event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+
+
+        // Gather form data
         const fieldData = {
-            fieldCode: fieldCode,
-            fieldName: fieldName,
-            fieldLocation: fieldLocation,
-            extentSize: parseFloat(extentSize),
-            logCode: logId,
+            fieldName: $("#fieldName").val(),
+            fieldLocation: parseCoordinates($("#fieldLocation").val()),
+            extentSize: $("#extentSize").val(),
+            logId: $("#logId-field").val(),
         };
 
-        // Make AJAX request to save field
+        const formData = new FormData();
+
+        // Add field data to FormData individually
+        for (const [key, value] of Object.entries(fieldData)) {
+            formData.append(key, value);
+        }
+
+        // Add files if they are selected
+        if ($("#fieldImage1")[0].files.length > 0) {
+            formData.append("fieldImage1", $("#fieldImage1")[0].files[0]);
+        }
+        if ($("#fieldImage2")[0].files.length > 0) {
+            formData.append("fieldImage2", $("#fieldImage2")[0].files[0]);
+        }
+
+        // Send the data to the backend API
         $.ajax({
-            url: "http://localhost:8080/api/v1/field", // Adjust URL based on your API endpoint
+            url: "http://localhost:8080/api/v1/field",
             type: "POST",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
-                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
             },
-            data: JSON.stringify(fieldData),
-            success: function () {
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
                 alert("Field added successfully!");
-                loadAllFields(); // Reload all fields
-                clearForm(); // Clear the form inputs
+
+                // Clear the form
+                clearFieldForm();
+
+                loadAllField()
+                // Generate the next field ID
+                nextIdField();
+            },
+            error: function (xhr) {
+                console.error("Error adding field:", xhr);
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    alert("Failed to add field: " + xhr.responseJSON.message);
+                } else {
+                    alert("Failed to add field. Check input data and try again.");
+                }
+            },
+        });
+    });
+});
+
+// Function to dynamically add a field to the table
+
+
+/*function addFieldToTable(field) {
+    const tableBody = document.querySelector("#field-table tbody");
+
+    // Create a new table row
+    const row = document.createElement("tr");
+
+
+    // Populate the row with field data
+    row.innerHTML = `
+        <td>${field.fieldCode}</td>
+        <td>${field.fieldName}</td>
+        <td>${field.fieldLocation.x + ", " + field.fieldLocation.y}</td>
+        <td>${field.extentSize}</td>
+        <td>${field.logCode}</td>
+        <td>
+            ${
+        field.fieldImage1
+            ? `<img src="${field.fieldImage1.startsWith("data:image") ? field.fieldImage1 : `data:image/png;base64,${field.fieldImage1}`}" 
+                           alt="Field Image 1" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+            : `<img src="https://via.placeholder.com/50?text=No+Image" alt="Placeholder Image" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+    }
+        </td>
+        <td>
+            ${
+        field.fieldImage2
+            ? `<img src="${field.fieldImage2.startsWith("data:image") ? field.fieldImage2 : `data:image/png;base64,${field.fieldImage2}`}" 
+                           alt="Field Image 2" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+            : `<img src="https://via.placeholder.com/50?text=No+Image" alt="Placeholder Image" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+    }
+        </td>
+        <td class="actions">
+            <button class="btn btn-primary editBtn" onclick="editField('${field.fieldCode}')">Edit</button>
+            <button class="btn btn-danger deleteBtn" onclick="deleteField('${field.fieldCode}')">Delete</button>
+        </td>
+    `;
+
+    // Append the row to the table body
+    tableBody.appendChild(row);
+}*/
+function addFieldToTable(field) {
+    const tableBody = document.querySelector("#field-table tbody");
+
+    // Create a new table row
+    const row = document.createElement("tr");
+
+    // Add the fieldCode as a data attribute to the row
+    row.setAttribute("data-field-id", field.fieldCode);
+
+    // Populate the row with field data
+    row.innerHTML = `
+        <td>${field.fieldCode}</td>
+        <td>${field.fieldName}</td>
+        <td>${field.fieldLocation.x + ", " + field.fieldLocation.y}</td>
+        <td>${field.extentSize}</td>
+        <td>${field.logCode}</td>
+        <td>
+            ${
+        field.fieldImage1
+            ? `<img src="${field.fieldImage1.startsWith("data:image") ? field.fieldImage1 : `data:image/png;base64,${field.fieldImage1}`}" 
+                               alt="Field Image 1" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+            : `<img src="https://via.placeholder.com/50?text=No+Image" alt="Placeholder Image" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+    }
+        </td>
+        <td>
+            ${
+        field.fieldImage2
+            ? `<img src="${field.fieldImage2.startsWith("data:image") ? field.fieldImage2 : `data:image/png;base64,${field.fieldImage2}`}" 
+                               alt="Field Image 2" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+            : `<img src="https://via.placeholder.com/50?text=No+Image" alt="Placeholder Image" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">`
+    }
+        </td>
+        <td class="actions">
+            <button class="btn btn-primary editBtn" onclick="editField('${field.fieldCode}')">Edit</button>
+            <button class="btn btn-danger deleteBtn" onclick="deleteField('${field.fieldCode}')">Delete</button>
+        </td>
+    `;
+
+    // Append the row to the table body
+    tableBody.appendChild(row);
+}
+
+
+
+
+$(document).ready(function () {
+    // Attach event listeners for dynamically created elements
+    $("#field-table").on("click", ".deleteBtn", function () {
+        const row = $(this).closest("tr");
+        const fieldCode = row.find("td:first").text();
+
+        if (confirm(`Are you sure you want to delete the field with code ${fieldCode}?`)) {
+            $.ajax({
+                url: `http://localhost:8080/api/v1/field/${fieldCode}`,
+                type: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                success: function () {
+                    alert("Field deleted successfully!");
+                    row.remove(); // Remove row from table
+                },
+                error: function (error) {
+                    console.error("Error deleting field:", error);
+                    alert("Failed to delete the field. Please try again.");
+                },
+            });
+        }
+    });
+
+/*    $("#field-table").on("click", ".editBtn", function () {
+        const row = $(this).closest("tr");
+        const fieldData = {
+            fieldCode: row.find("td:eq(0)").text(),
+            fieldName: row.find("td:eq(1)").text(),
+            fieldLocation: row.find("td:eq(2)").text(),
+            extentSize: row.find("td:eq(3)").text(),
+            logId: row.find("td:eq(4)").text(),
+        };
+
+        // Populate modal fields with existing values
+        $("#fieldCodeModal").val(fieldData.fieldCode).prop("disabled", true); // Disable field code editing
+        $("#fieldNameModal").val(fieldData.fieldName);
+        $("#fieldLocationModal").val(fieldData.fieldLocation);
+        $("#extentSizeModal").val(fieldData.extentSize);
+        $("#logIdModal").val(fieldData.logId);
+
+        // Open the modal
+        $("#fieldModal").modal("show");
+    });
+
+    // Handle Edit Modal Save Changes
+    $("#edit-field-form").submit(function (event) {
+        event.preventDefault();
+
+        const fieldData = {
+            fieldName: $("#fieldNameModal").val(),
+            fieldLocation: $("#fieldLocationModal").val(),
+            extentSize: $("#extentSizeModal").val(),
+            logId: $("#logIdModal").val(),
+        };
+
+        const fieldCode = $("#fieldCodeModal").val(); // Get the field code (not editable)
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/field/${fieldCode}`,
+            type: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+            },
+            contentType: "application/json",
+            data: JSON.stringify(fieldData),
+            success: function (updatedField) {
+                alert("Field updated successfully!");
+
+                // Update the table row with new data
+                const row = $(`#field-table tbody tr:has(td:contains(${fieldCode}))`);
+                row.find("td:eq(1)").text(updatedField.fieldName);
+                row.find("td:eq(2)").text(updatedField.fieldLocation);
+                row.find("td:eq(3)").text(updatedField.extentSize);
+                row.find("td:eq(4)").text(updatedField.logId);
+
+                // Close the modal
+                $("#fieldModal").modal("hide");
             },
             error: function (error) {
-                console.error("Error adding field:", error);
-                alert("Failed to add field. Please check your input or server configuration.");
+                console.error("Error updating field:", error);
+                alert("Failed to update the field. Please try again.");
             },
         });
     });
 
-    // Clear form
-    clearFormButton.addEventListener("click", clearForm);
-});*/
+    // Handle Modal Close
+    $("#fieldModal").on("hidden.bs.modal", function () {
+        $("#edit-field-form")[0].reset(); // Reset form when modal is closed
+    });*/
+});
 
-$("#field-form")
 
-// Clear form function
-function clearForm() {
-    $('#fieldName').val('');
-    $('#fieldLocation').val('');
-    $('#extentSize').val('');
-    $('#logId-field').val('');
-    $('#fieldImage1').val('');
-    $('#fieldImage2').val('');
+$(document).ready(function () {
+    // Attach event listeners for dynamically created elements
+    $("#field-table").on("click", ".editBtn", function () {
+        const row = $(this).closest("tr");
+        const fieldData = {
+            fieldCode: row.find("td:eq(0)").text(),
+            fieldName: row.find("td:eq(1)").text(),
+            fieldLocation: row.find("td:eq(2)").text(),
+            extentSize: row.find("td:eq(3)").text(),
+            logId: row.find("td:eq(4)").text(),
+        };
 
+        // Populate modal fields with existing values
+        $("#fieldCodeModal").val(fieldData.fieldCode).prop("disabled", true); // Disable field code editing
+        $("#fieldNameModal").val(fieldData.fieldName);
+        $("#fieldLocationModal").val(fieldData.fieldLocation);
+        $("#extentSizeModal").val(fieldData.extentSize);
+
+        // Load all logs into the logIdModal dropdown
+        $.ajax({
+            url: "http://localhost:8080/api/v1/monitoringlog",
+            type: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+            },
+            success: function (logs) {
+                const logSelect = $("#logIdModal");
+                logSelect.empty(); // Clear existing options
+                logSelect.append(`<option value="">Select</option>`); // Add default option
+
+                logs.forEach((log) => {
+                    const isSelected = log.logCode === fieldData.logId ? "selected" : "";
+                    logSelect.append(
+                        `<option value="${log.logCode}" ${isSelected}>${log.logCode}</option>`
+                    );
+                });
+
+                // Open the modal after the log dropdown is populated
+                $("#fieldModal").modal("show");
+            },
+            error: function (error) {
+                console.error("Error loading logs:", error);
+                alert("Failed to load log options. Please try again.");
+            },
+        });
+    });
+
+    // Handle Edit Modal Save Changes
+    $("#edit-field-form").submit(function (event) {
+        event.preventDefault();
+
+        const fieldData = {
+            fieldName: $("#fieldNameModal").val(),
+            fieldLocation: $("#fieldLocationModal").val(),
+            extentSize: $("#extentSizeModal").val(),
+            logId: $("#logIdModal").val(),
+        };
+
+        const fieldCode = $("#fieldCodeModal").val(); // Get the field code (not editable)
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/field/${fieldCode}`,
+            type: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+            },
+            contentType: "application/json",
+            data: JSON.stringify(fieldData),
+            success: function (updatedField) {
+                alert("Field updated successfully!");
+
+                // Update the table row with new data
+                const row = $(`#field-table tbody tr:has(td:contains(${fieldCode}))`);
+                row.find("td:eq(1)").text(updatedField.fieldName);
+                row.find("td:eq(2)").text(updatedField.fieldLocation);
+                row.find("td:eq(3)").text(updatedField.extentSize);
+                row.find("td:eq(4)").text(updatedField.logId);
+
+                // Close the modal
+                $("#fieldModal").modal("hide");
+            },
+            error: function (error) {
+                console.error("Error updating field:", error);
+                alert("Failed to update the field. Please try again.");
+            },
+        });
+    });
+
+    // Handle Modal Close
+    $("#fieldModal").on("hidden.bs.modal", function () {
+        $("#edit-field-form")[0].reset(); // Reset form when modal is closed
+    });
+});
+
+
+// Initialize the map
+const map = L.map('map').setView([51.505, -0.09], 13);
+
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+}).addTo(map);
+
+// Marker variable
+let marker;
+
+// Add click event listener to the map
+map.on('click', function (e) {
+    const { lat, lng } = e.latlng;
+
+    // Update the coordinates in the text
+    document.getElementById('fieldLocation').value = `${lat},${lng}`;
+
+    // Add or update the marker
+    if (marker) {
+        marker.setLatLng([lat, lng]);
+    } else {
+        marker = L.marker([lat, lng]).addTo(map);
+    }
+});
+
+// Set location based on input coordinates
+function setLocation() {
+    const lat = parseFloat(document.getElementById('lat').value);
+    const lng = parseFloat(document.getElementById('lng').value);
+
+    if (!isNaN(lat) && !isNaN(lng)) {
+        map.setView([lat, lng], 13);
+
+        // Add or update the marker
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng]).addTo(map);
+        }
+    } else {
+        alert('Please enter valid coordinates');
+    }
 }
+
+
+/*Search*/
+document.addEventListener("DOMContentLoaded", function () {
+    const fieldIdDropdown = document.getElementById("searchFieldId");
+    const searchButton = document.getElementById("searchButton-field");
+    const fieldTableBody = document.querySelector("#field-table tbody");
+
+    // Fetch and populate Field ID dropdown
+    function populateFieldIds() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/field", // Replace with your API endpoint
+            type: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token") // Replace token mechanism as per your setup
+            },
+            success: function (data) {
+                fieldIdDropdown.innerHTML = '<option value="">Select Field</option>'; // Reset options
+                data.forEach(field => {
+                    const option = document.createElement("option");
+                    option.value = field.fieldCode; // Use appropriate field code
+                    option.textContent = field.fieldCode; // Display field code
+                    fieldIdDropdown.appendChild(option);
+                });
+            },
+            error: function (error) {
+                console.error("Error loading Field IDs:", error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#searchButton-field").click(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const selectedFieldId = $("#searchFieldId").val(); // Get selected Field ID
+
+            if (!selectedFieldId) {
+                alert("Please select a Field ID.");
+                return;
+            }
+
+            // Remove any previous highlights
+            $("#field-table tbody tr").removeClass("highlight-row");
+
+            // Highlight the selected row
+            const targetRow = $(`#field-table tbody tr[data-field-id="${selectedFieldId}"]`);
+            if (targetRow.length > 0) {
+                targetRow.addClass("highlight-row");
+
+                // Scroll to the row
+                $("html, body").animate({
+                    scrollTop: targetRow.offset().top - 100
+                }, 500);
+            } else {
+                alert("Field ID not found in the table.");
+            }
+        });
+    });
+
+    // Call to populate Field IDs on page load
+    populateFieldIds();
+});
+
+$(document).ready(function () {
+    // Attach event listeners for dynamically created elements
+    $("#searchButton-field").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const selectedFieldId = $("#searchFieldId").val(); // Get selected Field ID
+
+        if (!selectedFieldId) {
+            alert("Please select a Field ID.");
+            return;
+        }
+
+        // Remove any previous highlights
+        $("#field-table tbody tr").removeClass("highlight-row");
+
+        // Highlight the selected row by searching for the `data-field-id` attribute
+        const targetRow = $(`#field-table tbody tr[data-field-id="${selectedFieldId}"]`);
+        if (targetRow.length > 0) {
+            targetRow.addClass("highlight-row");
+
+            // Scroll to the row
+            $("html, body").animate({
+                scrollTop: targetRow.offset().top - 100
+            }, 500);
+        } else {
+            alert("Field ID not found in the table.");
+        }
+    });
+});
+
+
+
+
 

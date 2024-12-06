@@ -1,0 +1,1678 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #ffffff;
+    color: #333;
+    display: flex;
+}
+.dark-mode-toggle {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1rem;
+    background: #12530e;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.dark-mode-toggle:hover {
+    background: #2563eb;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px;
+    background-color: rgba(244, 244, 244, 0.57);
+    border-bottom: 1px solid rgba(221, 221, 221, 0.29);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.search-input {
+    border: none;
+    padding: 8px 10px;
+    font-size: 14px;
+    outline: none;
+    width: 400px;
+}
+
+.search-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.dark-mode-toggle {
+    background-color: #333;
+    color: #fff;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dark-mode-toggle:hover {
+    background-color: #555;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+.user-profile .name {
+    font-weight: bold;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.dark-mode .sidebar {
+    background: #ffffff;
+}
+
+.dark-mode .main-content {
+    background: #1e293b;
+}
+
+.dark-mode .search-wrapper {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+.dark-mode .dark-mode-toggle {
+    background: #f59e0b;
+}
+.dark-mode .card{
+    background: #ffffff;
+    color: #e2e8f0;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: #f2f4f6;
+    position: fixed;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.sidebar .brand {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: #0f3a0c;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 1rem 0;
+}
+
+.sidebar ul li {
+    padding: 1rem;
+}
+
+.sidebar ul li a {
+    margin-left: 15px;
+    padding-bottom: 5px;
+    text-decoration: none;
+    color: #0f3a0c;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    transition: 0.3s;
+
+}
+
+
+.sidebar ul li a:hover {
+    background: #0f172a;
+    color: #fff;
+    border-radius: 0.5rem;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 280px;
+    flex: 1;
+    padding: 2rem;
+    transition: all 0.3s;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-profile .name {
+    font-weight: bold;
+}
+
+/* Dashboard Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #0f3a0c;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+/* Charts Section */
+.charts {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.chart {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Clock & Calendar */
+.extras {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.clock, .calendar {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.clock h3, .calendar h3 {
+    margin-bottom: 1rem;
+    color:#0f3a0c;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.dark-mode .sidebar {
+    background: #0f172a;
+}
+
+.dark-mode .card {
+    background: #1e293b;
+}
+
+#logout {
+    background-color: #e8070c;
+    border-radius: 50px;
+    color: #ffffff;
+    border: 3px solid #f30457;
+    line-height: 1;
+    font-size: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 20px 25px;
+    font-family: "Bungee";
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    min-width: 200px;
+    text-align: center;
+    margin-top: 100px;
+    margin-left: 15px;
+}
+
+#logout:hover,
+#logout:focus {
+    -webkit-animation-name: wobble;
+    animation-name: wobble;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+
+@-webkit-keyframes wobble {
+    16.65% {
+        -webkit-transform: translateX(8px);
+        transform: translateX(8px);
+    }
+    33.3% {
+        -webkit-transform: translateX(-6px);
+        transform: translateX(-6px);
+    }
+    49.95% {
+        -webkit-transform: translateX(4px);
+        transform: translateX(4px);
+    }
+    66.6% {
+        -webkit-transform: translateX(-2px);
+        transform: translateX(-2px);
+    }
+    83.25% {
+        -webkit-transform: translateX(1px);
+        transform: translateX(1px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes wobble {
+    16.65% {
+        -webkit-transform: translateX(8px);
+        transform: translateX(8px);
+    }
+    33.3% {
+        -webkit-transform: translateX(-6px);
+        transform: translateX(-6px);
+    }
+    49.95% {
+        -webkit-transform: translateX(4px);
+        transform: translateX(4px);
+    }
+    66.6% {
+        -webkit-transform: translateX(-2px);
+        transform: translateX(-2px);
+    }
+    83.25% {
+        -webkit-transform: translateX(1px);
+        transform: translateX(1px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+
+/*##################################################################################################*/
+/* General Form Styles for User */
+#user-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+#user h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+#user-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#user-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#user-form input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input Focus Styling */
+#user-form input:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Button Styling */
+#user-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#user-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#user-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#user-form button.btn-danger {
+    background-color: #e8070c;
+    border: none;
+    color: white;
+    margin-top: 1rem;
+}
+
+#user-form button.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Delete Account Section */
+#user-form label[for="deletePassword"] {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#user-form .form-group.mb-3 {
+    margin-bottom: 1.5rem;
+}
+/* Modal Styling */
+#deleteModal .modal-content {
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 400px; /* Set the width of the modal to 400px */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#deleteModal .form-group {
+    margin-bottom: 1.2rem; /* Reduced margin for form groups */
+}
+
+#deleteModal label {
+    font-weight: bold;
+}
+
+#deleteModal input {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding for inputs */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#deleteModal button {
+    padding: 0.6rem 1.2rem; /* Reduced button padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #e8070c;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#deleteModal button:hover {
+    background-color: #c82333;
+}
+
+/*##################################################################################################*/
+/*Crop Form*/
+#crop-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+#crop-form .form-group {
+    margin-bottom: 1.5rem;
+}
+#crop-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+#crop-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#crop-form input,
+#crop-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input and Select Focus Styling */
+#crop-form input:focus,
+#crop-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#crop-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#crop-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#crop-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#crop-form button.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    margin-left: 1rem;
+}
+
+#crop-form button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Crop Table Styling */
+#crop-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#crop-table th,
+#crop-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#crop-table th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#crop-table td {
+    color: #555;
+}
+
+#crop-table tr:hover {
+    background-color: #f1f1f1;
+}
+/* Modal Styling for Crop Update */
+#updateCropModal .modal-content {
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 400px; /* Set a specific width for the modal */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#updateCropModal .form-group {
+    margin-bottom: 1.2rem; /* Reduced margin for form groups */
+}
+
+#updateCropModal label {
+    font-weight: bold;
+}
+
+#updateCropModal input,
+#updateCropModal select,
+#updateCropModal textarea {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding for inputs */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#updateCropModal button {
+    padding: 0.6rem 1.2rem; /* Reduced button padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#updateCropModal button:hover {
+    background-color: #218838;
+}
+.table-warning {
+    background-color: #fff3cd !important;
+}
+#searchButton-crop {
+    background-color: #007bff; /* Primary blue color */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    margin-left: 10px; /* Add spacing to the left */
+}
+
+#searchButton-crop:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+#searchButton-crop:active {
+    background-color: #004085; /* Even darker blue when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow when clicked */
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+/* Highlight row style */
+.highlight-row {
+    background-color: #ffe699 !important; /* Light yellow color for highlighting */
+}
+
+
+
+/*##################################################################################################*/
+/*Equipment*/
+#equipment-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+#equipment-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+#equipment-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#equipment-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#equipment-form input,
+#equipment-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input and Select Focus Styling */
+#equipment-form input:focus,
+#equipment-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#equipment-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#equipment-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#equipment-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#equipment-form button.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    margin-left: 1rem;
+}
+
+#equipment-form button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Equipment Table Styling */
+#equipment-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#equipment-table th,
+#equipment-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#equipment-table th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#equipment-table td {
+    color: #555;
+}
+
+#equipment-table tr:hover {
+    background-color: #f1f1f1;
+}
+/* Modal Styling for Equipment Update */
+#editEquipmentModal .modal-content {
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 400px; /* Set a smaller width for the modal */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#editEquipmentModal .form-group {
+    margin-bottom: 1.2rem; /* Reduced margin for form groups */
+}
+
+#editEquipmentModal label {
+    font-weight: bold;
+}
+
+#editEquipmentModal input,
+#editEquipmentModal select,
+#editEquipmentModal textarea {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding for inputs */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#editEquipmentModal button {
+    padding: 0.6rem 1.2rem; /* Reduced button padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#editEquipmentModal button:hover {
+    background-color: #218838;
+}
+.highlighted-row {
+    background-color: #ffeb3b !important; /* Highlight color */
+}
+
+#searchButton-equipment {
+    background-color: #007bff; /* Primary blue color */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Add padding for better appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    margin-left: 10px; /* Add spacing to the left */
+}
+
+#searchButton-equipment:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+#searchButton-equipment:active {
+    background-color: #004085; /* Even darker blue when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow when clicked */
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+/*##################################################################################################*/
+/*Field*/
+#field-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+#field-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+#field-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#field-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#field-form input,
+#field-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input and Select Focus Styling */
+#field-form input:focus,
+#field-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#field-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#field-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#field-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#field-form button.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    margin-left: 1rem;
+}
+
+#field-form button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Field Table Styling */
+#field-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#field-table th,
+#field-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#field-table th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#field-table td {
+    color: #555;
+}
+
+#field-table tr:hover {
+    background-color: #f1f1f1;
+}
+/* Modal Styling for Field Form */
+#fieldModal .modal-content {
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 400px; /* Set a smaller width for the modal */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#fieldModal .form-group {
+    margin-bottom: 1.2rem; /* Reduced margin for form groups */
+}
+
+#fieldModal label {
+    font-weight: bold;
+}
+
+#fieldModal input,
+#fieldModal select {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding for inputs */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#fieldModal button {
+    padding: 0.6rem 1.2rem; /* Reduced button padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#fieldModal button:hover {
+    background-color: #218838;
+}
+.table-warning {
+    background-color: #fff3cd !important;
+}
+
+
+.highlight-row {
+    background-color: #2eed11 !important; /* Light yellow background */
+    font-weight: bold;
+}
+#searchButton-field {
+    background-color: #007bff; /* Primary blue color */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    margin-left: 10px; /* Add spacing to the left */
+}
+
+#searchButton-field:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+#searchButton-field:active {
+    background-color: #004085; /* Even darker blue when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow when clicked */
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+
+/*##################################################################################################*/
+/*Log form*/
+#monitoring-log-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+#monitoring-log-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+#monitoring-log-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#monitoring-log-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#monitoring-log-form input,
+#monitoring-log-form textarea,
+#monitoring-log-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input, Textarea, and Select Focus Styling */
+#monitoring-log-form input:focus,
+#monitoring-log-form textarea:focus,
+#monitoring-log-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#monitoring-log-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#monitoring-log-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#monitoring-log-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#monitoring-log-form button.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+    margin-left: 1rem;
+}
+
+#monitoring-log-form button.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Log Table Styling */
+#logTableBody {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    font-size: 1.2rem; /* Increased font size for table content */
+}
+
+#logTableBody th,
+#logTableBody td {
+    padding: 6rem; /* Increased padding for more space around content */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#logTableBody th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.2rem; /* Increased font size for headers */
+}
+
+#logTableBody td {
+    color: #555;
+}
+
+#logTableBody tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* Modal Styling for Edit Log */
+#editModal-log .modal-content {
+    padding: 1rem; /* Further reduced padding for a more compact form */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 300px; /* Set an even smaller width for the modal */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#editModal-log .form-group {
+    margin-bottom: 1rem; /* Reduced margin for form groups */
+}
+
+#editModal-log label {
+    font-weight: bold;
+    font-size: 0.85rem; /* Further reduced font size */
+}
+
+#editModal-log input,
+#editModal-log select,
+#editModal-log textarea {
+    width: 100%;
+    padding: 0.5rem; /* Reduced padding for inputs */
+    font-size: 0.85rem; /* Further reduced font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#editModal-log button {
+    padding: 0.5rem 1rem; /* Further reduced button padding */
+    font-size: 0.85rem; /* Further reduced font size */
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#editModal-log button:hover {
+    background-color: #218838;
+}
+
+.highlight-row {
+    background-color: #2eed11 !important; /* Light yellow background */
+    font-weight: bold;
+}
+#searchButton-Log {
+    background-color: #007bff; /* Primary blue color */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    margin-left: 10px; /* Add spacing to the left */
+}
+
+#searchButton-Log:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+#searchButton-Log:active {
+    background-color: #004085; /* Even darker blue when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow when clicked */
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+/*##################################################################################################*/
+/*Staff form*/
+#staff-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+#staff-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+/* Form Group Styling */
+#staff-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#staff-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Input, Select, and Textarea Styling */
+#staff-form input,
+#staff-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input, Select Focus Styling */
+#staff-form input:focus,
+#staff-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#staff-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#staff-form button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#staff-form button.btn-success:hover {
+    background-color: #218838;
+}
+
+#staff-form button.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+}
+
+#staff-form button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Staff Table Styling */
+#staff-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#staff-table th,
+#staff-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#staff-table th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#staff-table td {
+    color: #555;
+}
+
+#staff-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Edit Modal Styling for Staff */
+#editStaffModal .modal-content {
+    padding: 1.5rem; /* Reduced padding for a more compact form */
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 350px; /* Set a smaller width for the modal */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+#editStaffModal .form-group {
+    margin-bottom: 1.2rem; /* Reduced margin for form groups */
+}
+
+#editStaffModal label {
+    font-weight: bold;
+    font-size: 0.9rem; /* Slightly smaller font size */
+}
+
+#editStaffModal input,
+#editStaffModal select {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding for inputs */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#editStaffModal button {
+    padding: 0.6rem 1.2rem; /* Reduced button padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#editStaffModal button:hover {
+    background-color: #218838;
+}
+
+.highlight-row {
+    background-color: #2eed11 !important; /* Light yellow background */
+    font-weight: bold;
+}
+#searchButtonStaff {
+    background-color: #007bff; /* Primary blue color */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    margin-left: 10px; /* Add spacing to the left */
+}
+
+#searchButtonStaff:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+#searchButtonStaff:active {
+    background-color: #004085; /* Even darker blue when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow when clicked */
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+
+
+/*##############################################################################################################*/
+
+/* General Form Styles */
+#vehicle-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+#vehicle-section h1 {
+    color: #1d550a;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 0;
+}
+
+/* Column Layout */
+.row .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#vehicle-form label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+#vehicle-form input,
+#vehicle-form select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+/* Input and Select Focus */
+#vehicle-form input:focus,
+#vehicle-form select:focus {
+    border-color: #12530e;
+    outline: none;
+}
+
+/* Buttons Styling */
+#addVehicleBtn,
+#clearFormBtn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+#addVehicleBtn {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+#addVehicleBtn:hover {
+    background-color: #218838;
+}
+
+#clearFormBtn {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    margin-left: 1rem;
+}
+
+#clearFormBtn:hover {
+    background-color: #e0a800;
+}
+
+/* Table Styling */
+#vehicle-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#vehicle-table th,
+#vehicle-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#vehicle-table th {
+    background-color: #f2f4f6;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#vehicle-table td {
+    color: #555;
+}
+
+#vehicle-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Modal Styling */
+#editVehicleModal .modal-content {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    width: 400px;
+    margin: 0 auto;
+}
+
+#editVehicleModal .form-group {
+    margin-bottom: 1.2rem;
+}
+
+#editVehicleModal label {
+    font-weight: bold;
+}
+
+#editVehicleModal input,
+#editVehicleModal select,
+#editVehicleModal textarea {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+#editVehicleModal button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+#editVehicleModal button:hover {
+    background-color: #218838;
+}
+
+/* Highlight the selected row */
+.highlight-row {
+    background-color: #2eed11 !important; /* Light yellow background */
+    font-weight: bold;
+}
+
+/* Search Button Styling */
+#searchButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 10px;
+}
+
+#searchButton:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#searchButton:active {
+    background-color: #004085;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+}
+
+
+/*Responsive Design*/
+
+/* Mobile View */
+@media (max-width: 480px) {
+    /* Adjust font size for mobile */
+    #vehicle-section h1 {
+        font-size: 28px;
+    }
+
+    #vehicle-form label {
+        font-size: 0.9rem;
+    }
+
+    #vehicle-form input,
+    #vehicle-form select {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* Stack form fields vertically */
+    .row {
+        display: block;
+    }
+
+    .row .form-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    /* Adjust button sizes */
+    #addVehicleBtn,
+    #clearFormBtn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        width: 100%;
+    }
+
+    /* Table */
+    #vehicle-table th,
+    #vehicle-table td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* Modal */
+    #editVehicleModal .modal-content {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+/* Tablet View (portrait & landscape) */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Adjust form layout for tablets */
+    .row .form-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    #addVehicleBtn,
+    #clearFormBtn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    #vehicle-form input,
+    #vehicle-form select {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    /* Table */
+    #vehicle-table th,
+    #vehicle-table td {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    /* Modal */
+    #editVehicleModal .modal-content {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}
+
+/* Web/Desktop View */
+@media (min-width: 769px) {
+    /* Form layout for larger screens (Web/Desktop) */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .row .form-group {
+        flex: 1;
+        margin-right: 1rem;
+    }
+
+    .row .form-group:last-child {
+        margin-right: 0;
+    }
+
+    /* Button layout for Web/Desktop */
+    #addVehicleBtn,
+    #clearFormBtn {
+        width: auto;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    #vehicle-table th,
+    #vehicle-table td {
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+
+    /* Modal */
+    #editVehicleModal .modal-content {
+        width: 400px;
+    }
+}
+
