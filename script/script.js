@@ -26,7 +26,7 @@ new Chart(trafficCtx, {
     data: {
         labels: ['Direct', 'Referral', 'Social', 'Email'],
         datasets: [{
-            label: 'Traffic',
+            label: 'Crops',
             data: [40, 30, 20, 10],
             backgroundColor: ['#0f3a0c', '#22c55e', '#ef4444', '#fbbf24']
         }]

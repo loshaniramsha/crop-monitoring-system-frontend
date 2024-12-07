@@ -78,12 +78,8 @@ function addEquipmentToTable(equipment) {
     $('#equipment-table tbody').append(equipmentRow);
 }
 
-// Update equipment (placeholder function)
-/*function updateEquipment(equipmentId) {
-    console.log("Update equipment with ID:", equipmentId);
-}*/
 
-// Delete equipment
+// Delete function
 function deleteEquipment(equipmentId) {
     $.ajax({
         url: `http://localhost:8080/api/v1/equipment/${equipmentId}`,
@@ -108,6 +104,7 @@ function clearForm() {
     $("#fieldId").val("");
     $("#staffId-equipment").val("");
 }
+
 $('#clearFormBtn-equipment').click(clearForm);
 
 // Update function to open the modal and load equipment details
@@ -257,7 +254,7 @@ function loadAllEquipment() {
     });
 }
 
-// Add new equipment
+// Save new equipment
 function addEquipment() {
     const equipmentData = {
         equipmentId: $('#equipmentId').val(),
@@ -284,7 +281,11 @@ function addEquipment() {
         },
         data: JSON.stringify(equipmentData),
         success: function () {
-            alert("Equipment added successfully!");
+            Swal.fire({
+                title: "Successful!",
+                text: "Equipment Saved Successfully!",
+                icon: "success"
+            });
             clearForm();
             nextId();
             loadAllEquipment();

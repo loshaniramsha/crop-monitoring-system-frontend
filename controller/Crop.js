@@ -255,7 +255,7 @@ $("#clearFormBtn-crop").click(function() {
     ClearFoem();
 });
 
-
+/*save crop*/
 $("#crop-form").submit(function (e) {
     e.preventDefault(); // Prevent page reload
 
@@ -295,7 +295,11 @@ $("#crop-form").submit(function (e) {
         contentType: false, // Set content type to false so jQuery doesn't set it automatically
         data: formData,
         success: function (response) {
-            alert("Crop saved successfully.");
+            Swal.fire({
+                title: "Successful!",
+                text: "Crop Saved Successfully!",
+                icon: "success"
+            });
 
             // Add the new crop to the table using the server response
             if (response) {
